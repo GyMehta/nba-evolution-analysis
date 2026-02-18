@@ -117,8 +117,9 @@ def create_franchise_animation(team_df, df, team_name='Toronto Raptors', fps=2):
     total_seasons = len(seasons)
     
     # Set up the figure
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16, 10), 
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16, 10),
                                     gridspec_kw={'height_ratios': [3, 1]})
+    fig.subplots_adjust(bottom=0.10)  # Reserve bottom margin for the figure legend
     
     # Initialize plot elements
     def init():
@@ -263,7 +264,11 @@ def create_franchise_animation(team_df, df, team_name='Toronto Raptors', fps=2):
             mpatches.Patch(facecolor=PLAYOFF_COLORS[2], label='2nd Rd', alpha=0.6),
             mpatches.Patch(facecolor=PLAYOFF_COLORS[1], label='1st Rd', alpha=0.6),
         ]
-        ax1.legend(handles=legend_elements, loc='upper left', fontsize=9, ncol=2, framealpha=0.95)
+        # Place legend in the figure margin below both subplots (outside all chart areas)
+        for leg in fig.legends:
+            leg.remove()
+        fig.legend(handles=legend_elements, loc='lower center',
+                   bbox_to_anchor=(0.5, 0.01), fontsize=8, ncol=4, framealpha=0.95)
         
         # --- INFO PANEL: CURRENT SEASON DETAILS ---
         
@@ -372,8 +377,22 @@ def create_franchise_animation(team_df, df, team_name='Toronto Raptors', fps=2):
     plt.close()
     
     print(f"✓ Animation saved: {gif_filename}")
-    print(f"  Note: GIF format loops automatically (file format limitation)")
-    print(f"  Tip: Use MP4 format for better control, or embed in PowerPoint with 'click to play'")
+
+    # Post-process: patch the NETSCAPE loop count bytes in the raw GIF file.
+    # This avoids re-encoding frames (which corrupts palettes) and simply
+    # changes the 2-byte loop count from 0x0000 (infinite) to 0x0001 (play once).
+    with open(gif_filename, 'rb') as f:
+        data = bytearray(f.read())
+    netscape_tag = b'NETSCAPE2.0'
+    idx = data.find(netscape_tag)
+    if idx != -1:
+        # Layout after tag: 0x03 0x01 [LO] [HI] 0x00
+        loop_offset = idx + len(netscape_tag) + 2
+        data[loop_offset] = 1      # low byte  → loop count = 1 (play once)
+        data[loop_offset + 1] = 0  # high byte
+        with open(gif_filename, 'wb') as f:
+            f.write(data)
+    print(f"  Looping disabled: GIF will play once and stop on the final frame.")
     print(f"  File size may be large. Open with any image viewer or browser.")
     
     return anim
