@@ -19,6 +19,28 @@ FRANCHISE_ERAS = [
 
 PLAYOFF_HEIGHTS = {0: 0.05, 1: 0.20, 2: 0.35, 3: 0.50, 4: 0.70, 5: 0.95}
 
+# ── Per-era annotations (1-2 key events each) ─────────────────────────────
+# side: 'top' = pin near top of chart, 'bottom' = near bottom
+ANNOTATIONS = [
+    # Expansion
+    {'num': 1,  'season': '1996-97', 'text': 'Stoudamire: Rookie of the Year',        'side': 'top',    'pinColor': '#777777'},
+    # Vince Carter
+    {'num': 2,  'season': '1999-00', 'text': '1st Playoffs + Dunk Contest win',        'side': 'bottom', 'pinColor': '#CE1141'},
+    {'num': 3,  'season': '2000-01', 'text': 'VC: Olympic dunk, career-high 47 pts',  'side': 'top',    'pinColor': '#CE1141'},
+    # Rebuild
+    {'num': 4,  'season': '2006-07', 'text': 'Bosh All-Star; best rebuild record',    'side': 'top',    'pinColor': '#666666'},
+    {'num': 5,  'season': '2009-10', 'text': "Bosh's farewell season",                'side': 'bottom', 'pinColor': '#666666'},
+    # Lowry / DeRozan
+    {'num': 6,  'season': '2015-16', 'text': '56W: franchise wins record',            'side': 'bottom', 'pinColor': '#222222'},
+    {'num': 7,  'season': '2016-17', 'text': 'First Eastern Conference Finals',       'side': 'top',    'pinColor': '#222222'},
+    # Championship
+    {'num': 8,  'season': '2017-18', 'text': "Casey: Coach of Year — then fired",     'side': 'bottom', 'pinColor': '#B8860B'},
+    {'num': 9,  'season': '2018-19', 'text': "NBA Champions! Kawhi's buzzer beater",  'side': 'top',    'pinColor': '#B8860B'},
+    # Post-Kawhi
+    {'num': 10, 'season': '2019-20', 'text': 'COVID bubble: 53-19 record',            'side': 'bottom', 'pinColor': '#CE1141'},
+    {'num': 11, 'season': '2021-22', 'text': 'Scottie Barnes: Rookie of the Year',    'side': 'top',    'pinColor': '#CE1141'},
+]
+
 
 def season_year(season_str):
     """'2018-19' -> 2019 (same logic as animation script)"""
@@ -162,14 +184,25 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     .legend-item { display: flex; align-items: center; gap: 5px; }
     .legend-box  { width: 15px; height: 15px; border-radius: 3px; opacity: 0.8; }
     .legend-line { width: 28px; height: 3px; display: inline-block; }
+    .ann-list { padding: 10px 14px; background: #f8f8f8; border-radius: 8px; margin-top: 10px; font-size: 12px; }
+    .ann-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px; margin-top: 6px; }
+    .ann-item { display: flex; align-items: center; gap: 7px; }
+    .ann-num  {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 18px; height: 18px; border-radius: 50%; color: white;
+      font-weight: bold; font-size: 9px; flex-shrink: 0;
+    }
+    .ann-season { color: #666; min-width: 52px; }
+    .ann-text   { color: #333; }
   </style>
 </head>
 <body>
 <div id="root"></div>
 
 <script>
-  const DATA = __DATA__;
-  const ERAS = __ERAS__;
+  const DATA        = __DATA__;
+  const ERAS        = __ERAS__;
+  const ANNOTATIONS = __ANNOTATIONS__;
 </script>
 
 <script type="text/babel">
@@ -301,6 +334,26 @@ function App() {
             strokeWidth={1.2} strokeOpacity={0.55}      dot={false} isAnimationActive={false} />
           <Line yAxisId="rank" dataKey="DRtg_Rank_Norm" stroke="#E74C3C"
             strokeWidth={1.2} strokeOpacity={0.55}      dot={false} isAnimationActive={false} />
+
+          {/* Annotation pins */}
+          {ANNOTATIONS.map(ann => (
+            <ReferenceLine key={ann.num} x={ann.season} yAxisId="win"
+              stroke={ann.pinColor} strokeDasharray="2 3" strokeWidth={1} strokeOpacity={0.4}
+              label={({ viewBox }) => {
+                const { x, y, height } = viewBox;
+                const cy = ann.side === 'top' ? y + 30 : y + height - 30;
+                const fs = ann.num >= 10 ? 7 : 8.5;
+                return (
+                  <g>
+                    <circle cx={x} cy={cy} r={9} fill={ann.pinColor} fillOpacity={0.88}
+                      stroke="white" strokeWidth={1.2} />
+                    <text x={x} y={cy} textAnchor="middle" dominantBaseline="central"
+                      fontSize={fs} fill="white" fontWeight="bold">{ann.num}</text>
+                  </g>
+                );
+              }}
+            />
+          ))}
         </ComposedChart>
       </ResponsiveContainer>
 
@@ -366,6 +419,20 @@ function App() {
           .500 line
         </span>
       </div>
+
+      {/* Key events annotation list */}
+      <div className="ann-list">
+        <div style={{fontWeight:'bold', fontSize:'13px'}}>Key Events</div>
+        <div className="ann-grid">
+          {ANNOTATIONS.map(ann => (
+            <div key={ann.num} className="ann-item">
+              <span className="ann-num" style={{background: ann.pinColor}}>{ann.num}</span>
+              <span className="ann-season">{ann.season}</span>
+              <span className="ann-text">{ann.text}</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
@@ -381,12 +448,14 @@ def main():
     data = build_data()
     eras = build_eras(data)
 
-    data_json = json.dumps(data, indent=None)
-    eras_json = json.dumps(eras, indent=None)
+    data_json        = json.dumps(data, indent=None)
+    eras_json        = json.dumps(eras, indent=None)
+    annotations_json = json.dumps(ANNOTATIONS, indent=None)
 
     html = HTML_TEMPLATE \
-        .replace('__DATA__', data_json) \
-        .replace('__ERAS__', eras_json)
+        .replace('__DATA__',        data_json) \
+        .replace('__ERAS__',        eras_json) \
+        .replace('__ANNOTATIONS__', annotations_json)
 
     out_file = 'Toronto_Raptors_recharts.html'
     with open(out_file, 'w', encoding='utf-8') as f:
