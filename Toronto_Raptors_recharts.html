@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Toronto Raptors – Franchise Evolution</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/recharts@2/umd/Recharts.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f5f5f5; font-family: 'Courier New', monospace; }
+    h1 { text-align: center; font-size: 22px; margin: 16px 0 4px; }
+    #root { max-width: 1400px; margin: 0 auto; padding: 16px; }
+    button { cursor: pointer; font-family: 'Courier New', monospace; }
+    input[type=range] { cursor: pointer; }
+    .controls {
+      display: flex; align-items: center; gap: 10px;
+      background: #e8e8e8; border-radius: 8px; padding: 10px 16px; margin: 8px 0;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 6px 14px; border-radius: 6px; border: 1px solid #bbb;
+      background: white; font-size: 14px;
+    }
+    .btn-play { background: #CE1141; color: white; border-color: #CE1141; }
+    .season-label { font-weight: bold; min-width: 72px; font-size: 15px; }
+    .season-count { color: #777; font-size: 12px; }
+    .info-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px;
+    }
+    .card { padding: 16px; border-radius: 8px; font-size: 13px; line-height: 1.7; }
+    .card-blue   { background: #ADD8E6; }
+    .card-yellow { background: #FFFACD; }
+    .card-title  { font-weight: bold; font-size: 14px; margin-bottom: 6px; }
+    .legend-bar {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      padding: 10px 14px; background: #efefef; border-radius: 8px;
+      margin-top: 10px; font-size: 12px; align-items: center;
+    }
+    .legend-item { display: flex; align-items: center; gap: 5px; }
+    .legend-box  { width: 15px; height: 15px; border-radius: 3px; opacity: 0.8; }
+    .legend-line { width: 28px; height: 3px; display: inline-block; }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+  const DATA = [{"SEASON": "1996-97", "YEAR": 1997, "W": 30, "L": 52, "WIN_PCT": 0.3658536585365853, "ORtg": 102.9, "DRtg": 106.4, "NRtg": -3.5, "Pace": 92.03, "3PA": 19.8, "TS%": 0.521, "eFG%": 0.481, "PIE": 0.467, "ORtg_Rank_Norm": 0.3448, "DRtg_Rank_Norm": 0.4138, "NRtg_Rank_Norm": 0.3448, "Head_Coach": "Darrell Walker", "General_Manager": "Isiah Thomas", "Playoff_Result": "Did Not Qualify", "Playoff_Depth": 0.0, "era_name": "Expansion", "era_color": "#C8C8C8", "playoffHeight": 0.05}, {"SEASON": "1997-98", "YEAR": 1998, "W": 16, "L": 66, "WIN_PCT": 0.1951219512195122, "ORtg": 99.4, "DRtg": 108.9, "NRtg": -9.5, "Pace": 94.36, "3PA": 13.2, "TS%": 0.504, "eFG%": 0.462, "PIE": 0.431, "ORtg_Rank_Norm": 0.1724, "DRtg_Rank_Norm": 0.1379, "NRtg_Rank_Norm": 0.1034, "Head_Coach": "Darrell Walker / Butch Carter", "General_Manager": "Isiah Thomas", "Playoff_Result": "Did Not Qualify", "Playoff_Depth": 0.0, "era_name": "Expansion", "era_color": "#C8C8C8", "playoffHeight": 0.05}, {"SEASON": "1998-99", "YEAR": 1999, "W": 23, "L": 27, "WIN_PCT": 0.46, "ORtg": 99.8, "DRtg": 101.8, "NRtg": -1.9, "Pace": 90.67, "3PA": 13.2, "TS%": 0.504, "eFG%": 0.45, "PIE": 0.489, "ORtg_Rank_Norm": 0.4483, "DRtg_Rank_Norm": 0.3103, "NRtg_Rank_Norm": 0.3793, "Head_Coach": "Butch Carter", "General_Manager": "Glen Grunwald", "Playoff_Result": "Did Not Qualify", "Playoff_Depth": 0.0, "era_name": "Vince Carter", "era_color": "#CE1141", "playoffHeight": 0.05}, {"SEASON": "1999-00", "YEAR": 2000, "W": 45, "L": 37, "WIN_PCT": 0.5487804878048781, "ORtg": 102.7, "DRtg": 102.8, "NRtg": -0.1, "Pace": 94.3, "3PA": 14.3, "TS%": 0.511, "eFG%": 0.464, "PIE": 0.5, "ORtg_Rank_Norm": 0.5172, "DRtg_Rank_Norm": 0.5172, "NRtg_Rank_Norm": 0.4483, "Head_Coach": "Butch Carter", "General_Manager": "Glen Grunwald", "Playoff_Result": "First Round", "Playoff_Depth": 1.0, "era_name": "Vince Carter", "era_color": "#CE1141", "playoffHeight": 0.2}, {"SEASON": "2000-01", "YEAR": 2001, "W": 47, "L": 35, "WIN_PCT": 0.573170731707317, "ORtg": 104.4, "DRtg": 102.0, "NRtg": 2.3, "Pace": 92.22, "3PA": 14.2, "TS%": 0.51, "eFG%": 0.468, "PIE": 0.522, "ORtg_Rank_Norm": 0.7586, "DRtg_Rank_Norm": 0.5517, "NRtg_Rank_Norm": 0.6552, "Head_Coach": "Lenny Wilkens", "General_Manager": "Glen Grunwald", "Playoff_Result": "Second Round", "Playoff_Depth": 2.0, "era_name": "Vince Carter", "era_color": "#CE1141", "playoffHeight": 0.35}, {"SEASON": "2001-02", "YEAR": 2002, "W": 42, "L": 40, "WIN_PCT": 0.5121951219512195, "ORtg": 101.1, "DRtg": 101.7, "NRtg": -0.6, "Pace": 90.02, "3PA": 13.5, "TS%": 0.501, "eFG%": 0.463, "PIE": 0.496, "ORtg_Rank_Norm": 0.2759, "DRtg_Rank_Norm": 0.7241, "NRtg_Rank_Norm": 0.4138, "Head_Coach": "Lenny Wilkens", "General_Manager": "Glen Grunwald", "Playoff_Result": "First Round", "Playoff_Depth": 1.0, "era_name": "Vince Carter", "era_color": "#CE1141", "playoffHeight": 0.2}, {"SEASON": "2002-03", "YEAR": 2003, "W": 24, "L": 58, "WIN_PCT": 0.2926829268292683, "ORtg": 99.3, "DRtg": 105.6, "NRtg": -6.3, "Pace": 91.01, "3PA": 14.5, "TS%": 0.497, "eFG%": 0.458, "PIE": 0.447, "ORtg_Rank_Norm": 0.1724, "DRtg_Rank_Norm": 0.1379, "NRtg_Rank_Norm": 0.1034, "Head_Coach": "Lenny Wilkens", "General_Manager": "Glen Grunwald", "Playoff_Result": "Did Not Qualify", "Playoff_Depth": 0.0, "era_name": "Vince Carter", "era_color": "#CE1141", "playoffHeight": 0.05}, {"SEASON": "2003-04", "YEAR": 2004, "W": 33, "L": 49, "WIN_PCT": 0.4024390243902439, "ORtg": 95.3, "DRtg": 98.8, "NRtg": -3.4, "Pace": 88.24, "3PA": 15.8, "TS%": 0.495, "eFG%": 0.454, "PIE": 0.476, "ORtg_Rank_Norm": 0.0345, "DRtg_Rank_Norm": 0.7931, "NRtg_Rank_Norm": 0.2414, "Head_Coach": "Kevin O'Neill", "General_Manager": "Glen Grunwald", "Playoff_Result": "Did Not Qualify", "Playoff_Depth": 0.0, "era_name": "Vince Carter", "era_color": "#CE1141", "playoffHeight": 0.05}, {"SEASON": "2004-05", "YEAR": 2005, "W": 33, "L": 49, "WIN_PCT": 0.4024390243902439, "ORtg": 105.4, "DRtg": 107.2, "NRtg": -1.8, "Pace": 94.01, "3PA": 20.5, "TS%": 0.539, "eFG%": 0.492, "PIE": 0.479, "ORtg_Rank_Norm": 0.7, "DRtg_Rank_Norm": 0.2333, "NRtg_Rank_Norm": 0.3667, "Head_Coach": "Sam Mitchell", "General_Manager": "Rob Babcock", "Playoff_Result": "Did Not Qualify", "Playoff_Depth": 0.0, "era_name": "Rebuild", "era_color": "#A5ACAF", "playoffHeight": 0.05}, {"SEASON": "2005-06", "YEAR": 2006, "W": 27, "L": 55, "WIN_PCT": 0.3292682926829268, "ORtg": 107.9, "DRtg": 111.2, "NRtg": -3.2, "Pace": 92.33, "3PA": 19.8, "TS%": 0.548, "eFG%": 0.5, "PIE": 0.459, "ORtg_Rank_Norm": 0.8667, "DRtg_Rank_Norm": 0.0667, "NRtg_Rank_Norm": 0.2, "Head_Coach": "Sam Mitchell", "General_Manager": "Rob Babcock", "Playoff_Result": "Did Not Qualify", "Playoff_Depth": 0.0, "era_name": "Rebuild", "era_color": "#A5ACAF", "playoffHeight": 0.05}, {"SEASON": "2006-07", "YEAR": 2007, "W": 47, "L": 35, "WIN_PCT": 0.573170731707317, "ORtg": 105.7, "DRtg": 104.4, "NRtg": 1.2, "Pace": 93.86, "3PA": 17.9, "TS%": 0.55, "eFG%": 0.504, "PIE": 0.514, "ORtg_Rank_Norm": 0.6333, "DRtg_Rank_Norm": 0.7333, "NRtg_Rank_Norm": 0.7, "Head_Coach": "Sam Mitchell", "General_Manager": "Bryan Colangelo", "Playoff_Result": "First Round", "Playoff_Depth": 1.0, "era_name": "Rebuild", "era_color": "#A5ACAF", "playoffHeight": 0.2}, {"SEASON": "2007-08", "YEAR": 2008, "W": 41, "L": 41, "WIN_PCT": 0.5, "ORtg": 108.9, "DRtg": 105.6, "NRtg": 3.3, "Pace": 91.35, "3PA": 17.8, "TS%": 0.551, "eFG%": 0.511, "PIE": 0.519, "ORtg_Rank_Norm": 0.7333, "DRtg_Rank_Norm": 0.6, "NRtg_Rank_Norm": 0.6333, "Head_Coach": "Sam Mitchell", "General_Manager": "Bryan Colangelo", "Playoff_Result": "First Round", "Playoff_Depth": 1.0, "era_name": "Rebuild", "era_color": "#A5ACAF", "playoffHeight": 0.2}, {"SEASON": "2008-09", "YEAR": 2009, "W": 33, "L": 49, "WIN_PCT": 0.4024390243902439, "ORtg": 105.5, "DRtg": 108.6, "NRtg": -3.0, "Pace": 93.26, "3PA": 15.7, "TS%": 0.542, "eFG%": 0.494, "PIE": 0.492, "ORtg_Rank_Norm": 0.3, "DRtg_Rank_Norm": 0.3, "NRtg_Rank_Norm": 0.2667, "Head_Coach": "Sam Mitchell / Jay Triano", "General_Manager": "Bryan Colangelo", "Playoff_Result": "Did Not Qualify", "Playoff_Depth": 0.0, "era_name": "Rebuild", "era_color": "#A5ACAF", "playoffHeight": 0.05}, {"SEASON": "2009-10", "YEAR": 2010, "W": 40, "L": 42, "WIN_PCT": 0.4878048780487805, "ORtg": 110.2, "DRtg": 112.2, "NRtg": -2.0, "Pace": 93.94, "3PA": 17.0, "TS%": 0.564, "eFG%": 0.521, "PIE": 0.489, "ORtg_Rank_Norm": 0.8333, "DRtg_Rank_Norm": 0.0333, "NRtg_Rank_Norm": 0.4, "Head_Coach": "Jay Triano", "General_Manager": "Bryan Colangelo", "Playoff_Result": "Did Not Qualify", "Playoff_Depth": 0.0, "era_name": "Rebuild", "era_color": "#A5ACAF", "playoffHeight": 0.05}, {"SEASON": "2011-12", "YEAR": 2012, "W": 23, "L": 43, "WIN_PCT": 0.3484848484848485, "ORtg": 99.6, "DRtg": 103.6, "NRtg": -3.9, "Pace": 90.19, "3PA": 16.3, "TS%": 0.518, "eFG%": 0.475, "PIE": 0.478, "ORtg_Rank_Norm": 0.0667, "DRtg_Rank_Norm": 0.5667, "NRtg_Rank_Norm": 0.2667, "Head_Coach": "Dwane Casey", "General_Manager": "Bryan Colangelo", "Playoff_Result": "Did Not Qualify", "Playoff_Depth": 0.0, "era_name": "Rebuild", "era_color": "#A5ACAF", "playoffHeight": 0.05}, {"SEASON": "2012-13", "YEAR": 2013, "W": 34, "L": 48, "WIN_PCT": 0.4146341463414634, "ORtg": 105.0, "DRtg": 106.4, "NRtg": -1.4, "Pace": 91.26, "3PA": 20.3, "TS%": 0.532, "eFG%": 0.488, "PIE": 0.484, "ORtg_Rank_Norm": 0.6, "DRtg_Rank_Norm": 0.3, "NRtg_Rank_Norm": 0.4333, "Head_Coach": "Dwane Casey", "General_Manager": "Bryan Colangelo", "Playoff_Result": "Did Not Qualify", "Playoff_Depth": 0.0, "era_name": "Lowry/DeRozan", "era_color": "#000000", "playoffHeight": 0.05}, {"SEASON": "2013-14", "YEAR": 2014, "W": 48, "L": 34, "WIN_PCT": 0.5853658536585366, "ORtg": 107.9, "DRtg": 104.6, "NRtg": 3.3, "Pace": 92.48, "3PA": 23.4, "TS%": 0.545, "eFG%": 0.498, "PIE": 0.512, "ORtg_Rank_Norm": 0.7333, "DRtg_Rank_Norm": 0.7, "NRtg_Rank_Norm": 0.7333, "Head_Coach": "Dwane Casey", "General_Manager": "Masai Ujiri", "Playoff_Result": "First Round", "Playoff_Depth": 1.0, "era_name": "Lowry/DeRozan", "era_color": "#000000", "playoffHeight": 0.2}, {"SEASON": "2015-16", "YEAR": 2016, "W": 56, "L": 26, "WIN_PCT": 0.6829268292682927, "ORtg": 109.3, "DRtg": 104.8, "NRtg": 4.4, "Pace": 93.35, "3PA": 23.4, "TS%": 0.552, "eFG%": 0.504, "PIE": 0.525, "ORtg_Rank_Norm": 0.9, "DRtg_Rank_Norm": 0.6667, "NRtg_Rank_Norm": 0.8333, "Head_Coach": "Dwane Casey", "General_Manager": "Masai Ujiri", "Playoff_Result": "Conference Finals", "Playoff_Depth": 3.0, "era_name": "Lowry/DeRozan", "era_color": "#000000", "playoffHeight": 0.5}, {"SEASON": "2016-17", "YEAR": 2017, "W": 51, "L": 31, "WIN_PCT": 0.6219512195121951, "ORtg": 111.4, "DRtg": 107.1, "NRtg": 4.3, "Pace": 95.41, "3PA": 24.3, "TS%": 0.561, "eFG%": 0.517, "PIE": 0.516, "ORtg_Rank_Norm": 0.8333, "DRtg_Rank_Norm": 0.7, "NRtg_Rank_Norm": 0.8667, "Head_Coach": "Dwane Casey", "General_Manager": "Masai Ujiri", "Playoff_Result": "Second Round", "Playoff_Depth": 2.0, "era_name": "Lowry/DeRozan", "era_color": "#000000", "playoffHeight": 0.35}, {"SEASON": "2017-18", "YEAR": 2018, "W": 59, "L": 23, "WIN_PCT": 0.7195121951219512, "ORtg": 113.0, "DRtg": 105.3, "NRtg": 7.7, "Pace": 98.02, "3PA": 33.0, "TS%": 0.575, "eFG%": 0.539, "PIE": 0.538, "ORtg_Rank_Norm": 0.9667, "DRtg_Rank_Norm": 0.8667, "NRtg_Rank_Norm": 0.9667, "Head_Coach": "Dwane Casey", "General_Manager": "Masai Ujiri", "Playoff_Result": "Second Round", "Playoff_Depth": 2.0, "era_name": "Lowry/DeRozan", "era_color": "#000000", "playoffHeight": 0.35}, {"SEASON": "2018-19", "YEAR": 2019, "W": 58, "L": 24, "WIN_PCT": 0.7073170731707317, "ORtg": 112.6, "DRtg": 106.8, "NRtg": 5.8, "Pace": 100.51, "3PA": 33.8, "TS%": 0.579, "eFG%": 0.543, "PIE": 0.533, "ORtg_Rank_Norm": 0.8667, "DRtg_Rank_Norm": 0.8667, "NRtg_Rank_Norm": 0.9333, "Head_Coach": "Nick Nurse", "General_Manager": "Masai Ujiri", "Playoff_Result": "NBA Champions", "Playoff_Depth": 5.0, "era_name": "Championship", "era_color": "#FFD700", "playoffHeight": 0.95}, {"SEASON": "2019-20", "YEAR": 2020, "W": 53, "L": 19, "WIN_PCT": 0.7361111111111112, "ORtg": 110.8, "DRtg": 104.7, "NRtg": 6.1, "Pace": 101.19, "3PA": 37.0, "TS%": 0.574, "eFG%": 0.536, "PIE": 0.53, "ORtg_Rank_Norm": 0.6, "DRtg_Rank_Norm": 0.9667, "NRtg_Rank_Norm": 0.9, "Head_Coach": "Nick Nurse", "General_Manager": "Masai Ujiri", "Playoff_Result": "Second Round", "Playoff_Depth": 2.0, "era_name": "Post-Kawhi", "era_color": "#CE1141", "playoffHeight": 0.35}, {"SEASON": "2020-21", "YEAR": 2021, "W": 27, "L": 45, "WIN_PCT": 0.375, "ORtg": 111.6, "DRtg": 112.0, "NRtg": -0.4, "Pace": 99.57, "3PA": 39.3, "TS%": 0.567, "eFG%": 0.529, "PIE": 0.486, "ORtg_Rank_Norm": 0.5, "DRtg_Rank_Norm": 0.5333, "NRtg_Rank_Norm": 0.4, "Head_Coach": "Nick Nurse", "General_Manager": "Masai Ujiri", "Playoff_Result": "Did Not Qualify", "Playoff_Depth": 0.0, "era_name": "Post-Kawhi", "era_color": "#CE1141", "playoffHeight": 0.05}, {"SEASON": "2021-22", "YEAR": 2022, "W": 48, "L": 34, "WIN_PCT": 0.5853658536585366, "ORtg": 112.1, "DRtg": 109.9, "NRtg": 2.2, "Pace": 96.63, "3PA": 34.2, "TS%": 0.543, "eFG%": 0.51, "PIE": 0.494, "ORtg_Rank_Norm": 0.5333, "DRtg_Rank_Norm": 0.7333, "NRtg_Rank_Norm": 0.6333, "Head_Coach": "Nick Nurse", "General_Manager": "Bobby Webster", "Playoff_Result": "First Round", "Playoff_Depth": 1.0, "era_name": "Post-Kawhi", "era_color": "#CE1141", "playoffHeight": 0.2}, {"SEASON": "2022-23", "YEAR": 2023, "W": 41, "L": 41, "WIN_PCT": 0.5, "ORtg": 114.6, "DRtg": 113.1, "NRtg": 1.5, "Pace": 97.85, "3PA": 32.0, "TS%": 0.555, "eFG%": 0.517, "PIE": 0.496, "ORtg_Rank_Norm": 0.6333, "DRtg_Rank_Norm": 0.7, "NRtg_Rank_Norm": 0.6333, "Head_Coach": "Nick Nurse", "General_Manager": "Bobby Webster", "Playoff_Result": "Did Not Qualify", "Playoff_Depth": 0.0, "era_name": "Post-Kawhi", "era_color": "#CE1141", "playoffHeight": 0.05}, {"SEASON": "2023-24", "YEAR": 2024, "W": 25, "L": 57, "WIN_PCT": 0.3048780487804878, "ORtg": 111.8, "DRtg": 118.1, "NRtg": -6.3, "Pace": 99.91, "3PA": 33.1, "TS%": 0.566, "eFG%": 0.535, "PIE": 0.474, "ORtg_Rank_Norm": 0.2333, "DRtg_Rank_Norm": 0.1667, "NRtg_Rank_Norm": 0.2333, "Head_Coach": "Darko Rajakovi\u0107", "General_Manager": "Bobby Webster", "Playoff_Result": "First Round", "Playoff_Depth": 1.0, "era_name": "Post-Kawhi", "era_color": "#CE1141", "playoffHeight": 0.2}, {"SEASON": "2024-25", "YEAR": 2025, "W": 30, "L": 52, "WIN_PCT": 0.3658536585365853, "ORtg": 109.6, "DRtg": 113.6, "NRtg": -4.1, "Pace": 100.62, "3PA": 34.0, "TS%": 0.553, "eFG%": 0.522, "PIE": 0.477, "ORtg_Rank_Norm": 0.1667, "DRtg_Rank_Norm": 0.5333, "NRtg_Rank_Norm": 0.2333, "Head_Coach": null, "General_Manager": null, "Playoff_Result": null, "Playoff_Depth": null, "era_name": "Post-Kawhi", "era_color": "#CE1141", "playoffHeight": 0.05}];
+  const ERAS = [{"name": "Expansion", "color": "#C8C8C8", "x1": "1996-97", "x2": "1997-98"}, {"name": "Vince Carter", "color": "#CE1141", "x1": "1997-98", "x2": "2003-04"}, {"name": "Rebuild", "color": "#A5ACAF", "x1": "2003-04", "x2": "2011-12"}, {"name": "Lowry/DeRozan", "color": "#000000", "x1": "2011-12", "x2": "2017-18"}, {"name": "Championship", "color": "#FFD700", "x1": "2017-18", "x2": "2018-19"}, {"name": "Post-Kawhi", "color": "#CE1141", "x1": "2018-19", "x2": "2024-25"}];
+</script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+const {
+  ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid,
+  Tooltip, ResponsiveContainer, ReferenceArea, ReferenceLine, Cell
+} = Recharts;
+
+const PLAYOFF_COLORS  = { 0:'#E8E8E8', 1:'#FFA500', 2:'#FF6B6B', 3:'#9B59B6', 4:'#3498DB', 5:'#FFD700' };
+const PLAYOFF_LABELS  = { 0:'No Playoffs', 1:'First Round', 2:'Second Round', 3:'Conf Finals', 4:'Finals', 5:'Champions' };
+
+function rank(normVal) {
+  if (normVal == null) return null;
+  return Math.round((1 - normVal) * 30 + 1);
+}
+
+function fmt1(v) { return v != null ? v.toFixed(1) : 'N/A'; }
+function fmt3(v) { return v != null ? v.toFixed(3) : 'N/A'; }
+
+const CustomTooltip = ({ active, payload, label }) => {
+  if (!active || !payload?.length) return null;
+  const d = payload[0]?.payload;
+  if (!d) return null;
+  return (
+    <div style={{background:'white', padding:'10px 14px', border:'1px solid #ccc',
+                 borderRadius:'8px', fontSize:'12px', lineHeight:'1.6',
+                 boxShadow:'0 2px 8px rgba(0,0,0,0.15)'}}>
+      <div style={{fontWeight:'bold', marginBottom:'4px'}}>{label}</div>
+      <div>Record: {d.W}-{d.L} ({fmt3(d.WIN_PCT)})</div>
+      <div>Playoffs: {d.Playoff_Result || 'N/A'}</div>
+      <div>Coach: {d.Head_Coach || 'N/A'}</div>
+      <div style={{marginTop:'4px'}}>
+        NRtg: {fmt1(d.NRtg)} &nbsp; ORtg: {fmt1(d.ORtg)} &nbsp; DRtg: {fmt1(d.DRtg)}
+      </div>
+      <div style={{color:'#888', marginTop:'2px'}}>Era: {d.era_name}</div>
+    </div>
+  );
+};
+
+function App() {
+  const [frame, setFrame]   = useState(DATA.length - 1);
+  const [playing, setPlaying] = useState(false);
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    if (playing) {
+      timerRef.current = setInterval(() => {
+        setFrame(f => {
+          if (f >= DATA.length - 1) { setPlaying(false); return f; }
+          return f + 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(timerRef.current);
+  }, [playing]);
+
+  const handlePlay = () => {
+    if (frame >= DATA.length - 1) setFrame(0);
+    setPlaying(true);
+  };
+  const handlePrev = () => { setPlaying(false); setFrame(f => Math.max(0, f - 1)); };
+  const handleNext = () => { setPlaying(false); setFrame(f => Math.min(DATA.length - 1, f + 1)); };
+
+  const current  = DATA[frame];
+  const cumData  = DATA.slice(0, frame + 1);
+  const cumWins  = cumData.reduce((s, d) => s + (d.W  || 0), 0);
+  const cumLosses= cumData.reduce((s, d) => s + (d.L  || 0), 0);
+  const cumPO    = cumData.filter(d => (d.Playoff_Depth || 0) > 0).length;
+  const cumChamp = cumData.filter(d => d.Playoff_Depth === 5).length;
+  const cumWinPct= cumWins + cumLosses > 0 ? cumWins / (cumWins + cumLosses) : 0;
+
+  const ortgRank = rank(current.ORtg_Rank_Norm);
+  const drtgRank = rank(current.DRtg_Rank_Norm);
+  const nrtgRank = rank(current.NRtg_Rank_Norm);
+
+  const customDot = useCallback((props) => {
+    const { cx, cy, payload } = props;
+    if (!cx || !cy) return null;
+    if (payload.SEASON === current.SEASON) {
+      return <circle key={payload.SEASON} cx={cx} cy={cy} r={12}
+               fill="yellow" stroke="#CE1141" strokeWidth={3} />;
+    }
+    return <circle key={payload.SEASON} cx={cx} cy={cy} r={3.5}
+             fill="#CE1141" stroke="white" strokeWidth={1.5} />;
+  }, [current.SEASON]);
+
+  return (
+    <div>
+      <h1>Toronto Raptors – Franchise Evolution</h1>
+
+      <ResponsiveContainer width="100%" height={420}>
+        <ComposedChart data={DATA} margin={{top:30, right:90, left:50, bottom:70}}>
+          <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
+
+          {ERAS.map(era => (
+            <ReferenceArea key={era.name} x1={era.x1} x2={era.x2}
+              fill={era.color} fillOpacity={0.15} ifOverflow="extendDomain"
+              label={{ value: era.name, position:'insideTop', fill: era.color,
+                       fontWeight:'bold', fontSize:10 }} />
+          ))}
+
+          <ReferenceLine yAxisId="win" y={0.5}
+            stroke="#888" strokeDasharray="5 5" strokeWidth={1.5} />
+          <ReferenceLine yAxisId="win" x={current.SEASON}
+            stroke="gold" strokeWidth={2} strokeDasharray="4 4" />
+
+          <XAxis dataKey="SEASON" angle={-45} textAnchor="end"
+            tick={{fontSize:10}} interval={0} height={65} />
+          <YAxis yAxisId="win" domain={[0, 1]}
+            tickFormatter={v => (v * 100).toFixed(0) + '%'}
+            label={{value:'Win %', angle:-90, position:'insideLeft', offset:10, fontSize:12}} />
+          <YAxis yAxisId="rank" orientation="right" domain={[0, 1]}
+            tickFormatter={v => '#' + Math.round((1 - v) * 30 + 1)}
+            label={{value:'League Rank', angle:90, position:'insideRight', offset:15, fontSize:12}}
+            tick={{fontSize:9, fill:'#888'}} />
+
+          <Tooltip content={<CustomTooltip />} />
+
+          <Bar yAxisId="win" dataKey="playoffHeight" opacity={0.6} isAnimationActive={false}>
+            {DATA.map((entry, i) => (
+              <Cell key={i} fill={PLAYOFF_COLORS[entry.Playoff_Depth] ?? '#E8E8E8'} />
+            ))}
+          </Bar>
+
+          <Line yAxisId="win"  dataKey="WIN_PCT"        stroke="#CE1141"
+            strokeWidth={3}   dot={customDot}           activeDot={false} isAnimationActive={false} />
+          <Line yAxisId="rank" dataKey="ORtg_Rank_Norm" stroke="#2ECC71"
+            strokeWidth={1.2} strokeOpacity={0.55}      dot={false} isAnimationActive={false} />
+          <Line yAxisId="rank" dataKey="DRtg_Rank_Norm" stroke="#E74C3C"
+            strokeWidth={1.2} strokeOpacity={0.55}      dot={false} isAnimationActive={false} />
+        </ComposedChart>
+      </ResponsiveContainer>
+
+      {/* Controls */}
+      <div className="controls">
+        <button className="btn" onClick={handlePrev}>◀</button>
+        {playing
+          ? <button className="btn btn-play" onClick={() => setPlaying(false)}>⏸ Pause</button>
+          : <button className="btn btn-play" onClick={handlePlay}>▶ Play</button>}
+        <button className="btn" onClick={handleNext}>▶</button>
+        <input type="range" min={0} max={DATA.length - 1} value={frame}
+          onChange={e => { setPlaying(false); setFrame(Number(e.target.value)); }}
+          style={{flex:1, minWidth:'120px'}} />
+        <span className="season-label">{current.SEASON}</span>
+        <span className="season-count">Season {frame + 1} of {DATA.length}</span>
+      </div>
+
+      {/* Info panels */}
+      <div className="info-grid">
+        <div className="card card-blue">
+          <div className="card-title">SEASON: {current.SEASON} &nbsp;|&nbsp; Era: {current.era_name}</div>
+          <div>RECORD: {current.W}-{current.L} &nbsp; ({fmt3(current.WIN_PCT)})</div>
+          <div>PLAYOFFS: {current.Playoff_Result || 'N/A'}</div>
+          <div style={{marginTop:'6px'}}>HEAD COACH: {current.Head_Coach || 'N/A'}</div>
+          <div>GENERAL MANAGER: {current.General_Manager || 'N/A'}</div>
+          <div style={{marginTop:'8px', fontWeight:'bold'}}>TEAM PERFORMANCE:</div>
+          <div>• Net Rating: {fmt1(current.NRtg)}{nrtgRank ? ` (Rank: #${nrtgRank})` : ''}</div>
+          <div>• Off Rating: {fmt1(current.ORtg)}{ortgRank ? ` (Rank: #${ortgRank})` : ''}</div>
+          <div>• Def Rating: {fmt1(current.DRtg)}{drtgRank ? ` (Rank: #${drtgRank})` : ''}</div>
+          <div>• Pace: {fmt1(current.Pace)} &nbsp;|&nbsp; 3PA: {fmt1(current['3PA'])}</div>
+        </div>
+
+        <div className="card card-yellow">
+          <div className="card-title">FRANCHISE TOTALS (Through {current.SEASON}):</div>
+          <div>• All-Time Record: {cumWins}-{cumLosses} &nbsp; ({fmt3(cumWinPct)})</div>
+          <div>• Playoff Appearances: {cumPO}</div>
+          <div>• Championships: {cumChamp}</div>
+        </div>
+      </div>
+
+      {/* Legend */}
+      <div className="legend-bar">
+        {Object.entries(PLAYOFF_LABELS).map(([k, v]) => (
+          <span key={k} className="legend-item">
+            <span className="legend-box" style={{background: PLAYOFF_COLORS[k]}}></span>
+            {v}
+          </span>
+        ))}
+        <span className="legend-item">
+          <span className="legend-line" style={{background:'#CE1141', height:'3px'}}></span>
+          Win %
+        </span>
+        <span className="legend-item">
+          <span className="legend-line" style={{background:'#2ECC71', height:'2px', opacity:0.6}}></span>
+          Off Rank
+        </span>
+        <span className="legend-item">
+          <span className="legend-line" style={{background:'#E74C3C', height:'2px', opacity:0.6}}></span>
+          Def Rank
+        </span>
+        <span className="legend-item">
+          <span style={{display:'inline-block', width:'28px', borderTop:'2px dashed #888'}}></span>
+          .500 line
+        </span>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
