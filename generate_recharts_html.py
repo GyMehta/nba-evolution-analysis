@@ -19,26 +19,25 @@ FRANCHISE_ERAS = [
 
 PLAYOFF_HEIGHTS = {0: 0.05, 1: 0.20, 2: 0.35, 3: 0.50, 4: 0.70, 5: 0.95}
 
-# ── Per-era annotations (1-2 key events each) ─────────────────────────────
+# ── Per-era annotations (1-2 key franchise-shaping moves each) ────────────
 # side: 'top' = pin near top of chart, 'bottom' = near bottom
 ANNOTATIONS = [
     # Expansion
-    {'num': 1,  'season': '1996-97', 'text': 'Stoudamire: Rookie of the Year',        'side': 'top',    'pinColor': '#777777'},
+    {'num': 1,  'season': '1997-98', 'text': 'Stoudamire traded to Portland',              'side': 'top',    'pinColor': '#777777'},
     # Vince Carter
-    {'num': 2,  'season': '1999-00', 'text': '1st Playoffs + Dunk Contest win',        'side': 'bottom', 'pinColor': '#CE1141'},
-    {'num': 3,  'season': '2000-01', 'text': 'VC: Olympic dunk, career-high 47 pts',  'side': 'top',    'pinColor': '#CE1141'},
+    {'num': 2,  'season': '1998-99', 'text': 'Vince Carter acquired via draft-night trade','side': 'bottom', 'pinColor': '#CE1141'},
+    {'num': 3,  'season': '2003-04', 'text': 'Chris Bosh drafted 4th overall',             'side': 'top',    'pinColor': '#CE1141'},
     # Rebuild
-    {'num': 4,  'season': '2006-07', 'text': 'Bosh All-Star; best rebuild record',    'side': 'top',    'pinColor': '#666666'},
-    {'num': 5,  'season': '2009-10', 'text': "Bosh's farewell season",                'side': 'bottom', 'pinColor': '#666666'},
+    {'num': 4,  'season': '2004-05', 'text': 'Vince Carter traded to NJ Nets',             'side': 'bottom', 'pinColor': '#666666'},
+    {'num': 5,  'season': '2009-10', 'text': "Bosh's farewell; signs with Miami",          'side': 'top',    'pinColor': '#666666'},
     # Lowry / DeRozan
-    {'num': 6,  'season': '2015-16', 'text': '56W: franchise wins record',            'side': 'bottom', 'pinColor': '#222222'},
-    {'num': 7,  'season': '2016-17', 'text': 'First Eastern Conference Finals',       'side': 'top',    'pinColor': '#222222'},
+    {'num': 6,  'season': '2012-13', 'text': 'Kyle Lowry acquired from Houston',           'side': 'bottom', 'pinColor': '#222222'},
+    {'num': 7,  'season': '2016-17', 'text': 'DeRozan signs 5-year max extension',         'side': 'top',    'pinColor': '#222222'},
     # Championship
-    {'num': 8,  'season': '2017-18', 'text': "Casey: Coach of Year — then fired",     'side': 'bottom', 'pinColor': '#B8860B'},
-    {'num': 9,  'season': '2018-19', 'text': "NBA Champions! Kawhi's buzzer beater",  'side': 'top',    'pinColor': '#B8860B'},
+    {'num': 8,  'season': '2018-19', 'text': 'DeRozan traded for Kawhi Leonard → title',   'side': 'bottom', 'pinColor': '#B8860B'},
     # Post-Kawhi
-    {'num': 10, 'season': '2019-20', 'text': 'COVID bubble: 53-19 record',            'side': 'bottom', 'pinColor': '#CE1141'},
-    {'num': 11, 'season': '2021-22', 'text': 'Scottie Barnes: Rookie of the Year',    'side': 'top',    'pinColor': '#CE1141'},
+    {'num': 9,  'season': '2019-20', 'text': 'Kawhi opts out; joins LA Clippers',          'side': 'top',    'pinColor': '#CE1141'},
+    {'num': 10, 'season': '2021-22', 'text': 'Scottie Barnes drafted 4th overall',         'side': 'bottom', 'pinColor': '#CE1141'},
 ]
 
 
