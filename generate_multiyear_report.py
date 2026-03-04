@@ -807,16 +807,21 @@ def main():
 
     # Build auto-detected roster change events per team (ANCHOR_SEASON vs PREV_SEASON)
     # Detects Star/Superstar players who departed or arrived between seasons.
+    # "Departed" = was a Star/Superstar last season AND is no longer on the team at all.
+    # "Arrived"  = is a Star/Superstar this season AND was not on the team at all last season.
     roster_changes_lookup = {}   # team_name → {'departed': [names], 'arrived': [names]}
     if not ratings.empty and 'tier' in ratings.columns:
         _star_tiers = {'Superstar', 'Star'}
-        _star_name_lkp = {}  # (abbr, season) → {player_name: tier}
-        for (_abbr, _sea), _grp in ratings[ratings['tier'].isin(_star_tiers)].groupby(
-                ['TEAM_ABBREVIATION', 'SEASON']):
-            _star_name_lkp[(_abbr, _sea)] = {
-                row['PLAYER_NAME']: row['tier']
-                for _, row in _grp.iterrows()
-            }
+        _star_name_lkp = {}   # (abbr, season) → {player_name: tier}  — Stars/Superstars only
+        _all_player_lkp = {}  # (abbr, season) → set of all player names on that team
+        for (_abbr, _sea), _grp in ratings.groupby(['TEAM_ABBREVIATION', 'SEASON']):
+            _all_player_lkp[(_abbr, _sea)] = set(_grp['PLAYER_NAME'].tolist())
+            stars = _grp[_grp['tier'].isin(_star_tiers)]
+            if len(stars):
+                _star_name_lkp[(_abbr, _sea)] = {
+                    row['PLAYER_NAME']: row['tier']
+                    for _, row in stars.iterrows()
+                }
 
         for t26 in working[working['SEASON'] == ANCHOR_SEASON]['Team'].unique():
             r26 = working[(working['SEASON'] == ANCHOR_SEASON) & (working['Team'] == t26)]
@@ -832,11 +837,15 @@ def main():
             if abbr is None:
                 continue
 
-            curr_stars = _star_name_lkp.get((abbr, ANCHOR_SEASON), {})
-            prev_stars = _star_name_lkp.get((abbr, PREV_SEASON), {})
+            curr_stars   = _star_name_lkp.get((abbr, ANCHOR_SEASON), {})
+            prev_stars   = _star_name_lkp.get((abbr, PREV_SEASON), {})
+            curr_players = _all_player_lkp.get((abbr, ANCHOR_SEASON), set())
+            prev_players = _all_player_lkp.get((abbr, PREV_SEASON), set())
 
-            departed = [n for n in prev_stars if n not in curr_stars]
-            arrived  = [n for n in curr_stars  if n not in prev_stars]
+            # Only flag as departed if the player is genuinely gone from the roster
+            departed = [n for n in prev_stars if n not in curr_players]
+            # Only flag as arrived if the player wasn't on this team last season at all
+            arrived  = [n for n in curr_stars  if n not in prev_players]
 
             if departed or arrived:
                 roster_changes_lookup[t26] = {
