@@ -1,0 +1,2415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NBA Prediction Accuracy — 2025-26</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #0a0a0a; color: #e2e2e2;
+    padding: 24px 20px; max-width: 1180px; margin: 0 auto;
+}
+h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; letter-spacing:1px; }
+.subtitle { text-align:center; color:#4b5563; font-size:0.82rem; margin-bottom:20px; }
+.note { text-align:center; color:#374151; font-size:0.75rem; margin-bottom:28px; font-style:italic; }
+
+/* ── Summary stats bar ── */
+.summary-bar {
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    margin-bottom: 28px;
+}
+.stat-box {
+    background: #121212; border: 1px solid #242424; border-radius: 10px;
+    padding: 14px 20px; text-align: center; min-width: 130px;
+}
+.stat-val { font-size: 1.8rem; font-weight: 700; line-height: 1; }
+.stat-lbl { font-size: 0.7rem; color: #4b5563; text-transform: uppercase;
+            letter-spacing: .6px; margin-top: 4px; }
+.stat-green { color: #4ade80; }
+.stat-yellow { color: #facc15; }
+.stat-orange { color: #fb923c; }
+.stat-red { color: #f87171; }
+.stat-gray { color: #6b7280; }
+
+/* ── Grade distribution bar ── */
+.grade-dist {
+    background: #121212; border: 1px solid #242424; border-radius: 10px;
+    padding: 14px 20px; margin-bottom: 28px;
+}
+.grade-dist-title { font-size: 0.7rem; color: #4b5563; text-transform: uppercase;
+                    letter-spacing: .6px; margin-bottom: 10px; }
+.grade-bar-row { display: flex; height: 28px; border-radius: 6px; overflow: hidden; gap: 2px; }
+.grade-seg { display: flex; align-items: center; justify-content: center;
+             font-size: 0.7rem; font-weight: 700; color: #000;
+             transition: flex .3s; }
+.grade-seg.g-a  { background: #4ade80; }
+.grade-seg.g-b  { background: #86efac; }
+.grade-seg.g-c  { background: #facc15; }
+.grade-seg.g-d  { background: #fb923c; }
+.grade-seg.g-f  { background: #f87171; }
+.grade-labels { display: flex; gap: 14px; margin-top: 10px; flex-wrap: wrap; }
+.grade-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+
+/* ── Section header ── */
+.section-hdr {
+    font-size: 0.68rem; text-transform: uppercase; letter-spacing: .7px;
+    color: #4b5563; margin: 24px 0 10px; padding-bottom: 6px;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+/* ── Team prediction table ── */
+.pred-table { width: 100%; border-collapse: collapse; }
+.pred-table th {
+    font-size: 0.62rem; text-transform: uppercase; letter-spacing: .5px;
+    color: #374151; padding: 6px 10px; text-align: left;
+    border-bottom: 1px solid #1a1a1a;
+}
+.pred-table tr:hover td { background: #121212; }
+.pred-table td {
+    padding: 8px 10px; border-bottom: 1px solid #111;
+    font-size: 0.8rem; vertical-align: middle;
+}
+.td-team { color: #c7d2fe; font-weight: 600; white-space: nowrap; }
+.td-rec { color: #6b7280; font-size: 0.72rem; }
+.td-wp { color: #d1d5db; font-weight: 600; font-variant-numeric: tabular-nums; }
+.td-pred { color: #94a3b8; font-variant-numeric: tabular-nums; }
+.td-err { font-variant-numeric: tabular-nums; font-weight: 600; }
+.err-pos { color: #4ade80; }
+.err-neg { color: #f87171; }
+.err-neu { color: #6b7280; }
+
+/* Grade badges */
+.grade-a { color: #4ade80; font-weight: 700; }
+.grade-b { color: #86efac; font-weight: 700; }
+.grade-c { color: #facc15; font-weight: 700; }
+.grade-d { color: #fb923c; font-weight: 700; }
+.grade-f { color: #f87171; font-weight: 700; }
+.grade-na { color: #374151; }
+
+/* Scenario labels */
+.scen-opt { color: #4ade80; font-size: 0.65rem; }
+.scen-pes { color: #f87171; font-size: 0.65rem; }
+.scen-mid { color: #94a3b8; font-size: 0.65rem; }
+
+/* ── Range bar ── */
+.range-wrap { position: relative; height: 20px; min-width: 160px; }
+.range-track {
+    position: absolute; top: 8px; left: 0; right: 0;
+    height: 4px; background: #1e1e1e; border-radius: 2px;
+}
+.range-fill {
+    position: absolute; top: 0; height: 4px;
+    background: #312e81; border-radius: 2px;
+}
+.range-dot {
+    position: absolute; top: -4px; width: 12px; height: 12px;
+    border-radius: 50%; transform: translateX(-50%);
+}
+.dot-top1   { background: #facc15; z-index: 2; }
+.dot-actual { background: #ffffff; border: 2px solid #fff; z-index: 3; }
+.dot-pes    { background: #374151; z-index: 1; }
+.dot-opt    { background: #374151; z-index: 1; }
+.range-lbl-lo { position: absolute; left: 0; top: 14px;
+                font-size: 0.55rem; color: #374151; }
+.range-lbl-hi { position: absolute; right: 0; top: 14px;
+                font-size: 0.55rem; color: #374151; text-align: right; }
+
+/* ── Detailed team cards (expandable) ── */
+.detail-section { margin-top: 32px; }
+.team-detail {
+    background: #121212; border: 1px solid #1e1e1e; border-radius: 10px;
+    margin-bottom: 16px; overflow: hidden;
+}
+.team-detail-hdr {
+    padding: 12px 18px; display: flex; justify-content: space-between;
+    align-items: center; cursor: pointer;
+    border-bottom: 1px solid #1a1a1a;
+}
+.detail-team-name { font-size: 1.0rem; font-weight: 700; color: #e0e7ff; }
+.detail-grade-badge {
+    font-size: 0.85rem; font-weight: 700;
+    padding: 2px 10px; border-radius: 6px; background: #1a1a2e;
+}
+.detail-body { padding: 14px 18px; }
+.detail-row {
+    display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 12px;
+    font-size: 0.78rem;
+}
+.detail-lbl { color: #4b5563; font-size: 0.65rem; text-transform: uppercase;
+              letter-spacing: .5px; margin-bottom: 3px; }
+.detail-val { color: #d1d5db; font-weight: 600; }
+.detail-sub { color: #6b7280; font-size: 0.72rem; }
+
+/* ── Best match card (inside detail) ── */
+.match-mini {
+    background: #0e0e0e; border: 1px solid #1a1a1a; border-radius: 8px;
+    padding: 10px 14px; margin-top: 10px; font-size: 0.75rem;
+}
+.match-mini-top { color: #818cf8; font-weight: 600; margin-bottom: 6px; }
+.match-mini-row { display: flex; gap: 14px; flex-wrap: wrap; }
+.mrow-lbl { color: #4b5563; font-size: 0.62rem; }
+.mrow-val { color: #9ca3af; font-weight: 600; }
+
+/* ── Arrows ── */
+.arr { font-weight:700; }
+.arr.up { color:#4ade80; } .arr.dn { color:#f87171; } .arr.fl { color:#6b7280; }
+</style>
+</head>
+<body>
+
+<h1>NBA Prediction Accuracy Report — 2025-26</h1>
+<p class="subtitle">
+  How well did the 2024-25 3-year similarity model predict this season's team performance?
+</p>
+<p class="note">
+  Based on ~60 games played per team (season is approximately 73% complete) —
+  final accuracy may shift as the season finishes. &nbsp;·&nbsp;
+  Yellow dot = best-match predicted win% &nbsp;·&nbsp; White dot = actual 2025-26 win% &nbsp;·&nbsp;
+  Dark bar = pessimistic–optimistic predicted range
+</p>
+
+<div class="summary-bar">
+  <div class="stat-box">
+    <div class="stat-val stat-green">22/29</div>
+    <div class="stat-lbl">In Predicted Range</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-val stat-yellow">15/29</div>
+    <div class="stat-lbl">Grade A or B</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-val stat-orange">15.5pp</div>
+    <div class="stat-lbl">Avg Error (Best Match)</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-val stat-gray">14/29</div>
+    <div class="stat-lbl">Direction Correct</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-val stat-gray">~60</div>
+    <div class="stat-lbl">Avg Games Played</div>
+  </div>
+</div>
+
+<div class="grade-dist">
+  <div class="grade-dist-title">Grade distribution — 29 teams</div>
+  <div class="grade-bar-row"><div class="grade-seg g-a" style="flex:31">A (9)</div><div class="grade-seg g-b" style="flex:21">B (6)</div><div class="grade-seg g-c" style="flex:28">C (8)</div><div class="grade-seg g-d" style="flex:3">D (1)</div><div class="grade-seg g-f" style="flex:17">F (5)</div></div>
+  <div class="grade-labels"><span style="font-size:0.7rem;color:#6b7280;"><span class="grade-dot" style="background:#4ade80;"></span><b style="color:#4ade80;">A</b> On Target (9)</span><span style="font-size:0.7rem;color:#6b7280;"><span class="grade-dot" style="background:#86efac;"></span><b style="color:#86efac;">B</b> In Range / Near Best (6)</span><span style="font-size:0.7rem;color:#6b7280;"><span class="grade-dot" style="background:#facc15;"></span><b style="color:#facc15;">C</b> Reasonable (8)</span><span style="font-size:0.7rem;color:#6b7280;"><span class="grade-dot" style="background:#fb923c;"></span><b style="color:#fb923c;">D</b> Off (1)</span><span style="font-size:0.7rem;color:#6b7280;"><span class="grade-dot" style="background:#f87171;"></span><b style="color:#f87171;">F</b> Way Off (5)</span></div>
+</div>
+
+<div class="section-hdr">Prediction vs Actual — All 30 Teams</div>
+<table class="pred-table">
+  <thead>
+    <tr>
+      <th>Team (2024-25)</th>
+      <th>2025-26 Actual</th>
+      <th>vs Prior Season</th>
+      <th>Predicted (Best Match)</th>
+      <th style="min-width:180px;">Range: Pes ─── Best ─── Opt &nbsp;⬤ Actual</th>
+      <th>Error</th>
+      <th>Grade</th>
+      <th>Scenario</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+  <td class="td-team">Atlanta Hawks<br><span class="td-rec">2024-25: 40-42</span></td>
+  <td class="td-wp">50.0%<br><span class="td-rec">31-31</span></td>
+  <td><span class="arr up">▲</span> 2.6pp</td>
+  <td class="td-pred">41.5%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:26.1%;width:34.6%;"></div>
+    <div class="range-dot dot-pes" style="left:26.1%;"></div>
+    <div class="range-dot dot-opt" style="left:60.8%;"></div>
+    <div class="range-dot dot-top1" style="left:44.3%;"></div>
+    <div class="range-dot dot-actual" style="left:54.7%;background:#4ade80;border-color:#4ade80;"></div>
+  </div>
+  <div class="range-lbl-lo">26.8%</div>
+  <div class="range-lbl-hi">54.9%</div>
+</div></td>
+  <td><span class="err-pos">+8.5pp</span></td>
+  <td><span class="grade-b">B</span><br><span style="font-size:0.65rem;color:#4b5563;">In Range</span></td>
+  <td><div class="scen-opt">Optimistic path</div></td>
+</tr><tr>
+  <td class="td-team">Boston Celtics<br><span class="td-rec">2024-25: 61-21</span></td>
+  <td class="td-wp">67.2%<br><span class="td-rec">41-20</span></td>
+  <td><span class="arr dn">▼</span> 7.3pp</td>
+  <td class="td-pred">70.7%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:62.3%;width:18.0%;"></div>
+    <div class="range-dot dot-pes" style="left:62.3%;"></div>
+    <div class="range-dot dot-opt" style="left:80.3%;"></div>
+    <div class="range-dot dot-top1" style="left:80.3%;"></div>
+    <div class="range-dot dot-actual" style="left:76.0%;background:#ffffff;border-color:#ffffff;"></div>
+  </div>
+  <div class="range-lbl-lo">56.1%</div>
+  <div class="range-lbl-hi">70.7%</div>
+</div></td>
+  <td><span class="err-neg">-3.5pp</span></td>
+  <td><span class="grade-a">A</span><br><span style="font-size:0.65rem;color:#4b5563;">On Target</span></td>
+  <td><div class="scen-opt">Optimistic path</div></td>
+</tr><tr>
+  <td class="td-team">Brooklyn Nets<br><span class="td-rec">2024-25: 26-56</span></td>
+  <td class="td-wp">25.0%<br><span class="td-rec">15-45</span></td>
+  <td><span class="arr dn">▼</span> 15.1pp</td>
+  <td class="td-pred">42.0%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:27.6%;width:22.2%;"></div>
+    <div class="range-dot dot-pes" style="left:27.6%;"></div>
+    <div class="range-dot dot-opt" style="left:49.8%;"></div>
+    <div class="range-dot dot-top1" style="left:44.9%;"></div>
+    <div class="range-dot dot-actual" style="left:23.9%;background:#f87171;border-color:#f87171;"></div>
+  </div>
+  <div class="range-lbl-lo">28.0%</div>
+  <div class="range-lbl-hi">46.0%</div>
+</div></td>
+  <td><span class="err-neg">-17.0pp</span></td>
+  <td><span class="grade-d">D</span><br><span style="font-size:0.65rem;color:#4b5563;">Off</span></td>
+  <td><div class="scen-pes">Pessimistic path</div></td>
+</tr><tr>
+  <td class="td-team">Charlotte Hornets<br><span class="td-rec">2024-25: 19-63</span></td>
+  <td class="td-wp">49.2%<br><span class="td-rec">30-31</span></td>
+  <td><span class="arr up">▲</span> 22.7pp</td>
+  <td class="td-pred">23.2%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:18.6%;width:31.9%;"></div>
+    <div class="range-dot dot-pes" style="left:18.6%;"></div>
+    <div class="range-dot dot-opt" style="left:50.6%;"></div>
+    <div class="range-dot dot-top1" style="left:21.7%;"></div>
+    <div class="range-dot dot-actual" style="left:53.7%;background:#4ade80;border-color:#4ade80;"></div>
+  </div>
+  <div class="range-lbl-lo">20.7%</div>
+  <div class="range-lbl-hi">46.6%</div>
+</div></td>
+  <td><span class="err-pos">+26.0pp</span></td>
+  <td><span class="grade-f">F</span><br><span style="font-size:0.65rem;color:#4b5563;">Way Off</span></td>
+  <td><div class="scen-opt">Optimistic path</div></td>
+</tr><tr>
+  <td class="td-team">Chicago Bulls<br><span class="td-rec">2024-25: 39-43</span></td>
+  <td class="td-wp">41.0%<br><span class="td-rec">25-36</span></td>
+  <td><span class="arr dn">▼</span> 6.9pp</td>
+  <td class="td-pred">48.8%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:6.2%;width:65.1%;"></div>
+    <div class="range-dot dot-pes" style="left:6.2%;"></div>
+    <div class="range-dot dot-opt" style="left:71.3%;"></div>
+    <div class="range-dot dot-top1" style="left:53.3%;"></div>
+    <div class="range-dot dot-actual" style="left:43.6%;background:#f87171;border-color:#f87171;"></div>
+  </div>
+  <div class="range-lbl-lo">10.6%</div>
+  <div class="range-lbl-hi">63.4%</div>
+</div></td>
+  <td><span class="err-neg">-7.8pp</span></td>
+  <td><span class="grade-b">B</span><br><span style="font-size:0.65rem;color:#4b5563;">In Range</span></td>
+  <td><div class="scen-mid">On expected path</div></td>
+</tr><tr>
+  <td class="td-team">Cleveland Cavaliers<br><span class="td-rec">2024-25: 64-18</span></td>
+  <td class="td-wp">61.3%<br><span class="td-rec">38-24</span></td>
+  <td><span class="arr dn">▼</span> 6.0pp</td>
+  <td class="td-pred">61.0%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:66.8%;width:13.4%;"></div>
+    <div class="range-dot dot-pes" style="left:66.8%;"></div>
+    <div class="range-dot dot-opt" style="left:80.3%;"></div>
+    <div class="range-dot dot-top1" style="left:68.3%;"></div>
+    <div class="range-dot dot-actual" style="left:68.7%;background:#ffffff;border-color:#ffffff;"></div>
+  </div>
+  <div class="range-lbl-lo">59.8%</div>
+  <div class="range-lbl-hi">70.7%</div>
+</div></td>
+  <td><span class="err-neu">+0.3pp</span></td>
+  <td><span class="grade-a">A</span><br><span style="font-size:0.65rem;color:#4b5563;">On Target</span></td>
+  <td><div class="scen-pes">Pessimistic path</div></td>
+</tr><tr>
+  <td class="td-team">Dallas Mavericks<br><span class="td-rec">2024-25: 39-43</span></td>
+  <td class="td-wp">35.0%<br><span class="td-rec">21-39</span></td>
+  <td><span class="arr dn">▼</span> 17.0pp</td>
+  <td class="td-pred">62.0%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:26.1%;width:30.1%;"></div>
+    <div class="range-dot dot-pes" style="left:26.1%;"></div>
+    <div class="range-dot dot-opt" style="left:56.2%;"></div>
+    <div class="range-dot dot-top1" style="left:69.5%;"></div>
+    <div class="range-dot dot-actual" style="left:36.3%;background:#f87171;border-color:#f87171;"></div>
+  </div>
+  <div class="range-lbl-lo">26.8%</div>
+  <div class="range-lbl-hi">51.2%</div>
+</div></td>
+  <td><span class="err-neg">-27.0pp</span></td>
+  <td><span class="grade-c">C</span><br><span style="font-size:0.65rem;color:#4b5563;">Reasonable</span></td>
+  <td><div class="scen-mid">On expected path</div></td>
+</tr><tr>
+  <td class="td-team">Denver Nuggets<br><span class="td-rec">2024-25: 50-32</span></td>
+  <td class="td-wp">60.7%<br><span class="td-rec">37-24</span></td>
+  <td><span class="arr dn">▼</span> 4.2pp</td>
+  <td class="td-pred">62.2%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:42.7%;width:30.1%;"></div>
+    <div class="range-dot dot-pes" style="left:42.7%;"></div>
+    <div class="range-dot dot-opt" style="left:72.7%;"></div>
+    <div class="range-dot dot-top1" style="left:69.8%;"></div>
+    <div class="range-dot dot-actual" style="left:67.9%;background:#ffffff;border-color:#ffffff;"></div>
+  </div>
+  <div class="range-lbl-lo">40.2%</div>
+  <div class="range-lbl-hi">64.6%</div>
+</div></td>
+  <td><span class="err-neu">-1.5pp</span></td>
+  <td><span class="grade-a">A</span><br><span style="font-size:0.65rem;color:#4b5563;">On Target</span></td>
+  <td><div class="scen-opt">Optimistic path</div></td>
+</tr><tr>
+  <td class="td-team">Detroit Pistons<br><span class="td-rec">2024-25: 44-38</span></td>
+  <td class="td-wp">76.3%<br><span class="td-rec">45-14</span></td>
+  <td><span class="arr up">▲</span> 43.7pp</td>
+  <td class="td-pred">32.9%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:33.7%;width:15.0%;"></div>
+    <div class="range-dot dot-pes" style="left:33.7%;"></div>
+    <div class="range-dot dot-opt" style="left:48.7%;"></div>
+    <div class="range-dot dot-top1" style="left:33.7%;"></div>
+    <div class="range-dot dot-actual" style="left:87.1%;background:#4ade80;border-color:#4ade80;"></div>
+  </div>
+  <div class="range-lbl-lo">32.9%</div>
+  <div class="range-lbl-hi">45.1%</div>
+</div></td>
+  <td><span class="err-pos">+43.4pp</span></td>
+  <td><span class="grade-f">F</span><br><span style="font-size:0.65rem;color:#4b5563;">Way Off</span></td>
+  <td><div class="scen-opt">Optimistic path</div></td>
+</tr><tr>
+  <td class="td-team">Golden State Warriors<br><span class="td-rec">2024-25: 48-34</span></td>
+  <td class="td-wp">51.7%<br><span class="td-rec">31-29</span></td>
+  <td><span class="arr dn">▼</span> 4.8pp</td>
+  <td class="td-pred">29.3%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:26.1%;width:53.3%;"></div>
+    <div class="range-dot dot-pes" style="left:26.1%;"></div>
+    <div class="range-dot dot-opt" style="left:79.4%;"></div>
+    <div class="range-dot dot-top1" style="left:29.2%;"></div>
+    <div class="range-dot dot-actual" style="left:56.8%;background:#4ade80;border-color:#4ade80;"></div>
+  </div>
+  <div class="range-lbl-lo">26.8%</div>
+  <div class="range-lbl-hi">70.0%</div>
+</div></td>
+  <td><span class="err-pos">+22.4pp</span></td>
+  <td><span class="grade-c">C</span><br><span style="font-size:0.65rem;color:#4b5563;">Reasonable</span></td>
+  <td><div class="scen-mid">On expected path</div></td>
+</tr><tr>
+  <td class="td-team">Houston Rockets<br><span class="td-rec">2024-25: 52-30</span></td>
+  <td class="td-wp">63.3%<br><span class="td-rec">38-22</span></td>
+  <td><span class="arr up">▲</span> 13.7pp</td>
+  <td class="td-pred">78.0%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:45.7%;width:27.0%;"></div>
+    <div class="range-dot dot-pes" style="left:45.7%;"></div>
+    <div class="range-dot dot-opt" style="left:72.7%;"></div>
+    <div class="range-dot dot-top1" style="left:89.3%;"></div>
+    <div class="range-dot dot-actual" style="left:71.2%;background:#f87171;border-color:#f87171;"></div>
+  </div>
+  <div class="range-lbl-lo">42.7%</div>
+  <div class="range-lbl-hi">64.6%</div>
+</div></td>
+  <td><span class="err-neg">-14.7pp</span></td>
+  <td><span class="grade-c">C</span><br><span style="font-size:0.65rem;color:#4b5563;">Reasonable</span></td>
+  <td><div class="scen-opt">Optimistic path</div></td>
+</tr><tr>
+  <td class="td-team">Indiana Pacers<br><span class="td-rec">2024-25: 50-32</span></td>
+  <td class="td-wp">24.6%<br><span class="td-rec">15-46</span></td>
+  <td><span class="arr dn">▼</span> 30.5pp</td>
+  <td class="td-pred">69.5%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:47.2%;width:27.3%;"></div>
+    <div class="range-dot dot-pes" style="left:47.2%;"></div>
+    <div class="range-dot dot-opt" style="left:74.5%;"></div>
+    <div class="range-dot dot-top1" style="left:78.8%;"></div>
+    <div class="range-dot dot-actual" style="left:23.4%;background:#f87171;border-color:#f87171;"></div>
+  </div>
+  <div class="range-lbl-lo">43.9%</div>
+  <div class="range-lbl-hi">66.0%</div>
+</div></td>
+  <td><span class="err-neg">-44.9pp</span></td>
+  <td><span class="grade-f">F</span><br><span style="font-size:0.65rem;color:#4b5563;">Way Off</span></td>
+  <td><div class="scen-pes">Pessimistic path</div></td>
+</tr><tr>
+  <td class="td-team">LA Clippers<br><span class="td-rec">2024-25: 50-32</span></td>
+  <td class="td-wp">nan%<br><span class="td-rec">0-0</span></td>
+  <td>—</td>
+  <td class="td-pred">52.4%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:57.7%;width:24.2%;"></div>
+    <div class="range-dot dot-pes" style="left:57.7%;"></div>
+    <div class="range-dot dot-opt" style="left:81.9%;"></div>
+    <div class="range-dot dot-top1" style="left:57.7%;"></div>
+    <div class="range-dot dot-actual" style="left:54.7%;background:#f87171;border-color:#f87171;"></div>
+  </div>
+  <div class="range-lbl-lo">52.4%</div>
+  <div class="range-lbl-hi">72.0%</div>
+</div></td>
+  <td>—</td>
+  <td><span class="grade-na">N/A</span><br><span style="font-size:0.65rem;color:#4b5563;">No data</span></td>
+  <td></td>
+</tr><tr>
+  <td class="td-team">Los Angeles Lakers<br><span class="td-rec">2024-25: 50-32</span></td>
+  <td class="td-wp">60.0%<br><span class="td-rec">36-24</span></td>
+  <td><span class="arr up">▲</span> 2.4pp</td>
+  <td class="td-pred">57.3%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:45.7%;width:48.1%;"></div>
+    <div class="range-dot dot-pes" style="left:45.7%;"></div>
+    <div class="range-dot dot-opt" style="left:93.8%;"></div>
+    <div class="range-dot dot-top1" style="left:63.7%;"></div>
+    <div class="range-dot dot-actual" style="left:67.1%;background:#ffffff;border-color:#ffffff;"></div>
+  </div>
+  <div class="range-lbl-lo">42.7%</div>
+  <div class="range-lbl-hi">81.7%</div>
+</div></td>
+  <td><span class="err-pos">+2.7pp</span></td>
+  <td><span class="grade-a">A</span><br><span style="font-size:0.65rem;color:#4b5563;">On Target</span></td>
+  <td><div class="scen-mid">On expected path</div></td>
+</tr><tr>
+  <td class="td-team">Memphis Grizzlies<br><span class="td-rec">2024-25: 48-34</span></td>
+  <td class="td-wp">39.0%<br><span class="td-rec">23-36</span></td>
+  <td><span class="arr dn">▼</span> 11.5pp</td>
+  <td class="td-pred">58.5%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:26.1%;width:41.3%;"></div>
+    <div class="range-dot dot-pes" style="left:26.1%;"></div>
+    <div class="range-dot dot-opt" style="left:67.4%;"></div>
+    <div class="range-dot dot-top1" style="left:65.2%;"></div>
+    <div class="range-dot dot-actual" style="left:41.2%;background:#f87171;border-color:#f87171;"></div>
+  </div>
+  <div class="range-lbl-lo">26.8%</div>
+  <div class="range-lbl-hi">60.3%</div>
+</div></td>
+  <td><span class="err-neg">-19.5pp</span></td>
+  <td><span class="grade-c">C</span><br><span style="font-size:0.65rem;color:#4b5563;">Reasonable</span></td>
+  <td><div class="scen-mid">On expected path</div></td>
+</tr><tr>
+  <td class="td-team">Miami Heat<br><span class="td-rec">2024-25: 37-45</span></td>
+  <td class="td-wp">52.5%<br><span class="td-rec">32-29</span></td>
+  <td><span class="arr up">▲</span> 1.4pp</td>
+  <td class="td-pred">32.9%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:6.2%;width:61.3%;"></div>
+    <div class="range-dot dot-pes" style="left:6.2%;"></div>
+    <div class="range-dot dot-opt" style="left:67.4%;"></div>
+    <div class="range-dot dot-top1" style="left:33.7%;"></div>
+    <div class="range-dot dot-actual" style="left:57.8%;background:#4ade80;border-color:#4ade80;"></div>
+  </div>
+  <div class="range-lbl-lo">10.6%</div>
+  <div class="range-lbl-hi">60.3%</div>
+</div></td>
+  <td><span class="err-pos">+19.6pp</span></td>
+  <td><span class="grade-c">C</span><br><span style="font-size:0.65rem;color:#4b5563;">Reasonable</span></td>
+  <td><div class="scen-opt">Optimistic path</div></td>
+</tr><tr>
+  <td class="td-team">Milwaukee Bucks<br><span class="td-rec">2024-25: 48-34</span></td>
+  <td class="td-wp">43.3%<br><span class="td-rec">26-34</span></td>
+  <td><span class="arr dn">▼</span> 18.7pp</td>
+  <td class="td-pred">62.2%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:21.7%;width:51.0%;"></div>
+    <div class="range-dot dot-pes" style="left:21.7%;"></div>
+    <div class="range-dot dot-opt" style="left:72.7%;"></div>
+    <div class="range-dot dot-top1" style="left:69.8%;"></div>
+    <div class="range-dot dot-actual" style="left:46.5%;background:#f87171;border-color:#f87171;"></div>
+  </div>
+  <div class="range-lbl-lo">23.2%</div>
+  <div class="range-lbl-hi">64.6%</div>
+</div></td>
+  <td><span class="err-neg">-18.9pp</span></td>
+  <td><span class="grade-c">C</span><br><span style="font-size:0.65rem;color:#4b5563;">Reasonable</span></td>
+  <td><div class="scen-mid">On expected path</div></td>
+</tr><tr>
+  <td class="td-team">Minnesota Timberwolves<br><span class="td-rec">2024-25: 49-33</span></td>
+  <td class="td-wp">62.3%<br><span class="td-rec">38-23</span></td>
+  <td><span class="arr up">▲</span> 1.7pp</td>
+  <td class="td-pred">72.0%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:57.7%;width:16.6%;"></div>
+    <div class="range-dot dot-pes" style="left:57.7%;"></div>
+    <div class="range-dot dot-opt" style="left:74.4%;"></div>
+    <div class="range-dot dot-top1" style="left:81.9%;"></div>
+    <div class="range-dot dot-actual" style="left:69.9%;background:#f87171;border-color:#f87171;"></div>
+  </div>
+  <div class="range-lbl-lo">52.4%</div>
+  <div class="range-lbl-hi">65.9%</div>
+</div></td>
+  <td><span class="err-neg">-9.7pp</span></td>
+  <td><span class="grade-b">B</span><br><span style="font-size:0.65rem;color:#4b5563;">In Range</span></td>
+  <td><div class="scen-opt">Optimistic path</div></td>
+</tr><tr>
+  <td class="td-team">New Orleans Pelicans<br><span class="td-rec">2024-25: 21-61</span></td>
+  <td class="td-wp">30.6%<br><span class="td-rec">19-43</span></td>
+  <td><span class="arr dn">▼</span> 13.4pp</td>
+  <td class="td-pred">35.4%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:29.2%;width:27.0%;"></div>
+    <div class="range-dot dot-pes" style="left:29.2%;"></div>
+    <div class="range-dot dot-opt" style="left:56.2%;"></div>
+    <div class="range-dot dot-top1" style="left:36.7%;"></div>
+    <div class="range-dot dot-actual" style="left:30.9%;background:#ffffff;border-color:#ffffff;"></div>
+  </div>
+  <div class="range-lbl-lo">29.3%</div>
+  <div class="range-lbl-hi">51.2%</div>
+</div></td>
+  <td><span class="err-neg">-4.8pp</span></td>
+  <td><span class="grade-a">A</span><br><span style="font-size:0.65rem;color:#4b5563;">On Target</span></td>
+  <td><div class="scen-pes">Pessimistic path</div></td>
+</tr><tr>
+  <td class="td-team">New York Knicks<br><span class="td-rec">2024-25: 51-31</span></td>
+  <td class="td-wp">63.9%<br><span class="td-rec">39-22</span></td>
+  <td><span class="arr up">▲</span> 3.4pp</td>
+  <td class="td-pred">72.0%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:54.7%;width:25.5%;"></div>
+    <div class="range-dot dot-pes" style="left:54.7%;"></div>
+    <div class="range-dot dot-opt" style="left:80.3%;"></div>
+    <div class="range-dot dot-top1" style="left:81.9%;"></div>
+    <div class="range-dot dot-actual" style="left:71.9%;background:#f87171;border-color:#f87171;"></div>
+  </div>
+  <div class="range-lbl-lo">50.0%</div>
+  <div class="range-lbl-hi">70.7%</div>
+</div></td>
+  <td><span class="err-neg">-8.1pp</span></td>
+  <td><span class="grade-b">B</span><br><span style="font-size:0.65rem;color:#4b5563;">In Range</span></td>
+  <td><div class="scen-mid">On expected path</div></td>
+</tr><tr>
+  <td class="td-team">Oklahoma City Thunder<br><span class="td-rec">2024-25: 68-14</span></td>
+  <td class="td-wp">75.8%<br><span class="td-rec">47-15</span></td>
+  <td><span class="arr up">▲</span> 6.1pp</td>
+  <td class="td-pred">63.9%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:71.3%;width:22.6%;"></div>
+    <div class="range-dot dot-pes" style="left:71.3%;"></div>
+    <div class="range-dot dot-opt" style="left:93.8%;"></div>
+    <div class="range-dot dot-top1" style="left:71.9%;"></div>
+    <div class="range-dot dot-actual" style="left:86.6%;background:#4ade80;border-color:#4ade80;"></div>
+  </div>
+  <div class="range-lbl-lo">63.4%</div>
+  <div class="range-lbl-hi">81.7%</div>
+</div></td>
+  <td><span class="err-pos">+11.9pp</span></td>
+  <td><span class="grade-b">B</span><br><span style="font-size:0.65rem;color:#4b5563;">In Range</span></td>
+  <td><div class="scen-mid">On expected path</div></td>
+</tr><tr>
+  <td class="td-team">Orlando Magic<br><span class="td-rec">2024-25: 41-41</span></td>
+  <td class="td-wp">52.5%<br><span class="td-rec">31-28</span></td>
+  <td><span class="arr up">▲</span> 2.1pp</td>
+  <td class="td-pred">50.0%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:44.3%;width:19.5%;"></div>
+    <div class="range-dot dot-pes" style="left:44.3%;"></div>
+    <div class="range-dot dot-opt" style="left:63.7%;"></div>
+    <div class="range-dot dot-top1" style="left:54.7%;"></div>
+    <div class="range-dot dot-actual" style="left:57.9%;background:#ffffff;border-color:#ffffff;"></div>
+  </div>
+  <div class="range-lbl-lo">41.5%</div>
+  <div class="range-lbl-hi">57.3%</div>
+</div></td>
+  <td><span class="err-pos">+2.5pp</span></td>
+  <td><span class="grade-a">A</span><br><span style="font-size:0.65rem;color:#4b5563;">On Target</span></td>
+  <td><div class="scen-mid">On expected path</div></td>
+</tr><tr>
+  <td class="td-team">Philadelphia 76ers<br><span class="td-rec">2024-25: 24-58</span></td>
+  <td class="td-wp">55.0%<br><span class="td-rec">33-27</span></td>
+  <td><span class="arr up">▲</span> 6.8pp</td>
+  <td class="td-pred">29.3%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:15.7%;width:57.1%;"></div>
+    <div class="range-dot dot-pes" style="left:15.7%;"></div>
+    <div class="range-dot dot-opt" style="left:72.7%;"></div>
+    <div class="range-dot dot-top1" style="left:29.2%;"></div>
+    <div class="range-dot dot-actual" style="left:60.9%;background:#4ade80;border-color:#4ade80;"></div>
+  </div>
+  <div class="range-lbl-lo">18.3%</div>
+  <div class="range-lbl-hi">64.6%</div>
+</div></td>
+  <td><span class="err-pos">+25.7pp</span></td>
+  <td><span class="grade-c">C</span><br><span style="font-size:0.65rem;color:#4b5563;">Reasonable</span></td>
+  <td><div class="scen-opt">Optimistic path</div></td>
+</tr><tr>
+  <td class="td-team">Phoenix Suns<br><span class="td-rec">2024-25: 36-46</span></td>
+  <td class="td-wp">56.7%<br><span class="td-rec">34-26</span></td>
+  <td><span class="arr up">▲</span> 4.5pp</td>
+  <td class="td-pred">52.4%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:33.7%;width:52.7%;"></div>
+    <div class="range-dot dot-pes" style="left:33.7%;"></div>
+    <div class="range-dot dot-opt" style="left:86.3%;"></div>
+    <div class="range-dot dot-top1" style="left:57.7%;"></div>
+    <div class="range-dot dot-actual" style="left:63.0%;background:#ffffff;border-color:#ffffff;"></div>
+  </div>
+  <div class="range-lbl-lo">32.9%</div>
+  <div class="range-lbl-hi">75.6%</div>
+</div></td>
+  <td><span class="err-pos">+4.3pp</span></td>
+  <td><span class="grade-a">A</span><br><span style="font-size:0.65rem;color:#4b5563;">On Target</span></td>
+  <td><div class="scen-mid">On expected path</div></td>
+</tr><tr>
+  <td class="td-team">Portland Trail Blazers<br><span class="td-rec">2024-25: 36-46</span></td>
+  <td class="td-wp">46.8%<br><span class="td-rec">29-33</span></td>
+  <td><span class="arr up">▲</span> 10.2pp</td>
+  <td class="td-pred">57.3%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:18.6%;width:34.6%;"></div>
+    <div class="range-dot dot-pes" style="left:18.6%;"></div>
+    <div class="range-dot dot-opt" style="left:53.3%;"></div>
+    <div class="range-dot dot-top1" style="left:63.7%;"></div>
+    <div class="range-dot dot-actual" style="left:50.8%;background:#f87171;border-color:#f87171;"></div>
+  </div>
+  <div class="range-lbl-lo">20.7%</div>
+  <div class="range-lbl-hi">48.8%</div>
+</div></td>
+  <td><span class="err-neg">-10.5pp</span></td>
+  <td><span class="grade-b">B</span><br><span style="font-size:0.65rem;color:#4b5563;">In Range</span></td>
+  <td><div class="scen-opt">Optimistic path</div></td>
+</tr><tr>
+  <td class="td-team">Sacramento Kings<br><span class="td-rec">2024-25: 40-42</span></td>
+  <td class="td-wp">22.6%<br><span class="td-rec">14-48</span></td>
+  <td><span class="arr dn">▼</span> 31.2pp</td>
+  <td class="td-pred">32.9%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:33.7%;width:22.6%;"></div>
+    <div class="range-dot dot-pes" style="left:33.7%;"></div>
+    <div class="range-dot dot-opt" style="left:56.2%;"></div>
+    <div class="range-dot dot-top1" style="left:33.7%;"></div>
+    <div class="range-dot dot-actual" style="left:20.9%;background:#f87171;border-color:#f87171;"></div>
+  </div>
+  <div class="range-lbl-lo">32.9%</div>
+  <div class="range-lbl-hi">51.2%</div>
+</div></td>
+  <td><span class="err-neg">-10.3pp</span></td>
+  <td><span class="grade-c">C</span><br><span style="font-size:0.65rem;color:#4b5563;">Reasonable</span></td>
+  <td><div class="scen-pes">Pessimistic path</div></td>
+</tr><tr>
+  <td class="td-team">San Antonio Spurs<br><span class="td-rec">2024-25: 34-48</span></td>
+  <td class="td-wp">71.7%<br><span class="td-rec">43-17</span></td>
+  <td><span class="arr up">▲</span> 39.0pp</td>
+  <td class="td-pred">30.5%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:35.1%;width:45.3%;"></div>
+    <div class="range-dot dot-pes" style="left:35.1%;"></div>
+    <div class="range-dot dot-opt" style="left:80.4%;"></div>
+    <div class="range-dot dot-top1" style="left:30.7%;"></div>
+    <div class="range-dot dot-actual" style="left:81.5%;background:#4ade80;border-color:#4ade80;"></div>
+  </div>
+  <div class="range-lbl-lo">34.1%</div>
+  <div class="range-lbl-hi">70.8%</div>
+</div></td>
+  <td><span class="err-pos">+41.2pp</span></td>
+  <td><span class="grade-f">F</span><br><span style="font-size:0.65rem;color:#4b5563;">Way Off</span></td>
+  <td><div class="scen-opt">Optimistic path</div></td>
+</tr><tr>
+  <td class="td-team">Toronto Raptors<br><span class="td-rec">2024-25: 30-52</span></td>
+  <td class="td-wp">58.3%<br><span class="td-rec">35-25</span></td>
+  <td><span class="arr up">▲</span> 20.5pp</td>
+  <td class="td-pred">20.7%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:24.7%;width:30.1%;"></div>
+    <div class="range-dot dot-pes" style="left:24.7%;"></div>
+    <div class="range-dot dot-opt" style="left:54.7%;"></div>
+    <div class="range-dot dot-top1" style="left:18.6%;"></div>
+    <div class="range-dot dot-actual" style="left:65.0%;background:#4ade80;border-color:#4ade80;"></div>
+  </div>
+  <div class="range-lbl-lo">25.6%</div>
+  <div class="range-lbl-hi">50.0%</div>
+</div></td>
+  <td><span class="err-pos">+37.6pp</span></td>
+  <td><span class="grade-f">F</span><br><span style="font-size:0.65rem;color:#4b5563;">Way Off</span></td>
+  <td><div class="scen-opt">Optimistic path</div></td>
+</tr><tr>
+  <td class="td-team">Utah Jazz<br><span class="td-rec">2024-25: 17-65</span></td>
+  <td class="td-wp">30.0%<br><span class="td-rec">18-42</span></td>
+  <td><span class="arr dn">▼</span> 2.8pp</td>
+  <td class="td-pred">30.5%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:15.3%;width:29.0%;"></div>
+    <div class="range-dot dot-pes" style="left:15.3%;"></div>
+    <div class="range-dot dot-opt" style="left:44.3%;"></div>
+    <div class="range-dot dot-top1" style="left:30.7%;"></div>
+    <div class="range-dot dot-actual" style="left:30.1%;background:#ffffff;border-color:#ffffff;"></div>
+  </div>
+  <div class="range-lbl-lo">18.0%</div>
+  <div class="range-lbl-hi">41.5%</div>
+</div></td>
+  <td><span class="err-neu">-0.5pp</span></td>
+  <td><span class="grade-a">A</span><br><span style="font-size:0.65rem;color:#4b5563;">On Target</span></td>
+  <td><div class="scen-mid">On expected path</div></td>
+</tr><tr>
+  <td class="td-team">Washington Wizards<br><span class="td-rec">2024-25: 18-64</span></td>
+  <td class="td-wp">26.7%<br><span class="td-rec">16-44</span></td>
+  <td><span class="arr fl">→</span> flat</td>
+  <td class="td-pred">31.7%</td>
+  <td><div class="range-wrap">
+  <div class="range-track">
+    <div class="range-fill" style="left:8.1%;width:45.1%;"></div>
+    <div class="range-dot dot-pes" style="left:8.1%;"></div>
+    <div class="range-dot dot-opt" style="left:53.3%;"></div>
+    <div class="range-dot dot-top1" style="left:32.2%;"></div>
+    <div class="range-dot dot-actual" style="left:26.0%;background:#f87171;border-color:#f87171;"></div>
+  </div>
+  <div class="range-lbl-lo">12.2%</div>
+  <div class="range-lbl-hi">48.8%</div>
+</div></td>
+  <td><span class="err-neg">-5.0pp</span></td>
+  <td><span class="grade-a">A</span><br><span style="font-size:0.65rem;color:#4b5563;">On Target</span></td>
+  <td><div class="scen-mid">On expected path</div></td>
+</tr>
+  </tbody>
+</table>
+
+<div class="section-hdr detail-section">Detailed Breakdown — Sorted by Biggest Surprise</div>
+<div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Indiana Pacers</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">24.6%</b>
+        (15-46)
+        &nbsp;·&nbsp; <span style="color:#f87171;">-30.5pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-f" style="font-size:1.1rem;">F</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">Way Off</span>
+      &nbsp; <span style="color:#f87171;font-size:0.7rem;">✗ Direction wrong</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">55.1%</div>
+        <div class="detail-sub">50-32 · Lost in Finals</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">69.5%</div>
+        <div class="detail-sub">Best match: Conf. Semis</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">24.6%</div>
+        <div class="detail-sub">15-46 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#f87171;">-44.9pp</div>
+        <div class="detail-sub">Underperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">43.9% – 66.0%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Conf. Finals</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Dallas Mavericks (1998-99 / 1999-00 / 2000-01) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">69.5%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Conf. Semis</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Indiana Pacers (1995-96 / 1996-97 / 1997-98) → 66.0%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Minnesota Timberwolves (2015-16 / 2016-17 / 2017-18) → 43.9%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Detroit Pistons</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">76.3%</b>
+        (45-14)
+        &nbsp;·&nbsp; <span style="color:#4ade80;">+43.7pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-f" style="font-size:1.1rem;">F</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">Way Off</span>
+      &nbsp; <span style="color:#4ade80;font-size:0.7rem;">✓ Direction correct</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">32.6%</div>
+        <div class="detail-sub">44-38 · First Round Exit</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">32.9%</div>
+        <div class="detail-sub">Best match: Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">76.3%</div>
+        <div class="detail-sub">45-14 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#4ade80;">+43.4pp</div>
+        <div class="detail-sub">Overperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">32.9% – 45.1%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Missed playoffs</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Los Angeles Clippers (1999-00 / 2000-01 / 2001-02) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">32.9%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Missed playoffs</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Los Angeles Lakers (2015-16 / 2016-17 / 2017-18) → 45.1%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Same as best match → 32.9%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">San Antonio Spurs</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">71.7%</b>
+        (43-17)
+        &nbsp;·&nbsp; <span style="color:#4ade80;">+39.0pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-f" style="font-size:1.1rem;">F</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">Way Off</span>
+      &nbsp; <span style="color:#f87171;font-size:0.7rem;">✗ Direction wrong</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">32.7%</div>
+        <div class="detail-sub">34-48 · Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">30.5%</div>
+        <div class="detail-sub">Best match: Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">71.7%</div>
+        <div class="detail-sub">43-17 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#4ade80;">+41.2pp</div>
+        <div class="detail-sub">Overperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">34.1% – 70.8%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Lost in Finals</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Washington Wizards (2000-01 / 2001-02 / 2002-03) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">30.5%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Missed playoffs</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Phoenix Suns (2017-18 / 2018-19 / 2019-20) → 70.8%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Atlanta Hawks (2000-01 / 2001-02 / 2002-03) → 34.1%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Toronto Raptors</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">58.3%</b>
+        (35-25)
+        &nbsp;·&nbsp; <span style="color:#4ade80;">+20.5pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-f" style="font-size:1.1rem;">F</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">Way Off</span>
+      &nbsp; <span style="color:#f87171;font-size:0.7rem;">✗ Direction wrong</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">37.8%</div>
+        <div class="detail-sub">30-52 · Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">20.7%</div>
+        <div class="detail-sub">Best match: Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">58.3%</div>
+        <div class="detail-sub">35-25 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#4ade80;">+37.6pp</div>
+        <div class="detail-sub">Overperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">25.6% – 50.0%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Missed playoffs</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Denver Nuggets (1999-00 / 2000-01 / 2001-02) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">20.7%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Missed playoffs</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Utah Jazz (2002-03 / 2003-04 / 2004-05) → 50.0%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Brooklyn Nets (2012-13 / 2013-14 / 2014-15) → 25.6%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Dallas Mavericks</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">35.0%</b>
+        (21-39)
+        &nbsp;·&nbsp; <span style="color:#f87171;">-17.0pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-c" style="font-size:1.1rem;">C</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">Reasonable</span>
+      &nbsp; <span style="color:#f87171;font-size:0.7rem;">✗ Direction wrong</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">52.0%</div>
+        <div class="detail-sub">39-43 · First Round Exit</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">62.0%</div>
+        <div class="detail-sub">Best match: First round exit</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">35.0%</div>
+        <div class="detail-sub">21-39 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#f87171;">-27.0pp</div>
+        <div class="detail-sub">Underperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">26.8% – 51.2%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: First round exit</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Houston Rockets (1995-96 / 1996-97 / 1997-98) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">62.0%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">First round exit</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Los Angeles Lakers (2003-04 / 2004-05 / 2005-06) → 51.2%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Minnesota Timberwolves (2004-05 / 2005-06 / 2006-07) → 26.8%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Charlotte Hornets</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">49.2%</b>
+        (30-31)
+        &nbsp;·&nbsp; <span style="color:#4ade80;">+22.7pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-f" style="font-size:1.1rem;">F</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">Way Off</span>
+      &nbsp; <span style="color:#f87171;font-size:0.7rem;">✗ Direction wrong</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">26.5%</div>
+        <div class="detail-sub">19-63 · Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">23.2%</div>
+        <div class="detail-sub">Best match: Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">49.2%</div>
+        <div class="detail-sub">30-31 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#4ade80;">+26.0pp</div>
+        <div class="detail-sub">Overperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">20.7% – 46.6%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Missed playoffs</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Phoenix Suns (2015-16 / 2016-17 / 2017-18) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">23.2%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Missed playoffs</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Same as best match → 46.6%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Detroit Pistons (2019-20 / 2020-21 / 2021-22) → 20.7%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Philadelphia 76ers</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">55.0%</b>
+        (33-27)
+        &nbsp;·&nbsp; <span style="color:#4ade80;">+6.8pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-c" style="font-size:1.1rem;">C</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">Reasonable</span>
+      &nbsp; <span style="color:#f87171;font-size:0.7rem;">✗ Direction wrong</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">48.2%</div>
+        <div class="detail-sub">24-58 · Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">29.3%</div>
+        <div class="detail-sub">Best match: Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">55.0%</div>
+        <div class="detail-sub">33-27 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#4ade80;">+25.7pp</div>
+        <div class="detail-sub">Overperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">18.3% – 64.6%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Won Championship ★</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Oklahoma City Thunder (2018-19 / 2019-20 / 2020-21) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">29.3%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Missed playoffs</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Golden State Warriors (2018-19 / 2019-20 / 2020-21) → 64.6%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Chicago Bulls (1997-98 / 1998-99 / 1999-00) → 18.3%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Golden State Warriors</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">51.7%</b>
+        (31-29)
+        &nbsp;·&nbsp; <span style="color:#f87171;">-4.8pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-c" style="font-size:1.1rem;">C</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">Reasonable</span>
+      &nbsp; <span style="color:#4ade80;font-size:0.7rem;">✓ Direction correct</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">56.5%</div>
+        <div class="detail-sub">48-34 · Conf. Semis Exit</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">29.3%</div>
+        <div class="detail-sub">Best match: Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">51.7%</div>
+        <div class="detail-sub">31-29 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#4ade80;">+22.4pp</div>
+        <div class="detail-sub">Overperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">26.8% – 70.0%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Conf. Finals</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Toronto Raptors (1999-00 / 2000-01 / 2001-02) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">29.3%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Missed playoffs</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Portland Trail Blazers (1995-96 / 1996-97 / 1997-98) → 70.0%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Memphis Grizzlies (2003-04 / 2004-05 / 2005-06) → 26.8%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Miami Heat</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">52.5%</b>
+        (32-29)
+        &nbsp;·&nbsp; <span style="color:#4ade80;">+1.4pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-c" style="font-size:1.1rem;">C</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">Reasonable</span>
+      &nbsp; <span style="color:#f87171;font-size:0.7rem;">✗ Direction wrong</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">51.1%</div>
+        <div class="detail-sub">37-45 · First Round Exit</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">32.9%</div>
+        <div class="detail-sub">Best match: Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">52.5%</div>
+        <div class="detail-sub">32-29 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#4ade80;">+19.6pp</div>
+        <div class="detail-sub">Overperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">10.6% – 60.3%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Lost in Finals</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Chicago Bulls (2014-15 / 2015-16 / 2016-17) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">32.9%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Missed playoffs</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Miami Heat (2016-17 / 2017-18 / 2018-19) → 60.3%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Charlotte Bobcats (2008-09 / 2009-10 / 2010-11) → 10.6%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Memphis Grizzlies</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">39.0%</b>
+        (23-36)
+        &nbsp;·&nbsp; <span style="color:#f87171;">-11.5pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-c" style="font-size:1.1rem;">C</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">Reasonable</span>
+      &nbsp; <span style="color:#f87171;font-size:0.7rem;">✗ Direction wrong</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">50.5%</div>
+        <div class="detail-sub">48-34 · First Round Exit</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">58.5%</div>
+        <div class="detail-sub">Best match: Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">39.0%</div>
+        <div class="detail-sub">23-36 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#f87171;">-19.5pp</div>
+        <div class="detail-sub">Underperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">26.8% – 60.3%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Lost in Finals</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Indiana Pacers (2015-16 / 2016-17 / 2017-18) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">58.5%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Missed playoffs</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Miami Heat (2016-17 / 2017-18 / 2018-19) → 60.3%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Memphis Grizzlies (2014-15 / 2015-16 / 2016-17) → 26.8%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Milwaukee Bucks</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">43.3%</b>
+        (26-34)
+        &nbsp;·&nbsp; <span style="color:#f87171;">-18.7pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-c" style="font-size:1.1rem;">C</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">Reasonable</span>
+      &nbsp; <span style="color:#f87171;font-size:0.7rem;">✗ Direction wrong</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">62.0%</div>
+        <div class="detail-sub">48-34 · First Round Exit</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">62.2%</div>
+        <div class="detail-sub">Best match: First round exit</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">43.3%</div>
+        <div class="detail-sub">26-34 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#f87171;">-18.9pp</div>
+        <div class="detail-sub">Underperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">23.2% – 64.6%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Won Championship ★</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Minnesota Timberwolves (1999-00 / 2000-01 / 2001-02) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">62.2%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">First round exit</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Denver Nuggets (2019-20 / 2020-21 / 2021-22) → 64.6%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Cleveland Cavaliers (2015-16 / 2016-17 / 2017-18) → 23.2%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Brooklyn Nets</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">25.0%</b>
+        (15-45)
+        &nbsp;·&nbsp; <span style="color:#f87171;">-15.1pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-d" style="font-size:1.1rem;">D</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">Off</span>
+      &nbsp; <span style="color:#f87171;font-size:0.7rem;">✗ Direction wrong</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">40.1%</div>
+        <div class="detail-sub">26-56 · Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">42.0%</div>
+        <div class="detail-sub">Best match: Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">25.0%</div>
+        <div class="detail-sub">15-45 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#f87171;">-17.0pp</div>
+        <div class="detail-sub">Underperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">28.0% – 46.0%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Missed playoffs</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Golden State Warriors (1995-96 / 1996-97 / 1997-98) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">42.0%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Missed playoffs</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Toronto Raptors (1995-96 / 1996-97 / 1997-98) → 46.0%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Detroit Pistons (2018-19 / 2019-20 / 2020-21) → 28.0%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Houston Rockets</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">63.3%</b>
+        (38-22)
+        &nbsp;·&nbsp; <span style="color:#4ade80;">+13.7pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-c" style="font-size:1.1rem;">C</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">Reasonable</span>
+      &nbsp; <span style="color:#4ade80;font-size:0.7rem;">✓ Direction correct</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">49.6%</div>
+        <div class="detail-sub">52-30 · First Round Exit</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">78.0%</div>
+        <div class="detail-sub">Best match: Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">63.3%</div>
+        <div class="detail-sub">38-22 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#f87171;">-14.7pp</div>
+        <div class="detail-sub">Underperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">42.7% – 64.6%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Conf. Finals</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Phoenix Suns (2018-19 / 2019-20 / 2020-21) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">78.0%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Missed playoffs</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Boston Celtics (2013-14 / 2014-15 / 2015-16) → 64.6%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Milwaukee Bucks (2007-08 / 2008-09 / 2009-10) → 42.7%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Oklahoma City Thunder</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">75.8%</b>
+        (47-15)
+        &nbsp;·&nbsp; <span style="color:#4ade80;">+6.1pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-b" style="font-size:1.1rem;">B</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">In Range</span>
+      &nbsp; <span style="color:#f87171;font-size:0.7rem;">✗ Direction wrong</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">69.7%</div>
+        <div class="detail-sub">68-14 · Champion</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">63.9%</div>
+        <div class="detail-sub">Best match: Won Championship ★</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">75.8%</div>
+        <div class="detail-sub">47-15 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#4ade80;">+11.9pp</div>
+        <div class="detail-sub">Overperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">63.4% – 81.7%</div>
+        <div class="detail-sub">Pes path: First round exit &nbsp;·&nbsp; Opt path: Won Championship ★</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Milwaukee Bucks (2017-18 / 2018-19 / 2019-20) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">63.9%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Won Championship ★</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Golden State Warriors (2013-14 / 2014-15 / 2015-16) → 81.7%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Orlando Magic (2007-08 / 2008-09 / 2009-10) → 63.4%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Portland Trail Blazers</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">46.8%</b>
+        (29-33)
+        &nbsp;·&nbsp; <span style="color:#4ade80;">+10.2pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-b" style="font-size:1.1rem;">B</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">In Range</span>
+      &nbsp; <span style="color:#4ade80;font-size:0.7rem;">✓ Direction correct</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">36.6%</div>
+        <div class="detail-sub">36-46 · Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">57.3%</div>
+        <div class="detail-sub">Best match: First round exit</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">46.8%</div>
+        <div class="detail-sub">29-33 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#f87171;">-10.5pp</div>
+        <div class="detail-sub">Underperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">20.7% – 48.8%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Missed playoffs</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Chicago Bulls (2001-02 / 2002-03 / 2003-04) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">57.3%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">First round exit</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Memphis Grizzlies (2006-07 / 2007-08 / 2008-09) → 48.8%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Detroit Pistons (2019-20 / 2020-21 / 2021-22) → 20.7%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Sacramento Kings</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">22.6%</b>
+        (14-48)
+        &nbsp;·&nbsp; <span style="color:#f87171;">-31.2pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-c" style="font-size:1.1rem;">C</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">Reasonable</span>
+      &nbsp; <span style="color:#4ade80;font-size:0.7rem;">✓ Direction correct</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">53.8%</div>
+        <div class="detail-sub">40-42 · Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">32.9%</div>
+        <div class="detail-sub">Best match: Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">22.6%</div>
+        <div class="detail-sub">14-48 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#f87171;">-10.3pp</div>
+        <div class="detail-sub">Underperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">32.9% – 51.2%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Conf. Semis</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Portland Trail Blazers (2018-19 / 2019-20 / 2020-21) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">32.9%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Missed playoffs</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Milwaukee Bucks (1999-00 / 2000-01 / 2001-02) → 51.2%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Same as best match → 32.9%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Minnesota Timberwolves</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">62.3%</b>
+        (38-23)
+        &nbsp;·&nbsp; <span style="color:#4ade80;">+1.7pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-b" style="font-size:1.1rem;">B</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">In Range</span>
+      &nbsp; <span style="color:#4ade80;font-size:0.7rem;">✓ Direction correct</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">60.6%</div>
+        <div class="detail-sub">49-33 · Conf. Finals Exit</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">72.0%</div>
+        <div class="detail-sub">Best match: Conf. Finals</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">62.3%</div>
+        <div class="detail-sub">38-23 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#f87171;">-9.7pp</div>
+        <div class="detail-sub">Underperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">52.4% – 65.9%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Lost in Finals</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Portland Trail Blazers (1996-97 / 1997-98 / 1998-99) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">72.0%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Conf. Finals</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Detroit Pistons (2001-02 / 2002-03 / 2003-04) → 65.9%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Atlanta Hawks (2013-14 / 2014-15 / 2015-16) → 52.4%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Atlanta Hawks</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">50.0%</b>
+        (31-31)
+        &nbsp;·&nbsp; <span style="color:#4ade80;">+2.6pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-b" style="font-size:1.1rem;">B</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">In Range</span>
+      &nbsp; <span style="color:#f87171;font-size:0.7rem;">✗ Direction wrong</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">47.4%</div>
+        <div class="detail-sub">40-42 · Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">41.5%</div>
+        <div class="detail-sub">Best match: Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">50.0%</div>
+        <div class="detail-sub">31-31 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#4ade80;">+8.5pp</div>
+        <div class="detail-sub">Overperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">26.8% – 54.9%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: First round exit</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: San Antonio Spurs (2018-19 / 2019-20 / 2020-21) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">41.5%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Missed playoffs</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Houston Rockets (1997-98 / 1998-99 / 1999-00) → 54.9%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Same as best match → 26.8%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">New York Knicks</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">63.9%</b>
+        (39-22)
+        &nbsp;·&nbsp; <span style="color:#4ade80;">+3.4pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-b" style="font-size:1.1rem;">B</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">In Range</span>
+      &nbsp; <span style="color:#4ade80;font-size:0.7rem;">✓ Direction correct</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">60.5%</div>
+        <div class="detail-sub">51-31 · Conf. Finals Exit</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">72.0%</div>
+        <div class="detail-sub">Best match: First round exit</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">63.9%</div>
+        <div class="detail-sub">39-22 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#f87171;">-8.1pp</div>
+        <div class="detail-sub">Underperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">50.0% – 70.7%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Won Championship ★</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Toronto Raptors (2014-15 / 2015-16 / 2016-17) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">72.0%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">First round exit</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Same as best match → 70.7%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Portland Trail Blazers (2000-01 / 2001-02 / 2002-03) → 50.0%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Chicago Bulls</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">41.0%</b>
+        (25-36)
+        &nbsp;·&nbsp; <span style="color:#f87171;">-6.9pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-b" style="font-size:1.1rem;">B</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">In Range</span>
+      &nbsp; <span style="color:#f87171;font-size:0.7rem;">✗ Direction wrong</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">47.9%</div>
+        <div class="detail-sub">39-43 · Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">48.8%</div>
+        <div class="detail-sub">Best match: First round exit</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">41.0%</div>
+        <div class="detail-sub">25-36 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#f87171;">-7.8pp</div>
+        <div class="detail-sub">Underperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">10.6% – 63.4%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Lost in Finals</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Philadelphia 76ers (2004-05 / 2005-06 / 2006-07) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">48.8%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">First round exit</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">New Jersey Nets (1998-99 / 1999-00 / 2000-01) → 63.4%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Charlotte Bobcats (2008-09 / 2009-10 / 2010-11) → 10.6%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Washington Wizards</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">26.7%</b>
+        (16-44)
+        &nbsp;·&nbsp; <span style="color:#6b7280;">≈ flat vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-a" style="font-size:1.1rem;">A</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">On Target</span>
+      &nbsp; <span style="color:#4ade80;font-size:0.7rem;">✓ Direction correct</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">25.9%</div>
+        <div class="detail-sub">18-64 · Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">31.7%</div>
+        <div class="detail-sub">Best match: Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">26.7%</div>
+        <div class="detail-sub">16-44 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#f87171;">-5.0pp</div>
+        <div class="detail-sub">Underperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">12.2% – 48.8%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Missed playoffs</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Atlanta Hawks (2002-03 / 2003-04 / 2004-05) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">31.7%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Missed playoffs</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Oklahoma City Thunder (2019-20 / 2020-21 / 2021-22) → 48.8%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Philadelphia 76ers (2012-13 / 2013-14 / 2014-15) → 12.2%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">New Orleans Pelicans</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">30.6%</b>
+        (19-43)
+        &nbsp;·&nbsp; <span style="color:#f87171;">-13.4pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-a" style="font-size:1.1rem;">A</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">On Target</span>
+      &nbsp; <span style="color:#4ade80;font-size:0.7rem;">✓ Direction correct</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">44.0%</div>
+        <div class="detail-sub">21-61 · Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">35.4%</div>
+        <div class="detail-sub">Best match: Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">30.6%</div>
+        <div class="detail-sub">19-43 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#f87171;">-4.8pp</div>
+        <div class="detail-sub">Underperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">29.3% – 51.2%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Conf. Semis</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Atlanta Hawks (2015-16 / 2016-17 / 2017-18) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">35.4%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Missed playoffs</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Miami Heat (2000-01 / 2001-02 / 2002-03) → 51.2%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Phoenix Suns (2013-14 / 2014-15 / 2015-16) → 29.3%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Phoenix Suns</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">56.7%</b>
+        (34-26)
+        &nbsp;·&nbsp; <span style="color:#4ade80;">+4.5pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-a" style="font-size:1.1rem;">A</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">On Target</span>
+      &nbsp; <span style="color:#4ade80;font-size:0.7rem;">✓ Direction correct</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">52.2%</div>
+        <div class="detail-sub">36-46 · Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">52.4%</div>
+        <div class="detail-sub">Best match: Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">56.7%</div>
+        <div class="detail-sub">34-26 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#4ade80;">+4.3pp</div>
+        <div class="detail-sub">Overperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">32.9% – 75.6%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Conf. Finals</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Utah Jazz (2009-10 / 2010-11 / 2011-12) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">52.4%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Missed playoffs</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Phoenix Suns (2001-02 / 2002-03 / 2003-04) → 75.6%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Portland Trail Blazers (2001-02 / 2002-03 / 2003-04) → 32.9%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Boston Celtics</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">67.2%</b>
+        (41-20)
+        &nbsp;·&nbsp; <span style="color:#f87171;">-7.3pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-a" style="font-size:1.1rem;">A</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">On Target</span>
+      &nbsp; <span style="color:#4ade80;font-size:0.7rem;">✓ Direction correct</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">74.5%</div>
+        <div class="detail-sub">61-21 · Conf. Semis Exit</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">70.7%</div>
+        <div class="detail-sub">Best match: Won Championship ★</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">67.2%</div>
+        <div class="detail-sub">41-20 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#f87171;">-3.5pp</div>
+        <div class="detail-sub">Underperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">56.1% – 70.7%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Won Championship ★</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: San Antonio Spurs (2003-04 / 2004-05 / 2005-06) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">70.7%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Won Championship ★</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Same as best match → 70.7%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Orlando Magic (2008-09 / 2009-10 / 2010-11) → 56.1%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Los Angeles Lakers</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">60.0%</b>
+        (36-24)
+        &nbsp;·&nbsp; <span style="color:#4ade80;">+2.4pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-a" style="font-size:1.1rem;">A</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">On Target</span>
+      &nbsp; <span style="color:#f87171;font-size:0.7rem;">✗ Direction wrong</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">57.6%</div>
+        <div class="detail-sub">50-32 · Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">57.3%</div>
+        <div class="detail-sub">Best match: Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">60.0%</div>
+        <div class="detail-sub">36-24 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#4ade80;">+2.7pp</div>
+        <div class="detail-sub">Overperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">42.7% – 81.7%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Won Championship ★</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Minnesota Timberwolves (1997-98 / 1998-99 / 1999-00) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">57.3%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Missed playoffs</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Los Angeles Lakers (1996-97 / 1997-98 / 1998-99) → 81.7%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Washington Wizards (2018-19 / 2019-20 / 2020-21) → 42.7%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Orlando Magic</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">52.5%</b>
+        (31-28)
+        &nbsp;·&nbsp; <span style="color:#4ade80;">+2.1pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-a" style="font-size:1.1rem;">A</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">On Target</span>
+      &nbsp; <span style="color:#f87171;font-size:0.7rem;">✗ Direction wrong</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">50.4%</div>
+        <div class="detail-sub">41-41 · First Round Exit</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">50.0%</div>
+        <div class="detail-sub">Best match: Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">52.5%</div>
+        <div class="detail-sub">31-28 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#4ade80;">+2.5pp</div>
+        <div class="detail-sub">Overperforming</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">41.5% – 57.3%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Conf. Semis</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Orlando Magic (1996-97 / 1997-98 / 1998-99) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">50.0%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Missed playoffs</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">New York Knicks (2019-20 / 2020-21 / 2021-22) → 57.3%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Charlotte Bobcats (2007-08 / 2008-09 / 2009-10) → 41.5%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Denver Nuggets</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">60.7%</b>
+        (37-24)
+        &nbsp;·&nbsp; <span style="color:#f87171;">-4.2pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-a" style="font-size:1.1rem;">A</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">On Target</span>
+      &nbsp; <span style="color:#4ade80;font-size:0.7rem;">✓ Direction correct</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">64.9%</div>
+        <div class="detail-sub">50-32 · Conf. Semis Exit</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">62.2%</div>
+        <div class="detail-sub">Best match: First round exit</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">60.7%</div>
+        <div class="detail-sub">37-24 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#6b7280;">-1.5pp</div>
+        <div class="detail-sub">On track</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">40.2% – 64.6%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Won Championship ★</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Minnesota Timberwolves (1999-00 / 2000-01 / 2001-02) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">62.2%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">First round exit</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Denver Nuggets (2019-20 / 2020-21 / 2021-22) → 64.6%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Same as best match → 40.2%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Utah Jazz</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">30.0%</b>
+        (18-42)
+        &nbsp;·&nbsp; <span style="color:#f87171;">-2.8pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-a" style="font-size:1.1rem;">A</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">On Target</span>
+      &nbsp; <span style="color:#4ade80;font-size:0.7rem;">✓ Direction correct</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">32.8%</div>
+        <div class="detail-sub">17-65 · Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">30.5%</div>
+        <div class="detail-sub">Best match: Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">30.0%</div>
+        <div class="detail-sub">18-42 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#6b7280;">-0.5pp</div>
+        <div class="detail-sub">On track</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">18.0% – 41.5%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: Missed playoffs</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Sacramento Kings (2006-07 / 2007-08 / 2008-09) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">30.5%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Missed playoffs</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Milwaukee Bucks (2005-06 / 2006-07 / 2007-08) → 41.5%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Los Angeles Clippers (1995-96 / 1996-97 / 1997-98) → 18.0%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">Cleveland Cavaliers</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">61.3%</b>
+        (38-24)
+        &nbsp;·&nbsp; <span style="color:#f87171;">-6.0pp vs 2024-25</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-a" style="font-size:1.1rem;">A</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">On Target</span>
+      &nbsp; <span style="color:#4ade80;font-size:0.7rem;">✓ Direction correct</span>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">67.3%</div>
+        <div class="detail-sub">64-18 · Conf. Semis Exit</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">61.0%</div>
+        <div class="detail-sub">Best match: First round exit</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">61.3%</div>
+        <div class="detail-sub">38-24 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#6b7280;">+0.3pp</div>
+        <div class="detail-sub">On track</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">59.8% – 70.7%</div>
+        <div class="detail-sub">Pes path: First round exit &nbsp;·&nbsp; Opt path: Won Championship ★</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Portland Trail Blazers (1997-98 / 1998-99 / 1999-00) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">61.0%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">First round exit</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Toronto Raptors (2015-16 / 2016-17 / 2017-18) → 70.7%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Utah Jazz (2018-19 / 2019-20 / 2020-21) → 59.8%</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="team-detail">
+  <div class="team-detail-hdr">
+    <div>
+      <span class="detail-team-name">LA Clippers</span>
+      <span style="color:#4b5563;font-size:0.75rem;margin-left:10px;">
+        2025-26: <b style="color:#d1d5db;">nan%</b>
+        (0-0)
+        &nbsp;·&nbsp; <span style="color:#4b5563;">N/A</span>
+      </span>
+    </div>
+    <div>
+      <span class="detail-grade-badge grade-na" style="font-size:1.1rem;">N/A</span>
+      <span style="font-size:0.7rem;color:#4b5563;margin-left:8px;">No data</span>
+      &nbsp; 
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-row">
+      <div>
+        <div class="detail-lbl">2024-25 Win%</div>
+        <div class="detail-val">59.6%</div>
+        <div class="detail-sub">50-32 · Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted 2025-26</div>
+        <div class="detail-val">52.4%</div>
+        <div class="detail-sub">Best match: Missed playoffs</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Actual 2025-26</div>
+        <div class="detail-val">nan%</div>
+        <div class="detail-sub">0-0 · ~60 GP</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Error vs Prediction</div>
+        <div class="detail-val" style="color:#6b7280;">—</div>
+        <div class="detail-sub">On track</div>
+      </div>
+      <div>
+        <div class="detail-lbl">Predicted Range</div>
+        <div class="detail-val">52.4% – 72.0%</div>
+        <div class="detail-sub">Pes path: Missed playoffs &nbsp;·&nbsp; Opt path: First round exit</div>
+      </div>
+    </div>
+    <div class="match-mini">
+      <div class="match-mini-top">&#9670; Best historical match: Atlanta Hawks (2013-14 / 2014-15 / 2015-16) &nbsp; Similarity 100/100</div>
+      <div class="match-mini-row">
+        <div><div class="mrow-lbl">Their Year 4 win%</div><div class="mrow-val">52.4%</div></div>
+        <div><div class="mrow-lbl">Their playoff result</div><div class="mrow-val">Missed playoffs</div></div>
+        <div><div class="mrow-lbl">Optimistic path</div><div class="mrow-val">Toronto Raptors (2014-15 / 2015-16 / 2016-17) → 72.0%</div></div>
+        <div><div class="mrow-lbl">Pessimistic path</div><div class="mrow-val">Same as best match → 52.4%</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
