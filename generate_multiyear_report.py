@@ -434,6 +434,10 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
 .card-team { font-size:0.98rem; font-weight:700; color:#c7d2fe; margin-bottom:1px; }
 .card-era  { font-size:0.72rem; color:#4b5563; margin-bottom:4px; }
+.card-nrtg { font-size:0.70rem; font-weight:600; margin-left:6px; }
+.card-nrtg-pos { color:#4ade80; }
+.card-nrtg-neg { color:#f87171; }
+.card-nrtg-neu { color:#94a3b8; }
 .card-player { font-size:0.76rem; color:#6b7280; margin-bottom:2px; }
 .card-players { font-size:0.71rem; color:#6b7280; margin-bottom:6px; line-height:1.5; }
 .card-winpct { font-size:0.76rem; color:#94a3b8; margin-bottom:9px; }
@@ -594,6 +598,15 @@ def render_match_card(m, rank_label, rank_cls, card_cls='',
     # Era label from anchor season (Year 3)
     era = era_str(anchor) if anchor else era_str(m_seas)
 
+    # Net Rtg badge (3-year avg for the match window)
+    raw_nrtg = _safe_float(m.get('match_avg_net_rating', None))
+    if raw_nrtg is not None and not (raw_nrtg != raw_nrtg):  # not NaN
+        sign = '+' if raw_nrtg >= 0 else ''
+        nrtg_cls = 'card-nrtg-pos' if raw_nrtg > 0.5 else ('card-nrtg-neg' if raw_nrtg < -0.5 else 'card-nrtg-neu')
+        nrtg_html = f'<span class="card-nrtg {nrtg_cls}">NRtg {sign}{raw_nrtg:.1f}</span>'
+    else:
+        nrtg_html = ''
+
     # Top-5 players (from match_top_5_players; fall back to top_player)
     top5_raw = m.get('match_top_5_players', '') or ''
     if top5_raw and str(top5_raw) != 'nan':
@@ -698,7 +711,7 @@ def render_match_card(m, rank_label, rank_cls, card_cls='',
       <span class="card-sim">{sim_badge}</span>
     </div>
     <div class="card-team">{m_team}</div>
-    <div class="card-era">{era}</div>
+    <div class="card-era">{era}{nrtg_html}</div>
     {players_html}
     <div class="card-divider"></div>
     <div class="card-out-lbl">3-year arc</div>
