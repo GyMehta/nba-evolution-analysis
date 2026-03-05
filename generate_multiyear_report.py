@@ -580,7 +580,7 @@ def render_match_card(m, rank_label, rank_cls, card_cls='',
                       player_tier_lkp=None,
                       ortg_rank=None, drtg_rank=None,
                       window_arc=None,
-                      yr4_season=None, yr4_win_pct=None,
+                      yr4_season=None, yr4_win_pct=None, yr4_net_rating=None,
                       yr4_playoff_round=None, yr4_playoff_label=None,
                       yr3_events=None, yr4_events=None):
     """Return HTML for a single compact match card.
@@ -678,10 +678,17 @@ def render_match_card(m, rank_label, rank_cls, card_cls='',
         yr4_wp_str = fmt_pct(yr4_win_pct)
         yr4_po_lbl = yr4_playoff_label or ROUND_LABELS.get(yr4_playoff_round, '—')
         yr4_po_css = _playoff_css(yr4_playoff_round)
+        if yr4_net_rating is not None and not (yr4_net_rating != yr4_net_rating):
+            sign = '+' if yr4_net_rating >= 0 else ''
+            nr4_cls = 'card-nrtg-pos' if yr4_net_rating > 0.5 else ('card-nrtg-neg' if yr4_net_rating < -0.5 else 'card-nrtg-neu')
+            yr4_nrtg_html = f'<span class="card-nrtg {nr4_cls}">{sign}{yr4_net_rating:.1f}</span>'
+        else:
+            yr4_nrtg_html = ''
         yr4_row = (
             f'<div class="card-yr-row">'
             f'<span class="yr-sea-lbl">{yr4_sea_lbl}</span>'
             f'<span class="yr-wp">{yr4_wp_str}</span>'
+            f'{yr4_nrtg_html}'
             f'<span class="yr-sep">&middot;</span>'
             f'<span class="yr-po {yr4_po_css}">{yr4_po_lbl}</span>'
             f'</div>'
@@ -742,13 +749,20 @@ def main():
         return
 
     # Playoff lookup: (Team, SEASON) -> (playoff_round_int, round_label_str)
+    # Dual-entry for known name changes so either variant resolves correctly.
+    _PLAYOFF_NAME_ALIASES = {
+        'Los Angeles Clippers': 'LA Clippers',
+        'LA Clippers':          'Los Angeles Clippers',
+    }
     playoff_lkp = {}
     try:
         po_df = pd.read_csv('nba_playoff_history.csv')
         for _, row in po_df.iterrows():
-            playoff_lkp[(row['Team'], row['SEASON'])] = (
-                int(row['playoff_round']), str(row['round_label'])
-            )
+            val = (int(row['playoff_round']), str(row['round_label']))
+            playoff_lkp[(row['Team'], row['SEASON'])] = val
+            alt = _PLAYOFF_NAME_ALIASES.get(row['Team'])
+            if alt:
+                playoff_lkp[(alt, row['SEASON'])] = val
     except FileNotFoundError:
         pass
 
@@ -1323,6 +1337,10 @@ def main():
                 elif yr4_wp is not None:
                     yr4_pr, yr4_pl = 0, 'Missed playoffs'
 
+            # Year 4 net rating from profile
+            yr4_prof = profile_by_key.get((mt, yr4_sea)) if yr4_sea else None
+            yr4_nr = _safe_float(yr4_prof.get('net_rating')) if yr4_prof is not None else None
+
             # ── Events split by year ──
             yr3_evts, yr4_evts = get_card_events_split(mt, anc)
 
@@ -1331,6 +1349,7 @@ def main():
                 ortg_rank=yr3_o, drtg_rank=yr3_d,
                 yr4_season=yr4_sea,
                 yr4_win_pct=yr4_wp,
+                yr4_net_rating=yr4_nr,
                 yr4_playoff_round=yr4_pr, yr4_playoff_label=yr4_pl,
                 yr3_events=yr3_evts, yr4_events=yr4_evts,
             )

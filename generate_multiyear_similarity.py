@@ -566,17 +566,18 @@ def main():
             next_1yr_pr = _next_pr(1)
             next_2yr_pr = _next_pr(2)
 
-            # Success score: playoff achievement weighted heavily over win%
-            # Champion (5) + 0.7 win% = 3.2, always beats conf finalist at 0.65% (~2.65)
-            def _success(wp, pr):
-                if pr is None:
-                    return float('nan')
-                return float(pr) * 0.5 + float(wp)
-
-            succ1 = _success(next_1yr_wp, next_1yr_pr) if not np.isnan(next_1yr_wp) else float('nan')
-            succ2 = _success(next_2yr_wp, next_2yr_pr) if not np.isnan(next_2yr_wp) else float('nan')
-            s_vals = [v for v in [succ1, succ2] if not np.isnan(v)]
-            next_avg_success = float(np.mean(s_vals)) if s_vals else float('nan')
+            # Success score for optimistic/pessimistic selection.
+            # Uses Year 3 (anchor year) playoff round + Year 4 (next season) outcome.
+            # Year 3 playoff depth already tells us if this was a peaking team;
+            # Year 4 tells us if they sustained or declined immediately after.
+            yr3_pr = playoff_lookup.get((team, s2), 0)
+            if not np.isnan(next_1yr_wp) and next_1yr_pr is not None:
+                next_avg_success = float(yr3_pr) * 0.5 + float(next_1yr_pr) * 0.5 + float(next_1yr_wp)
+            elif not np.isnan(next_1yr_wp):
+                next_avg_success = float(yr3_pr) * 0.5 + float(next_1yr_wp)
+            else:
+                # No Year 4 data — fall back to Year 3 playoff round only
+                next_avg_success = float(yr3_pr) * 0.5 if yr3_pr else float('nan')
 
             hist_windows.append({
                 'team':            team,
