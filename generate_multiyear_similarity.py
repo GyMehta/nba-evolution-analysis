@@ -620,11 +620,8 @@ def main():
         trend_sims    = np.array(trend_sims)
         combined_sims = np.array(combined_sims)
 
-        # Max-normalize combined score (so best match = 100)
-        if combined_sims.max() > 0:
-            combined_norm = combined_sims / combined_sims.max() * 100
-        else:
-            combined_norm = combined_sims
+        # Absolute similarity score: 100 = perfect match, real matches typically 30–65
+        combined_norm = combined_sims
 
         # Rank by combined score, take top 10 candidates
         top10_idx = np.argsort(combined_norm)[::-1][:10]
