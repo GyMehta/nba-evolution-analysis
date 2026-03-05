@@ -799,17 +799,17 @@ def main():
                     abbr = rr.iloc[0]['TEAM_ABBREVIATION']
                     grp  = ratings[(ratings['SEASON'] == ANCHOR_SEASON) &
                                    (ratings['TEAM_ABBREVIATION'] == abbr)]
-                    # Display order (within top-10 by minutes, 800 min minimum):
-                    #  1. Superstars / Stars        — by minutes desc
-                    #  2. Starters                  — by composite_score desc
-                    #     (puts Brandon Miller above Sion James even if James plays more)
-                    #  3. Role Players / Fringe      — by minutes desc
-                    #     (puts high-minute starters like Dillon Brooks above lower-use players)
+                    # Display order (within top-10 by minutes):
+                    #  1. Superstars / Stars  (≥ 800 min)  — by minutes desc
+                    #  2. Starters            (≥ 1000 min) — by minutes desc
+                    #     1000-min floor removes part-time Starters (e.g. Mitchell Robinson
+                    #     873 min) while keeping full contributors (OG Anunoby 1584 min).
+                    #  3. Role Players / Fringe (≥ 800 min) — by minutes desc
+                    #     Keeps high-minute role players like Dillon Brooks (1530 min).
                     top10 = grp.nlargest(10, 'TOTAL_MIN')
-                    top10 = top10[top10['TOTAL_MIN'] >= 800]
-                    stars_df    = top10[top10['tier'].isin({'Superstar', 'Star'})].sort_values('TOTAL_MIN', ascending=False)
-                    starters_df = top10[top10['tier'] == 'Starter'].sort_values('composite_score', ascending=False)
-                    others_df   = top10[~top10['tier'].isin({'Superstar', 'Star', 'Starter'})].sort_values('TOTAL_MIN', ascending=False)
+                    stars_df    = top10[(top10['tier'].isin({'Superstar', 'Star'}))    & (top10['TOTAL_MIN'] >= 800)].sort_values('TOTAL_MIN', ascending=False)
+                    starters_df = top10[(top10['tier'] == 'Starter')                  & (top10['TOTAL_MIN'] >= 1000)].sort_values('TOTAL_MIN', ascending=False)
+                    others_df   = top10[(~top10['tier'].isin({'Superstar', 'Star', 'Starter'})) & (top10['TOTAL_MIN'] >= 800)].sort_values('TOTAL_MIN', ascending=False)
                     ordered     = pd.concat([stars_df, starters_df, others_df])
                     current_top5_lookup[t26] = ordered.head(5)['PLAYER_NAME'].tolist()
 
