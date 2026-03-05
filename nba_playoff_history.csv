@@ -333,7 +333,7 @@ Golden State Warriors,2017-18,5,Champion
 Cleveland Cavaliers,2017-18,4,Lost in Finals
 Boston Celtics,2017-18,3,Conf. Finals Exit
 Houston Rockets,2017-18,3,Conf. Finals Exit
-Milwaukee Bucks,2017-18,2,Conf. Semis Exit
+Milwaukee Bucks,2017-18,1,First Round Exit
 New Orleans Pelicans,2017-18,2,Conf. Semis Exit
 Philadelphia 76ers,2017-18,2,Conf. Semis Exit
 Utah Jazz,2017-18,2,Conf. Semis Exit
@@ -343,7 +343,7 @@ Minnesota Timberwolves,2017-18,1,First Round Exit
 Oklahoma City Thunder,2017-18,1,First Round Exit
 Portland Trail Blazers,2017-18,1,First Round Exit
 San Antonio Spurs,2017-18,1,First Round Exit
-Toronto Raptors,2017-18,1,First Round Exit
+Toronto Raptors,2017-18,2,Conf. Semis Exit
 Washington Wizards,2017-18,1,First Round Exit
 Toronto Raptors,2018-19,5,Champion
 Golden State Warriors,2018-19,4,Lost in Finals
@@ -356,7 +356,6 @@ Philadelphia 76ers,2018-19,2,Conf. Semis Exit
 Brooklyn Nets,2018-19,1,First Round Exit
 Detroit Pistons,2018-19,1,First Round Exit
 Los Angeles Clippers,2018-19,1,First Round Exit
-Miami Heat,2018-19,1,First Round Exit
 Oklahoma City Thunder,2018-19,1,First Round Exit
 Orlando Magic,2018-19,1,First Round Exit
 San Antonio Spurs,2018-19,1,First Round Exit
@@ -371,7 +370,6 @@ Milwaukee Bucks,2019-20,2,Conf. Semis Exit
 Toronto Raptors,2019-20,2,Conf. Semis Exit
 Brooklyn Nets,2019-20,1,First Round Exit
 Indiana Pacers,2019-20,1,First Round Exit
-Memphis Grizzlies,2019-20,1,First Round Exit
 Oklahoma City Thunder,2019-20,1,First Round Exit
 Orlando Magic,2019-20,1,First Round Exit
 Philadelphia 76ers,2019-20,1,First Round Exit
@@ -386,12 +384,10 @@ Denver Nuggets,2020-21,2,Conf. Semis Exit
 Philadelphia 76ers,2020-21,2,Conf. Semis Exit
 Utah Jazz,2020-21,2,Conf. Semis Exit
 Charlotte Hornets,2020-21,1,First Round Exit
-Indiana Pacers,2020-21,1,First Round Exit
 Los Angeles Lakers,2020-21,1,First Round Exit
 Memphis Grizzlies,2020-21,1,First Round Exit
 Miami Heat,2020-21,1,First Round Exit
 Portland Trail Blazers,2020-21,1,First Round Exit
-San Antonio Spurs,2020-21,1,First Round Exit
 Washington Wizards,2020-21,1,First Round Exit
 Golden State Warriors,2021-22,5,Champion
 Boston Celtics,2021-22,4,Lost in Finals
@@ -417,7 +413,6 @@ Philadelphia 76ers,2022-23,2,Conf. Semis Exit
 Phoenix Suns,2022-23,2,Conf. Semis Exit
 Atlanta Hawks,2022-23,1,First Round Exit
 Brooklyn Nets,2022-23,1,First Round Exit
-Chicago Bulls,2022-23,1,First Round Exit
 Cleveland Cavaliers,2022-23,1,First Round Exit
 Los Angeles Clippers,2022-23,1,First Round Exit
 Memphis Grizzlies,2022-23,1,First Round Exit
@@ -438,7 +433,6 @@ New Orleans Pelicans,2023-24,1,First Round Exit
 Orlando Magic,2023-24,1,First Round Exit
 Philadelphia 76ers,2023-24,1,First Round Exit
 Phoenix Suns,2023-24,1,First Round Exit
-Sacramento Kings,2023-24,1,First Round Exit
 Oklahoma City Thunder,2024-25,5,Champion
 Indiana Pacers,2024-25,4,Lost in Finals
 Minnesota Timberwolves,2024-25,3,Conf. Finals Exit
@@ -447,7 +441,6 @@ Boston Celtics,2024-25,2,Conf. Semis Exit
 Cleveland Cavaliers,2024-25,2,Conf. Semis Exit
 Denver Nuggets,2024-25,2,Conf. Semis Exit
 Golden State Warriors,2024-25,2,Conf. Semis Exit
-Dallas Mavericks,2024-25,1,First Round Exit
 Detroit Pistons,2024-25,1,First Round Exit
 Houston Rockets,2024-25,1,First Round Exit
 Los Angeles Clippers,2024-25,1,First Round Exit
@@ -456,3 +449,11 @@ Miami Heat,2024-25,1,First Round Exit
 Milwaukee Bucks,2024-25,1,First Round Exit
 Orlando Magic,2024-25,1,First Round Exit
 Los Angeles Lakers,2024-25,1,First Round Exit
+Indiana Pacers,2018-19,1,First Round Exit
+Dallas Mavericks,2019-20,1,First Round Exit
+New York Knicks,2020-21,1,First Round Exit
+Dallas Mavericks,2020-21,1,First Round Exit
+Phoenix Suns,2021-22,2,Conf. Semis Exit
+Atlanta Hawks,2021-22,1,First Round Exit
+Milwaukee Bucks,2022-23,1,First Round Exit
+Los Angeles Clippers,2023-24,1,First Round Exit

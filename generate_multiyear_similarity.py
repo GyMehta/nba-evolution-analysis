@@ -230,11 +230,19 @@ def main():
     # -----------------------------------------------------------------------
     # 0. Load playoff data and build top-5 player lookup
     # -----------------------------------------------------------------------
+    _PLAYOFF_NAME_ALIASES = {
+        'Los Angeles Clippers': 'LA Clippers',
+        'LA Clippers':          'Los Angeles Clippers',
+    }
     playoff_lookup = {}   # (team, season) → playoff_round (0=missed, 5=champion)
     try:
         playoff_df = pd.read_csv('nba_playoff_history.csv')
         for _, row in playoff_df.iterrows():
-            playoff_lookup[(row['Team'], row['SEASON'])] = int(row['playoff_round'])
+            val = int(row['playoff_round'])
+            playoff_lookup[(row['Team'], row['SEASON'])] = val
+            alt = _PLAYOFF_NAME_ALIASES.get(row['Team'])
+            if alt:
+                playoff_lookup[(alt, row['SEASON'])] = val
         print(f'Loaded playoff data: {len(playoff_lookup)} team-season entries')
     except FileNotFoundError:
         print('nba_playoff_history.csv not found — run collect_playoff_data.py first')
