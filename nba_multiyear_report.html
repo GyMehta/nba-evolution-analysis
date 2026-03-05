@@ -220,6 +220,35 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     font-size: 0.62rem; font-weight: 600; text-transform: uppercase;
     letter-spacing: .4px; color: #4b5563; margin-top: 7px; margin-bottom: 2px;
 }
+
+/* ── Mobile responsive ── */
+@media (max-width: 640px) {
+    body { padding: 12px 10px; }
+    h1 { font-size: 1.3rem; }
+    .team-name { font-size: 1.1rem; }
+    .team-hdr { flex-wrap: wrap; }
+    .team-dir { font-size: 1.5rem; padding-left: 8px; }
+
+    /* Stack cards vertically on phones */
+    .card-grid,
+    .card-grid-single { grid-template-columns: 1fr; }
+    .match-card { border-right: none; }
+
+    /* Arc row: let cells wrap */
+    .arc-row { flex-wrap: wrap; }
+    .arc-cell { white-space: normal; }
+
+    /* Chart: stack legend below canvas */
+    .chart-wrap { flex-direction: column; }
+    .chart-canvas-area { flex: 0 0 auto; width: 100%; max-width: 280px; margin: 0 auto; }
+}
+
+/* ── Tablet: 2-column grid ── */
+@media (min-width: 641px) and (max-width: 960px) {
+    .card-grid,
+    .card-grid-single { grid-template-columns: repeat(2, 1fr); }
+    .match-card:nth-child(2n) { border-right: none; }
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
