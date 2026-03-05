@@ -62,33 +62,39 @@ else:
 # Level feature weights  (recency-averaged snapshot of the team)
 # ---------------------------------------------------------------------------
 FEATURE_WEIGHTS = {
-    'n_superstars':        2.5,
-    'top_player_score':    1.5,
-    'depth_score':         1.2,
+    # 1. Net rating — overall team quality, most predictive single number
+    'net_rating':          3.0,
+    # 2. Roster quality cascade — composite_score of each player tier
+    'top_player_score':    2.5,   # best player on the team
+    'second_player_score': 2.0,   # second-best player
+    'depth_score':         1.5,   # weighted sum of top-8 composite scores
+    'n_superstars':        1.2,   # how many elite players (top ~5 in league)
+    # 3. Roster upside
     'roster_potential':    1.2,
-    'net_rating':          1.0,
-    'ortg_rank_inv':       0.9,   # offensive efficiency rank (1.0 = best in league)
-    'drtg_rank_inv':       0.9,   # defensive efficiency rank (1.0 = best in league)
-    'second_player_score': 1.0,
+    # 4. Win percentage — actual results
     'win_pct':             0.8,
-    'stars_lost':          0.7,   # star/superstar players lost vs prior season (0=stable, 1=lost one, 2+=major upheaval)
-    'stars_gained':        0.7,   # star/superstar players gained vs prior season
+    # 5. Offensive / defensive efficiency rank (inverted so 1.0 = best in league)
+    'ortg_rank_inv':       0.5,
+    'drtg_rank_inv':       0.5,
+    # Context: roster upheaval
+    'stars_lost':          0.4,   # star/superstar players lost vs prior season
+    'stars_gained':        0.4,   # star/superstar players gained vs prior season
 }
 FEATURE_COLUMNS = list(FEATURE_WEIGHTS.keys())
 
 # ---------------------------------------------------------------------------
 # Trajectory feature weights  (slope = y3 - y1 for each level feature)
-# Kept at ~40% of total signal weight (level total = 11.0, trend total = 7.4)
+# Kept at ~40% of total signal weight (level total = 14.0, trend total = ~6.5)
 # ---------------------------------------------------------------------------
 TREND_WEIGHTS = {
-    'n_superstars':        1.8,   # gaining / losing a superstar is franchise-defining
-    'win_pct':             1.2,   # winning trajectory matters most to fans / narrative
-    'net_rating':          1.0,   # efficiency arc
-    'top_player_score':    0.9,   # is the star improving or declining?
-    'ortg_rank_inv':       0.5,   # offensive rank trend
-    'drtg_rank_inv':       0.5,   # defensive rank trend
-    'depth_score':         0.7,   # getting deeper or thinner?
+    'net_rating':          1.5,   # trajectory of team quality — most important arc
+    'top_player_score':    1.2,   # is the star improving or declining?
+    'win_pct':             1.0,   # winning trajectory
+    'n_superstars':        0.8,   # gaining / losing a superstar
+    'depth_score':         0.6,   # getting deeper or thinner?
     'second_player_score': 0.5,
+    'ortg_rank_inv':       0.4,   # offensive rank trend
+    'drtg_rank_inv':       0.4,   # defensive rank trend
     'roster_potential':    0.3,
 }
 
