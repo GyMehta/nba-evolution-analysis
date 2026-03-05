@@ -799,14 +799,18 @@ def main():
                     abbr = rr.iloc[0]['TEAM_ABBREVIATION']
                     grp  = ratings[(ratings['SEASON'] == ANCHOR_SEASON) &
                                    (ratings['TEAM_ABBREVIATION'] == abbr)]
-                    # Display order: Stars/Superstars first (by minutes within tier),
-                    # then remaining high-minute players to fill up to 5 spots.
-                    # This ensures key stars (e.g. Booker) lead, and high-minute
-                    # starters (e.g. Dillon Brooks) appear even if composite < backup stars.
+                    # Display order (within top-10 by minutes, 800 min minimum):
+                    #  1. Superstars / Stars        — by minutes desc
+                    #  2. Starters                  — by composite_score desc
+                    #     (puts Brandon Miller above Sion James even if James plays more)
+                    #  3. Role Players / Fringe      — by minutes desc
+                    #     (puts high-minute starters like Dillon Brooks above lower-use players)
                     top10 = grp.nlargest(10, 'TOTAL_MIN')
-                    stars_df   = top10[top10['tier'].isin({'Superstar', 'Star'})].sort_values('TOTAL_MIN', ascending=False)
-                    others_df  = top10[~top10['tier'].isin({'Superstar', 'Star'})].sort_values('TOTAL_MIN', ascending=False)
-                    ordered    = pd.concat([stars_df, others_df])
+                    top10 = top10[top10['TOTAL_MIN'] >= 800]
+                    stars_df    = top10[top10['tier'].isin({'Superstar', 'Star'})].sort_values('TOTAL_MIN', ascending=False)
+                    starters_df = top10[top10['tier'] == 'Starter'].sort_values('composite_score', ascending=False)
+                    others_df   = top10[~top10['tier'].isin({'Superstar', 'Star', 'Starter'})].sort_values('TOTAL_MIN', ascending=False)
+                    ordered     = pd.concat([stars_df, starters_df, others_df])
                     current_top5_lookup[t26] = ordered.head(5)['PLAYER_NAME'].tolist()
 
     # Build auto-detected roster change events per team (ANCHOR_SEASON vs PREV_SEASON)
