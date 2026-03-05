@@ -1044,9 +1044,17 @@ def main():
                 else:
                     po_str = '&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span>'
 
-                cell = (f'<span class="arc-cell arc-curr">{season}: {rec} ({wp}){po_str}</span>'
+                nr = _safe_float(r.get('net_rating'))
+                if nr is not None and not (nr != nr):
+                    sign = '+' if nr >= 0 else ''
+                    nr_cls = 'card-nrtg-pos' if nr > 0.5 else ('card-nrtg-neg' if nr < -0.5 else 'card-nrtg-neu')
+                    nrtg_str = f'&nbsp;<span class="card-nrtg {nr_cls}">{sign}{nr:.1f}</span>'
+                else:
+                    nrtg_str = ''
+
+                cell = (f'<span class="arc-cell arc-curr">{season}: {rec} ({wp}){nrtg_str}{po_str}</span>'
                         if is_curr else
-                        f'<span class="arc-cell">{season}: {rec} ({wp}){po_str}</span>')
+                        f'<span class="arc-cell">{season}: {rec} ({wp}){nrtg_str}{po_str}</span>')
             else:
                 cell = f'<span class="arc-cell" style="color:#2d2d2d;">{season}: —</span>'
             arc_parts.append(cell)
