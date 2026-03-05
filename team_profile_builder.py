@@ -46,7 +46,7 @@ TEAM_ID_FALLBACK = {
     1610612744: 'Golden State Warriors',
     1610612745: 'Houston Rockets',
     1610612754: 'Indiana Pacers',
-    1610612746: 'Los Angeles Clippers',
+    1610612746: 'LA Clippers',
     1610612747: 'Los Angeles Lakers',
     1610612763: 'Memphis Grizzlies',
     1610612748: 'Miami Heat',
