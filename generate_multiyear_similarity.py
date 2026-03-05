@@ -442,8 +442,14 @@ def main():
 
         weights_used = [YEAR_WEIGHTS[i] for i, r in enumerate(rows_raw) if r is not None]
 
-        # Level: weighted avg of normalized features
+        # Level: weighted avg of normalized features (kept for reason text)
         level_norm = build_weighted_norm(available_norm, weights_used)
+
+        # Per-year normalized dicts (for year-by-year matching)
+        year_norms = [
+            {col: float(r[col]) for col in FEATURE_COLUMNS} if r is not None else None
+            for r in rows_norm
+        ]
 
         # Trajectory: slope in raw units
         trend_raw = compute_trend(available_raw, weights_used)
@@ -457,6 +463,7 @@ def main():
             'hist_name':         hist_name,
             'seasons_in_window': [CURRENT_SEASONS[i] for i, r in enumerate(rows_raw) if r is not None],
             'level_norm':        level_norm,
+            'year_norms':        year_norms,
             'trend_raw':         trend_raw,
             'trend_norm':        {},          # filled after normalizing across all windows
             'weighted_profile':  {col: sum(r[col]*w for r, w in zip(available_raw, weights_used))
@@ -518,6 +525,11 @@ def main():
                 continue
 
             level_norm = build_weighted_norm([n0, n1, n2], YEAR_WEIGHTS)
+            year_norms_hist = [
+                {col: float(n0[col]) for col in FEATURE_COLUMNS},
+                {col: float(n1[col]) for col in FEATURE_COLUMNS},
+                {col: float(n2[col]) for col in FEATURE_COLUMNS},
+            ]
             trend_raw  = compute_trend([r0, r1, r2], YEAR_WEIGHTS)
 
             total_w = _safe_int(r0.get('W', 0)) + _safe_int(r1.get('W', 0)) + _safe_int(r2.get('W', 0))
@@ -573,6 +585,7 @@ def main():
                 'season_2':        s2,
                 'year_2':          y2,
                 'level_norm':      level_norm,
+                'year_norms':      year_norms_hist,
                 'trend_raw':       trend_raw,
                 'trend_norm':      {},         # filled below
                 'total_W':         total_w,
@@ -624,7 +637,8 @@ def main():
 
     for cw in current_windows:
         team_name  = cw['team']
-        q_level    = cw['level_norm']
+        q_level    = cw['level_norm']   # kept for reason text
+        q_ynorms   = cw['year_norms']   # per-year norms for matching
         q_trend    = cw['trend_norm']
         newest_raw = cw['newest_raw']
 
@@ -634,7 +648,16 @@ def main():
         combined_sims = []
 
         for h in hist_windows:
-            ld = vec_distance(q_level, h['level_norm'], FEATURE_WEIGHTS)
+            # Per-year level distance: Year1↔Year1, Year2↔Year2, Year3↔Year3
+            ld_sq, total_w = 0.0, 0.0
+            for i in range(3):
+                qn = q_ynorms[i]
+                if qn is not None:
+                    d = vec_distance(qn, h['year_norms'][i], FEATURE_WEIGHTS)
+                    ld_sq   += YEAR_WEIGHTS[i] * d ** 2
+                    total_w += YEAR_WEIGHTS[i]
+            ld = np.sqrt(ld_sq / total_w) if total_w > 0 else float('inf')
+
             td = vec_distance(q_trend, h['trend_norm'], TREND_WEIGHTS)
             cd = np.sqrt(ld**2 + td**2)       # combined Euclidean in augmented space
             level_sims   .append(dist_to_sim(ld))
