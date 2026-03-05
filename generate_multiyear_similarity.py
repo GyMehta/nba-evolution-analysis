@@ -164,9 +164,10 @@ def compute_trend(rows_raw, weights_available):
 # ---------------------------------------------------------------------------
 # Tolerance band: features within this Z-score range are treated as identical.
 # Only the excess beyond the band contributes to distance.
-# 0.15 std ≈ ~0.75 NRtg pts, ~0.01 composite score — the "noise floor".
+# 0.25 std ≈ ~1.25 NRtg pts — widened from 0.15 to account for the larger
+# distances produced by per-year comparison (vs single averaged-vector).
 # ---------------------------------------------------------------------------
-FEATURE_TOLERANCE = 0.15
+FEATURE_TOLERANCE = 0.25
 
 
 def vec_distance(q_dict, c_dict, weights):
@@ -186,11 +187,10 @@ def vec_distance(q_dict, c_dict, weights):
 def dist_to_sim(dist):
     """
     Convert banded distance to 0–100.
-    Uses a gentler denominator (÷0.6) so close-but-not-identical teams
-    land in the 70–90 band rather than 50–65.
-    dist=0 → 100,  dist=1 → 63,  dist=2 → 45,  dist=3 → 34.
+    Uses gentler denominator (÷0.40) calibrated for per-year comparison:
+    dist=0 → 100,  dist=1 → 71,  dist=2 → 56,  dist=3 → 45.
     """
-    return 100.0 / (1.0 + 0.6 * dist)
+    return 100.0 / (1.0 + 0.40 * dist)
 
 
 def get_reason(q_norm, m_norm, weights, labels):
