@@ -598,15 +598,6 @@ def render_match_card(m, rank_label, rank_cls, card_cls='',
     # Era label from anchor season (Year 3)
     era = era_str(anchor) if anchor else era_str(m_seas)
 
-    # Net Rtg badge (3-year avg for the match window)
-    raw_nrtg = _safe_float(m.get('match_avg_net_rating', None))
-    if raw_nrtg is not None and not (raw_nrtg != raw_nrtg):  # not NaN
-        sign = '+' if raw_nrtg >= 0 else ''
-        nrtg_cls = 'card-nrtg-pos' if raw_nrtg > 0.5 else ('card-nrtg-neg' if raw_nrtg < -0.5 else 'card-nrtg-neu')
-        nrtg_html = f'<span class="card-nrtg {nrtg_cls}">NRtg {sign}{raw_nrtg:.1f}</span>'
-    else:
-        nrtg_html = ''
-
     # Top-5 players (from match_top_5_players; fall back to top_player)
     top5_raw = m.get('match_top_5_players', '') or ''
     if top5_raw and str(top5_raw) != 'nan':
@@ -645,11 +636,20 @@ def render_match_card(m, rank_label, rank_cls, card_cls='',
                           f'Off&nbsp;#{int(round(ortg_rank))}'
                           f'&nbsp;&middot;&nbsp;Def&nbsp;#{int(round(drtg_rank))}</span>')
 
+        nr = yr.get('net_rating')
+        if nr is not None and not (nr != nr):
+            sign = '+' if nr >= 0 else ''
+            nr_cls = 'card-nrtg-pos' if nr > 0.5 else ('card-nrtg-neg' if nr < -0.5 else 'card-nrtg-neu')
+            nrtg_row_html = f'<span class="card-nrtg {nr_cls}">{sign}{nr:.1f}</span>'
+        else:
+            nrtg_row_html = ''
+
         anchor_cls = ' yr-anchor' if is_anc else ''
         arc_rows_html += (
             f'<div class="card-yr-row{anchor_cls}">'
             f'<span class="yr-sea-lbl">{sea}</span>'
             f'<span class="yr-wp">{wp_str}</span>'
+            f'{nrtg_row_html}'
             f'<span class="yr-sep">&middot;</span>'
             f'<span class="yr-po {po_css}">{po_lbl}</span>'
             f'{rank_extra}'
@@ -711,7 +711,7 @@ def render_match_card(m, rank_label, rank_cls, card_cls='',
       <span class="card-sim">{sim_badge}</span>
     </div>
     <div class="card-team">{m_team}</div>
-    <div class="card-era">{era}{nrtg_html}</div>
+    <div class="card-era">{era}</div>
     {players_html}
     <div class="card-divider"></div>
     <div class="card-out-lbl">3-year arc</div>
@@ -1286,7 +1286,8 @@ def main():
                     pr, pl = playoff_lkp[(mt, sea)]
                 else:
                     pr, pl = 0, 'Missed playoffs'
-                window_arc.append({'season': sea, 'win_pct': wp,
+                nr = _safe_float(prof.get('net_rating')) if prof is not None else None
+                window_arc.append({'season': sea, 'win_pct': wp, 'net_rating': nr,
                                    'playoff_round': pr, 'playoff_label': pl})
 
             # O/D rank from anchor (Year 3) season
