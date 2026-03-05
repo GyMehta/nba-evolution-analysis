@@ -658,16 +658,20 @@ def main():
         # (next_avg_success = playoff_round*0.5 + win_pct for 1-2 seasons after window).
         # This ensures championship > deep playoff run > good regular season > decline.
         # Falls back to win% if future data is unavailable.
-        top10_future = [(hi, hist_windows[hi]['next_avg_success']) for hi in top10_idx
-                        if not np.isnan(hist_windows[hi]['next_avg_success'])]
-        if top10_future:
-            optimistic_h_idx  = max(top10_future, key=lambda x: x[1])[0]
-            pessimistic_h_idx = min(top10_future, key=lambda x: x[1])[0]
+        # Limit optimistic/pessimistic to the 3 most-similar matches so the
+        # "optimistic" comp is always at least as similar as the third-best match.
+        # Using a wider pool risks labelling a low-similarity comp as "optimistic"
+        # because one lucky playoff run inflates its success score.
+        top3_future = [(hi, hist_windows[hi]['next_avg_success']) for hi in top3_idx
+                       if not np.isnan(hist_windows[hi]['next_avg_success'])]
+        if top3_future:
+            optimistic_h_idx  = max(top3_future, key=lambda x: x[1])[0]
+            pessimistic_h_idx = min(top3_future, key=lambda x: x[1])[0]
         else:
             # fallback (e.g. windows near dataset edge with no future data)
-            top10_win_pcts = [(hi, hist_windows[hi]['avg_win_pct']) for hi in top10_idx]
-            optimistic_h_idx  = max(top10_win_pcts, key=lambda x: x[1])[0]
-            pessimistic_h_idx = min(top10_win_pcts, key=lambda x: x[1])[0]
+            top3_win_pcts = [(hi, hist_windows[hi]['avg_win_pct']) for hi in top3_idx]
+            optimistic_h_idx  = max(top3_win_pcts, key=lambda x: x[1])[0]
+            pessimistic_h_idx = min(top3_win_pcts, key=lambda x: x[1])[0]
 
         # Build ordered output: top 3 by similarity, then optimistic, then pessimistic
         output_entries = []

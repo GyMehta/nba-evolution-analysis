@@ -799,11 +799,15 @@ def main():
                     abbr = rr.iloc[0]['TEAM_ABBREVIATION']
                     grp  = ratings[(ratings['SEASON'] == ANCHOR_SEASON) &
                                    (ratings['TEAM_ABBREVIATION'] == abbr)]
-                    # Top-8 by minutes, then re-sort by composite_score so recognised
-                    # stars appear before high-minute fringe/role players
-                    current_top5_lookup[t26] = (grp.nlargest(8, 'TOTAL_MIN')
-                                                   .nlargest(3, 'composite_score')
-                                                   ['PLAYER_NAME'].tolist())
+                    # Display order: Stars/Superstars first (by minutes within tier),
+                    # then remaining high-minute players to fill up to 5 spots.
+                    # This ensures key stars (e.g. Booker) lead, and high-minute
+                    # starters (e.g. Dillon Brooks) appear even if composite < backup stars.
+                    top10 = grp.nlargest(10, 'TOTAL_MIN')
+                    stars_df   = top10[top10['tier'].isin({'Superstar', 'Star'})].sort_values('TOTAL_MIN', ascending=False)
+                    others_df  = top10[~top10['tier'].isin({'Superstar', 'Star'})].sort_values('TOTAL_MIN', ascending=False)
+                    ordered    = pd.concat([stars_df, others_df])
+                    current_top5_lookup[t26] = ordered.head(5)['PLAYER_NAME'].tolist()
 
     # Build auto-detected roster change events per team (ANCHOR_SEASON vs PREV_SEASON)
     # Detects Star/Superstar players who departed or arrived between seasons.
@@ -814,9 +818,12 @@ def main():
         _star_tiers = {'Superstar', 'Star'}
         _star_name_lkp = {}   # (abbr, season) → {player_name: tier}  — Stars/Superstars only
         _all_player_lkp = {}  # (abbr, season) → set of all player names on that team
+        # Minimum minutes for a player to count as a meaningful star arrival/departure.
+        # Filters out injured players or those with a small sample (e.g. Robert Williams).
+        _MIN_STAR_MINUTES = 800
         for (_abbr, _sea), _grp in ratings.groupby(['TEAM_ABBREVIATION', 'SEASON']):
             _all_player_lkp[(_abbr, _sea)] = set(_grp['PLAYER_NAME'].tolist())
-            stars = _grp[_grp['tier'].isin(_star_tiers)]
+            stars = _grp[_grp['tier'].isin(_star_tiers) & (_grp['TOTAL_MIN'] >= _MIN_STAR_MINUTES)]
             if len(stars):
                 _star_name_lkp[(_abbr, _sea)] = {
                     row['PLAYER_NAME']: row['tier']
