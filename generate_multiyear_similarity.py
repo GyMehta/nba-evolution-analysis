@@ -161,17 +161,36 @@ def compute_trend(rows_raw, weights_available):
     return trend
 
 
+# ---------------------------------------------------------------------------
+# Tolerance band: features within this Z-score range are treated as identical.
+# Only the excess beyond the band contributes to distance.
+# 0.15 std ≈ ~0.75 NRtg pts, ~0.01 composite score — the "noise floor".
+# ---------------------------------------------------------------------------
+FEATURE_TOLERANCE = 0.15
+
+
 def vec_distance(q_dict, c_dict, weights):
-    """Weighted Euclidean distance between two feature dicts."""
-    return np.sqrt(sum(
-        ((q_dict[col] - c_dict[col]) * weights[col]) ** 2
-        for col in weights
-    ))
+    """
+    Weighted Euclidean distance with per-feature tolerance band.
+    Differences within FEATURE_TOLERANCE (in Z-score space) are treated as
+    zero — only the excess beyond the band is penalised.
+    """
+    sq = 0.0
+    for col in weights:
+        diff = abs(q_dict[col] - c_dict[col])
+        excess = max(0.0, diff - FEATURE_TOLERANCE)
+        sq += (excess * weights[col]) ** 2
+    return np.sqrt(sq)
 
 
 def dist_to_sim(dist):
-    """Convert raw distance to 0–100 (not max-normalized; absolute scale)."""
-    return 100.0 / (1.0 + dist)
+    """
+    Convert banded distance to 0–100.
+    Uses a gentler denominator (÷0.6) so close-but-not-identical teams
+    land in the 70–90 band rather than 50–65.
+    dist=0 → 100,  dist=1 → 63,  dist=2 → 45,  dist=3 → 34.
+    """
+    return 100.0 / (1.0 + 0.6 * dist)
 
 
 def get_reason(q_norm, m_norm, weights, labels):
