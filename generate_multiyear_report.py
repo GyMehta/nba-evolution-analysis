@@ -588,7 +588,70 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     .card-grid-single { grid-template-columns: repeat(2, 1fr); }
     .match-card:nth-child(2n) { border-right: none; }
 }
+
+/* ── Global legend (shown once in page header) ── */
+.global-legend {
+    background: #111; border: 1px solid #1e1e1e; border-radius: 8px;
+    padding: 10px 18px; margin-bottom: 22px;
+    font-size: 0.72rem; color: #4b5563; line-height: 1.9;
+    display: flex; flex-wrap: wrap; gap: 6px 24px;
+}
+.global-legend b { color: #6b7280; }
+
+/* ── Per-team narrative blurb ── */
+.team-blurb {
+    font-size: 0.75rem; color: #9ca3af; line-height: 1.6;
+    margin-top: 8px; padding-top: 8px;
+    border-top: 1px solid #1e1e1e;
+}
+.team-blurb b { color: #c7d2fe; }
 """
+
+
+# ---------------------------------------------------------------------------
+# Blurb generator
+# ---------------------------------------------------------------------------
+
+def _make_blurb(profile_row, top1_row, win_trend):
+    """Generate a 2-3 sentence narrative for a team's chart legend area."""
+    n_sup = int(_safe_float(profile_row.get('n_superstars', 0)) or 0)
+    n_st  = int(_safe_float(profile_row.get('n_stars', 0)) or 0)
+    top_p = profile_row.get('top_player_name', '') or 'their best player'
+
+    if n_sup >= 2:
+        roster_desc = f'{n_sup} superstars including {top_p}'
+    elif n_sup == 1:
+        roster_desc = f'superstar {top_p}'
+    elif n_st >= 2:
+        roster_desc = f'a {n_st}-star roster led by {top_p} — no true superstar'
+    elif n_st == 1:
+        roster_desc = f'star {top_p}, with no superstar'
+    else:
+        roster_desc = f'no established star yet — {top_p} leads the way'
+
+    if win_trend > 0.06:   traj = 'trending upward'
+    elif win_trend < -0.06: traj = 'trending downward'
+    else:                   traj = 'holding steady'
+
+    mt      = top1_row['match_team']
+    ms      = top1_row['match_anchor_season']
+    mtp     = top1_row['match_top_player']
+    score   = top1_row['similarity_score']
+    next_pr = int(top1_row.get('match_next_1yr_playoff_round') or 0)
+    next_wp = float(top1_row.get('match_next_1yr_win_pct') or 0)
+
+    pr_labels = {
+        0: 'missed the playoffs', 1: 'lost in Round 1',
+        2: 'reached the Conf Semis', 3: 'reached the Conf Finals',
+        4: 'reached the Finals',   5: 'won the championship',
+    }
+    outcome = pr_labels.get(next_pr, '—')
+
+    return (
+        f'Built around {roster_desc}, {traj} this season. '
+        f'Closest historical twin: the <b>{mt}</b> ({ms}), led by {mtp} — {score:.0f}/100. '
+        f'That team {outcome} the following season ({next_wp:.0%} win rate).'
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -1171,6 +1234,15 @@ def main():
 
         team_id = ''.join(c if c.isalnum() else '-' for c in team.lower())
 
+        # ── Per-team narrative blurb ──
+        top1_blurb_row = team_matches[team_matches['match_type'] == 'top_1']
+        _cpr = profile_by_key.get((team, ANCHOR_SEASON))
+        if _cpr is None:
+            _cpr = profile_by_key.get((team, PREV_SEASON))
+        curr_profile_row = _cpr if _cpr is not None else {}
+        blurb_html = _make_blurb(curr_profile_row, top1_blurb_row.iloc[0], win_trend) \
+                     if not top1_blurb_row.empty else ''
+
         # Build match datasets: top1 (gray), optimistic (green), pessimistic (red)
         radar_datasets = []
         added_keys     = set()
@@ -1248,14 +1320,7 @@ def main():
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     {legend_html}
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">{blurb_html}</div>
   </div>
 </div>
 <script>
@@ -1448,6 +1513,14 @@ def main():
   <strong style="color:#6b7280;">Similarity score</strong> &nbsp;(0–100): how closely a historical team's 3-year profile and trajectory matched the current team —
   100 = best match found in the dataset across 7 dimensions: superstar presence, top player quality, roster depth, win rate, net rating, roster potential, and trend direction
 </p>
+<div class="global-legend">
+  <span><b>Win %</b> — current team: this season &nbsp;·&nbsp; match lines: avg of next 1–2 seasons after window</span>
+  <span><b>Net Rtg</b> — point differential per 100 possessions</span>
+  <span><b>Offense / Defense</b> — rank among 30 teams (1 = best)</span>
+  <span><b>Top Player</b> — best player composite score</span>
+  <span><b>Depth</b> — weighted top-8 roster quality</span>
+  <span><b>Potential</b> — age &amp; draft-adjusted upside</span>
+</div>
 {body}
 </body>
 </html>"""

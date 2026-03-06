@@ -249,6 +249,23 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     .card-grid-single { grid-template-columns: repeat(2, 1fr); }
     .match-card:nth-child(2n) { border-right: none; }
 }
+
+/* ── Global legend (shown once in page header) ── */
+.global-legend {
+    background: #111; border: 1px solid #1e1e1e; border-radius: 8px;
+    padding: 10px 18px; margin-bottom: 22px;
+    font-size: 0.72rem; color: #4b5563; line-height: 1.9;
+    display: flex; flex-wrap: wrap; gap: 6px 24px;
+}
+.global-legend b { color: #6b7280; }
+
+/* ── Per-team narrative blurb ── */
+.team-blurb {
+    font-size: 0.75rem; color: #9ca3af; line-height: 1.6;
+    margin-top: 8px; padding-top: 8px;
+    border-top: 1px solid #1e1e1e;
+}
+.team-blurb b { color: #c7d2fe; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
@@ -262,6 +279,14 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <strong style="color:#6b7280;">Similarity score</strong> &nbsp;(0–100): how closely a historical team's 3-year profile and trajectory matched the current team —
   100 = best match found in the dataset across 7 dimensions: superstar presence, top player quality, roster depth, win rate, net rating, roster potential, and trend direction
 </p>
+<div class="global-legend">
+  <span><b>Win %</b> — current team: this season &nbsp;·&nbsp; match lines: avg of next 1–2 seasons after window</span>
+  <span><b>Net Rtg</b> — point differential per 100 possessions</span>
+  <span><b>Offense / Defense</b> — rank among 30 teams (1 = best)</span>
+  <span><b>Top Player</b> — best player composite score</span>
+  <span><b>Depth</b> — weighted top-8 roster quality</span>
+  <span><b>Potential</b> — age &amp; draft-adjusted upside</span>
+</div>
 
 <div class="team-card">
   <div class="team-hdr">
@@ -303,14 +328,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Atlanta Hawks</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around star Jalen Johnson, with no superstar, holding steady this season. Closest historical twin: the <b>Orlando Magic</b> (2006-07), led by Dwight Howard — 65/100. That team reached the Conf Semis the following season (63% win rate).</div>
   </div>
 </div>
 <script>
@@ -445,14 +463,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Boston Celtics</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around a 2-star roster led by Jaylen Brown — no true superstar, holding steady this season. Closest historical twin: the <b>San Antonio Spurs</b> (2014-15), led by Tim Duncan — 48/100. That team reached the Conf Semis the following season (82% win rate).</div>
   </div>
 </div>
 <script>
@@ -553,8 +564,8 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="team-name">Brooklyn Nets</div>
       <div class="team-record">
         <span class="rec-season-lbl">2025-26</span>
-        <span><span class="rec-item">Record</span><span class="rec-val">15-46</span></span>
-        <span><span class="rec-item">Win rate</span><span class="rec-val">24.6%</span></span>
+        <span><span class="rec-item">Record</span><span class="rec-val">15-47</span></span>
+        <span><span class="rec-item">Win rate</span><span class="rec-val">24.2%</span></span>
         <span><span class="rec-item">Net Rtg</span><span class="rec-val">-8.8</span></span>
         <span><span class="rec-item">Off</span><span class="rec-val">#27</span></span><span><span class="rec-item">Def</span><span class="rec-val">#27</span></span>
       </div>
@@ -572,7 +583,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
   <div class="arc-row">
     <span class="arc-lbl">3-yr arc</span>
-    <span class="arc-cell">2023-24: 32-50 (39.0%)&nbsp;<span class="card-nrtg card-nrtg-neg">-2.9</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 26-56 (31.7%)&nbsp;<span class="card-nrtg card-nrtg-neg">-7.3</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 15-46 (24.6%)&nbsp;<span class="card-nrtg card-nrtg-neg">-8.8</span></span>
+    <span class="arc-cell">2023-24: 32-50 (39.0%)&nbsp;<span class="card-nrtg card-nrtg-neg">-2.9</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 26-56 (31.7%)&nbsp;<span class="card-nrtg card-nrtg-neg">-7.3</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 15-47 (24.2%)&nbsp;<span class="card-nrtg card-nrtg-neg">-8.8</span></span>
     <span class="arc-sep" style="margin-left:8px;">·</span>
     <span style="font-size:0.72rem;color:#4b5563;margin-left:4px;">
       Win% <span class="arr dn">▼</span> -0.07
@@ -587,14 +598,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Brooklyn Nets</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around no established star yet — Michael Porter Jr. leads the way, trending downward this season. Closest historical twin: the <b>Detroit Pistons</b> (2022-23), led by Bojan Bogdanovic — 69/100. That team missed the playoffs the following season (17% win rate).</div>
   </div>
 </div>
 <script>
@@ -603,7 +607,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Detroit Pistons (2020-21 to 2022-23)","data":[68.5,25.6,6.9,10.3,17.5,23.4,22.4],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Phoenix Suns (2016-17 to 2018-19)","data":[81.4,22.0,6.9,3.4,22.3,28.0,31.6],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Brooklyn Nets","data":[17.8,22.4,10.3,10.3,30.8,22.0,38.1],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Detroit Pistons (2020-21 to 2022-23)","data":[67.7,25.6,6.9,10.3,17.5,23.4,22.4],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Phoenix Suns (2016-17 to 2018-19)","data":[81.4,22.0,6.9,3.4,22.3,28.0,31.6],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Brooklyn Nets","data":[17.3,22.4,10.3,10.3,30.8,22.0,38.1],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -729,14 +733,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Charlotte Hornets</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around no established star yet — LaMelo Ball leads the way, trending upward this season. Closest historical twin: the <b>Phoenix Suns</b> (2019-20), led by Devin Booker — 54/100. That team reached the Finals the following season (71% win rate).</div>
   </div>
 </div>
 <script>
@@ -837,8 +834,8 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="team-name">Chicago Bulls</div>
       <div class="team-record">
         <span class="rec-season-lbl">2025-26</span>
-        <span><span class="rec-item">Record</span><span class="rec-val">25-37</span></span>
-        <span><span class="rec-item">Win rate</span><span class="rec-val">40.3%</span></span>
+        <span><span class="rec-item">Record</span><span class="rec-val">26-37</span></span>
+        <span><span class="rec-item">Win rate</span><span class="rec-val">41.3%</span></span>
         <span><span class="rec-item">Net Rtg</span><span class="rec-val">-4.5</span></span>
         <span><span class="rec-item">Off</span><span class="rec-val">#25</span></span><span><span class="rec-item">Def</span><span class="rec-val">#24</span></span>
       </div>
@@ -856,10 +853,10 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
   <div class="arc-row">
     <span class="arc-lbl">3-yr arc</span>
-    <span class="arc-cell">2023-24: 39-43 (47.6%)&nbsp;<span class="card-nrtg card-nrtg-neg">-1.7</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 39-43 (47.6%)&nbsp;<span class="card-nrtg card-nrtg-neg">-1.6</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 25-37 (40.3%)&nbsp;<span class="card-nrtg card-nrtg-neg">-4.5</span></span>
+    <span class="arc-cell">2023-24: 39-43 (47.6%)&nbsp;<span class="card-nrtg card-nrtg-neg">-1.7</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 39-43 (47.6%)&nbsp;<span class="card-nrtg card-nrtg-neg">-1.6</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 26-37 (41.3%)&nbsp;<span class="card-nrtg card-nrtg-neg">-4.5</span></span>
     <span class="arc-sep" style="margin-left:8px;">·</span>
     <span style="font-size:0.72rem;color:#4b5563;margin-left:4px;">
-      Win% <span class="arr dn">▼</span> -0.04
+      Win% <span class="arr dn">▼</span> -0.03
       &nbsp; NRtg <span class="arr dn">▼</span> -1.40 pts
     </span>
   </div>
@@ -871,14 +868,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Chicago Bulls</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around star Josh Giddey, with no superstar, holding steady this season. Closest historical twin: the <b>New Jersey Nets</b> (2000-01), led by Stephon Marbury — 67/100. That team reached the Finals the following season (63% win rate).</div>
   </div>
 </div>
 <script>
@@ -887,7 +877,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: New Jersey Nets (1998-99 to 2000-01)","data":[61.1,34.7,17.2,24.1,47.6,36.7,35.2],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Cleveland Cavaliers (1998-99 to 2000-01)","data":[26.9,39.0,27.6,31.0,38.7,38.7,42.9],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Chicago Bulls","data":[37.9,37.9,17.2,20.7,39.8,42.0,52.7],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: New Jersey Nets (1998-99 to 2000-01)","data":[61.1,34.7,17.2,24.1,47.6,36.7,35.2],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Cleveland Cavaliers (1998-99 to 2000-01)","data":[26.9,39.0,27.6,31.0,38.7,38.7,42.9],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Chicago Bulls","data":[39.1,37.9,17.2,20.7,39.8,42.0,52.7],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -1013,14 +1003,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Cleveland Cavaliers</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around a 4-star roster led by Donovan Mitchell — no true superstar, holding steady this season. Closest historical twin: the <b>Detroit Pistons</b> (2006-07), led by Chauncey Billups — 67/100. That team reached the Conf Finals the following season (72% win rate).</div>
   </div>
 </div>
 <script>
@@ -1121,8 +1104,8 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="team-name">Dallas Mavericks</div>
       <div class="team-record">
         <span class="rec-season-lbl">2025-26</span>
-        <span><span class="rec-item">Record</span><span class="rec-val">21-40</span></span>
-        <span><span class="rec-item">Win rate</span><span class="rec-val">34.4%</span></span>
+        <span><span class="rec-item">Record</span><span class="rec-val">21-41</span></span>
+        <span><span class="rec-item">Win rate</span><span class="rec-val">33.9%</span></span>
         <span><span class="rec-item">Net Rtg</span><span class="rec-val">-3.9</span></span>
         <span><span class="rec-item">Off</span><span class="rec-val">#26</span></span><span><span class="rec-item">Def</span><span class="rec-val">#16</span></span>
       </div>
@@ -1140,10 +1123,10 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
   <div class="arc-row">
     <span class="arc-lbl">3-yr arc</span>
-    <span class="arc-cell">2023-24: 50-32 (61.0%)&nbsp;<span class="card-nrtg card-nrtg-pos">+2.1</span>&nbsp;<span class="out-up" style="font-weight:600;font-size:0.65rem;">Lost in Finals</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 39-43 (47.6%)&nbsp;<span class="card-nrtg card-nrtg-neg">-1.3</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 21-40 (34.4%)&nbsp;<span class="card-nrtg card-nrtg-neg">-3.9</span></span>
+    <span class="arc-cell">2023-24: 50-32 (61.0%)&nbsp;<span class="card-nrtg card-nrtg-pos">+2.1</span>&nbsp;<span class="out-up" style="font-weight:600;font-size:0.65rem;">Lost in Finals</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 39-43 (47.6%)&nbsp;<span class="card-nrtg card-nrtg-neg">-1.3</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 21-41 (33.9%)&nbsp;<span class="card-nrtg card-nrtg-neg">-3.9</span></span>
     <span class="arc-sep" style="margin-left:8px;">·</span>
     <span style="font-size:0.72rem;color:#4b5563;margin-left:4px;">
-      Win% <span class="arr dn">▼</span> -0.13
+      Win% <span class="arr dn">▼</span> -0.14
       &nbsp; NRtg <span class="arr dn">▼</span> -3.00 pts
     </span>
   </div>
@@ -1155,14 +1138,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Dallas Mavericks</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around no established star yet — Cooper Flagg leads the way, trending downward this season. Closest historical twin: the <b>Minnesota Timberwolves</b> (2007-08), led by Al Jefferson — 48/100. That team missed the playoffs the following season (29% win rate).</div>
   </div>
 </div>
 <script>
@@ -1171,7 +1147,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Minnesota Timberwolves (2005-06 to 2007-08)","data":[11.3,27.8,13.8,10.3,39.6,23.2,25.0],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Toronto Raptors (2000-01 to 2002-03)","data":[33.1,31.4,17.2,13.8,33.2,40.0,44.0],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Los Angeles Clippers (2005-06 to 2007-08)","data":[33.9,27.1,6.9,37.9,25.4,30.6,32.0],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Dallas Mavericks","data":[30.4,40.1,13.8,48.3,19.1,32.6,35.4],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Minnesota Timberwolves (2005-06 to 2007-08)","data":[11.3,27.8,13.8,10.3,39.6,23.2,25.0],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Toronto Raptors (2000-01 to 2002-03)","data":[33.1,31.4,17.2,13.8,33.2,40.0,44.0],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Los Angeles Clippers (2005-06 to 2007-08)","data":[33.9,27.1,6.9,37.9,25.4,30.6,32.0],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Dallas Mavericks","data":[29.7,40.1,13.8,48.3,19.1,32.6,35.4],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -1263,8 +1239,8 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="team-name">Denver Nuggets</div>
       <div class="team-record">
         <span class="rec-season-lbl">2025-26</span>
-        <span><span class="rec-item">Record</span><span class="rec-val">38-24</span></span>
-        <span><span class="rec-item">Win rate</span><span class="rec-val">61.3%</span></span>
+        <span><span class="rec-item">Record</span><span class="rec-val">39-24</span></span>
+        <span><span class="rec-item">Win rate</span><span class="rec-val">61.9%</span></span>
         <span><span class="rec-item">Net Rtg</span><span class="rec-val">+4.4</span></span>
         <span><span class="rec-item">Off</span><span class="rec-val">#1</span></span><span><span class="rec-item">Def</span><span class="rec-val">#21</span></span>
       </div>
@@ -1282,7 +1258,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
   <div class="arc-row">
     <span class="arc-lbl">3-yr arc</span>
-    <span class="arc-cell">2023-24: 57-25 (69.5%)&nbsp;<span class="card-nrtg card-nrtg-pos">+5.5</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">Conf. Semis Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 50-32 (61.0%)&nbsp;<span class="card-nrtg card-nrtg-pos">+3.8</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">Conf. Semis Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 38-24 (61.3%)&nbsp;<span class="card-nrtg card-nrtg-pos">+4.4</span></span>
+    <span class="arc-cell">2023-24: 57-25 (69.5%)&nbsp;<span class="card-nrtg card-nrtg-pos">+5.5</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">Conf. Semis Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 50-32 (61.0%)&nbsp;<span class="card-nrtg card-nrtg-pos">+3.8</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">Conf. Semis Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 39-24 (61.9%)&nbsp;<span class="card-nrtg card-nrtg-pos">+4.4</span></span>
     <span class="arc-sep" style="margin-left:8px;">·</span>
     <span style="font-size:0.72rem;color:#4b5563;margin-left:4px;">
       Win% <span class="arr dn">▼</span> -0.04
@@ -1297,14 +1273,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Denver Nuggets</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around superstar Nikola Jokić, holding steady this season. Closest historical twin: the <b>Cleveland Cavaliers</b> (2017-18), led by LeBron James — 59/100. That team missed the playoffs the following season (23% win rate).</div>
   </div>
 </div>
 <script>
@@ -1313,7 +1282,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Cleveland Cavaliers (2015-16 to 2017-18)","data":[24.6,57.8,86.2,3.4,86.1,60.8,57.5],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Denver Nuggets (2020-21 to 2022-23)","data":[64.4,66.1,86.2,51.7,85.5,77.2,75.9],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Denver Nuggets (2018-19 to 2020-21)","data":[72.0,71.5,82.8,62.1,85.8,71.1,73.6],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Denver Nuggets","data":[64.6,70.0,100.0,31.0,90.0,67.0,38.7],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Cleveland Cavaliers (2015-16 to 2017-18)","data":[24.6,57.8,86.2,3.4,86.1,60.8,57.5],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Denver Nuggets (2020-21 to 2022-23)","data":[64.8,66.1,86.2,51.7,85.5,77.2,75.9],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Denver Nuggets (2018-19 to 2020-21)","data":[72.0,71.5,82.8,62.1,85.8,71.1,73.6],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Denver Nuggets","data":[65.4,70.0,100.0,31.0,90.0,67.0,38.7],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -1405,8 +1374,8 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="team-name">Detroit Pistons</div>
       <div class="team-record">
         <span class="rec-season-lbl">2025-26</span>
-        <span><span class="rec-item">Record</span><span class="rec-val">45-15</span></span>
-        <span><span class="rec-item">Win rate</span><span class="rec-val">75.0%</span></span>
+        <span><span class="rec-item">Record</span><span class="rec-val">45-16</span></span>
+        <span><span class="rec-item">Win rate</span><span class="rec-val">73.8%</span></span>
         <span><span class="rec-item">Net Rtg</span><span class="rec-val">+7.9</span></span>
         <span><span class="rec-item">Off</span><span class="rec-val">#11</span></span><span><span class="rec-item">Def</span><span class="rec-val">#2</span></span>
       </div>
@@ -1424,10 +1393,10 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
   <div class="arc-row">
     <span class="arc-lbl">3-yr arc</span>
-    <span class="arc-cell">2023-24: 14-68 (17.1%)&nbsp;<span class="card-nrtg card-nrtg-neg">-9.0</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 44-38 (53.7%)&nbsp;<span class="card-nrtg card-nrtg-pos">+2.1</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">First Round Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 45-15 (75.0%)&nbsp;<span class="card-nrtg card-nrtg-pos">+7.9</span></span>
+    <span class="arc-cell">2023-24: 14-68 (17.1%)&nbsp;<span class="card-nrtg card-nrtg-neg">-9.0</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 44-38 (53.7%)&nbsp;<span class="card-nrtg card-nrtg-pos">+2.1</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">First Round Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 45-16 (73.8%)&nbsp;<span class="card-nrtg card-nrtg-pos">+7.9</span></span>
     <span class="arc-sep" style="margin-left:8px;">·</span>
     <span style="font-size:0.72rem;color:#4b5563;margin-left:4px;">
-      Win% <span class="arr up">▲</span> +0.29
+      Win% <span class="arr up">▲</span> +0.28
       &nbsp; NRtg <span class="arr up">▲</span> +8.40 pts
     </span>
   </div>
@@ -1439,14 +1408,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Detroit Pistons</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around a 2-star roster led by Cade Cunningham — no true superstar, trending upward this season. Closest historical twin: the <b>Phoenix Suns</b> (2020-21), led by Chris Paul — 67/100. That team reached the Conf Semis the following season (78% win rate).</div>
   </div>
 </div>
 <script>
@@ -1455,7 +1417,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Phoenix Suns (2018-19 to 2020-21)","data":[59.6,75.5,79.3,82.8,55.7,66.2,70.1],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Golden State Warriors (2019-20 to 2021-22)","data":[59.6,74.0,51.7,96.6,66.5,62.9,63.6],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Cleveland Cavaliers (2020-21 to 2022-23)","data":[75.7,74.4,79.3,100.0,63.4,72.7,71.8],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Detroit Pistons","data":[82.1,82.7,65.5,96.6,62.5,64.4,73.4],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Phoenix Suns (2018-19 to 2020-21)","data":[59.6,75.5,79.3,82.8,55.7,66.2,70.1],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Golden State Warriors (2019-20 to 2021-22)","data":[59.6,74.0,51.7,96.6,66.5,62.9,63.6],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Cleveland Cavaliers (2020-21 to 2022-23)","data":[75.7,74.4,79.3,100.0,63.4,72.7,71.8],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Detroit Pistons","data":[80.5,82.7,65.5,96.6,62.5,64.4,73.4],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -1480,7 +1442,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="match-card ">
     <div class="card-top">
       <span class="card-rank r1">#1 Best Match</span>
-      <span class="card-sim">Similarity: 66/100</span>
+      <span class="card-sim">Similarity: 67/100</span>
     </div>
     <div class="card-team">Phoenix Suns</div>
     <div class="card-era">2020-21</div>
@@ -1501,7 +1463,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="match-card ">
     <div class="card-top">
       <span class="card-rank r2">#2 Best Match</span>
-      <span class="card-sim">Similarity: 58/100</span>
+      <span class="card-sim">Similarity: 59/100</span>
     </div>
     <div class="card-team">Cleveland Cavaliers</div>
     <div class="card-era">2022-23</div>
@@ -1547,8 +1509,8 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="team-name">Golden State Warriors</div>
       <div class="team-record">
         <span class="rec-season-lbl">2025-26</span>
-        <span><span class="rec-item">Record</span><span class="rec-val">31-30</span></span>
-        <span><span class="rec-item">Win rate</span><span class="rec-val">50.8%</span></span>
+        <span><span class="rec-item">Record</span><span class="rec-val">32-30</span></span>
+        <span><span class="rec-item">Win rate</span><span class="rec-val">51.6%</span></span>
         <span><span class="rec-item">Net Rtg</span><span class="rec-val">+1.3</span></span>
         <span><span class="rec-item">Off</span><span class="rec-val">#14</span></span><span><span class="rec-item">Def</span><span class="rec-val">#11</span></span>
       </div>
@@ -1566,10 +1528,10 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
   <div class="arc-row">
     <span class="arc-lbl">3-yr arc</span>
-    <span class="arc-cell">2023-24: 46-36 (56.1%)&nbsp;<span class="card-nrtg card-nrtg-pos">+2.4</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 48-34 (58.5%)&nbsp;<span class="card-nrtg card-nrtg-pos">+3.2</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">Conf. Semis Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 31-30 (50.8%)&nbsp;<span class="card-nrtg card-nrtg-pos">+1.3</span></span>
+    <span class="arc-cell">2023-24: 46-36 (56.1%)&nbsp;<span class="card-nrtg card-nrtg-pos">+2.4</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 48-34 (58.5%)&nbsp;<span class="card-nrtg card-nrtg-pos">+3.2</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">Conf. Semis Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 32-30 (51.6%)&nbsp;<span class="card-nrtg card-nrtg-pos">+1.3</span></span>
     <span class="arc-sep" style="margin-left:8px;">·</span>
     <span style="font-size:0.72rem;color:#4b5563;margin-left:4px;">
-      Win% <span class="arr fl">→</span> -0.03
+      Win% <span class="arr fl">→</span> -0.02
       &nbsp; NRtg <span class="arr fl">→</span> -0.50 pts
     </span>
   </div>
@@ -1581,14 +1543,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Golden State Warriors</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around a 2-star roster led by Stephen Curry — no true superstar, holding steady this season. Closest historical twin: the <b>Washington Wizards</b> (2015-16), led by John Wall — 64/100. That team reached the Conf Semis the following season (60% win rate).</div>
   </div>
 </div>
 <script>
@@ -1597,7 +1552,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Washington Wizards (2013-14 to 2015-16)","data":[44.8,52.3,31.0,55.2,56.9,57.6,53.2],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Miami Heat (2018-19 to 2020-21)","data":[56.5,53.8,41.4,72.4,49.1,55.6,59.9],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Washington Wizards (2015-16 to 2017-18)","data":[38.7,55.6,51.7,51.7,45.2,56.2,59.8],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Golden State Warriors","data":[51.3,58.8,55.2,65.5,49.5,52.6,34.9],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Washington Wizards (2013-14 to 2015-16)","data":[44.8,52.3,31.0,55.2,56.9,57.6,53.2],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Miami Heat (2018-19 to 2020-21)","data":[56.5,53.8,41.4,72.4,49.1,55.6,59.9],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Washington Wizards (2015-16 to 2017-18)","data":[38.7,55.6,51.7,51.7,45.2,56.2,59.8],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Golden State Warriors","data":[52.3,58.8,55.2,65.5,49.5,52.6,34.9],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -1689,8 +1644,8 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="team-name">Houston Rockets</div>
       <div class="team-record">
         <span class="rec-season-lbl">2025-26</span>
-        <span><span class="rec-item">Record</span><span class="rec-val">38-22</span></span>
-        <span><span class="rec-item">Win rate</span><span class="rec-val">63.3%</span></span>
+        <span><span class="rec-item">Record</span><span class="rec-val">38-23</span></span>
+        <span><span class="rec-item">Win rate</span><span class="rec-val">62.3%</span></span>
         <span><span class="rec-item">Net Rtg</span><span class="rec-val">+5.3</span></span>
         <span><span class="rec-item">Off</span><span class="rec-val">#6</span></span><span><span class="rec-item">Def</span><span class="rec-val">#5</span></span>
       </div>
@@ -1708,10 +1663,10 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
   <div class="arc-row">
     <span class="arc-lbl">3-yr arc</span>
-    <span class="arc-cell">2023-24: 41-41 (50.0%)&nbsp;<span class="card-nrtg card-nrtg-pos">+0.9</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 52-30 (63.4%)&nbsp;<span class="card-nrtg card-nrtg-pos">+4.6</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">First Round Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 38-22 (63.3%)&nbsp;<span class="card-nrtg card-nrtg-pos">+5.3</span></span>
+    <span class="arc-cell">2023-24: 41-41 (50.0%)&nbsp;<span class="card-nrtg card-nrtg-pos">+0.9</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 52-30 (63.4%)&nbsp;<span class="card-nrtg card-nrtg-pos">+4.6</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">First Round Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 38-23 (62.3%)&nbsp;<span class="card-nrtg card-nrtg-pos">+5.3</span></span>
     <span class="arc-sep" style="margin-left:8px;">·</span>
     <span style="font-size:0.72rem;color:#4b5563;margin-left:4px;">
-      Win% <span class="arr up">▲</span> +0.07
+      Win% <span class="arr up">▲</span> +0.06
       &nbsp; NRtg <span class="arr up">▲</span> +2.20 pts
     </span>
   </div>
@@ -1723,14 +1678,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Houston Rockets</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around a 2-star roster led by Alperen Sengun — no true superstar, trending upward this season. Closest historical twin: the <b>Indiana Pacers</b> (2012-13), led by David West — 73/100. That team reached the Conf Finals the following season (68% win rate).</div>
   </div>
 </div>
 <script>
@@ -1739,7 +1687,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Indiana Pacers (2010-11 to 2012-13)","data":[51.0,70.0,37.9,100.0,47.9,62.7,65.9],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Memphis Grizzlies (2020-21 to 2022-23)","data":[47.8,68.6,65.5,93.1,66.2,72.1,74.6],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Houston Rockets","data":[67.2,73.3,82.8,86.2,52.6,65.6,72.0],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Indiana Pacers (2010-11 to 2012-13)","data":[51.0,70.0,37.9,100.0,47.9,62.7,65.9],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Memphis Grizzlies (2020-21 to 2022-23)","data":[47.8,68.6,65.5,93.1,66.2,72.1,74.6],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Houston Rockets","data":[65.9,73.3,82.8,86.2,52.6,65.6,72.0],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -1865,14 +1813,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Indiana Pacers</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around no established star yet — Ivica Zubac leads the way, trending downward this season. Closest historical twin: the <b>Utah Jazz</b> (2013-14), led by Derrick Favors — 61/100. That team missed the playoffs the following season (46% win rate).</div>
   </div>
 </div>
 <script>
@@ -2007,14 +1948,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">LA Clippers</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around star Kawhi Leonard, with no superstar, trending downward this season. Closest historical twin: the <b>Dallas Mavericks</b> (2015-16), led by Dirk Nowitzki — 61/100. That team missed the playoffs the following season (40% win rate).</div>
   </div>
 </div>
 <script>
@@ -2115,8 +2049,8 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="team-name">Los Angeles Lakers</div>
       <div class="team-record">
         <span class="rec-season-lbl">2025-26</span>
-        <span><span class="rec-item">Record</span><span class="rec-val">37-24</span></span>
-        <span><span class="rec-item">Win rate</span><span class="rec-val">60.7%</span></span>
+        <span><span class="rec-item">Record</span><span class="rec-val">37-25</span></span>
+        <span><span class="rec-item">Win rate</span><span class="rec-val">59.7%</span></span>
         <span><span class="rec-item">Net Rtg</span><span class="rec-val">+0.3</span></span>
         <span><span class="rec-item">Off</span><span class="rec-val">#10</span></span><span><span class="rec-item">Def</span><span class="rec-val">#22</span></span>
       </div>
@@ -2134,10 +2068,10 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
   <div class="arc-row">
     <span class="arc-lbl">3-yr arc</span>
-    <span class="arc-cell">2023-24: 47-35 (57.3%)&nbsp;<span class="card-nrtg card-nrtg-pos">+0.6</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">First Round Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 50-32 (61.0%)&nbsp;<span class="card-nrtg card-nrtg-pos">+1.2</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">First Round Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 37-24 (60.7%)&nbsp;<span class="card-nrtg card-nrtg-neu">+0.3</span></span>
+    <span class="arc-cell">2023-24: 47-35 (57.3%)&nbsp;<span class="card-nrtg card-nrtg-pos">+0.6</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">First Round Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 50-32 (61.0%)&nbsp;<span class="card-nrtg card-nrtg-pos">+1.2</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">First Round Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 37-25 (59.7%)&nbsp;<span class="card-nrtg card-nrtg-neu">+0.3</span></span>
     <span class="arc-sep" style="margin-left:8px;">·</span>
     <span style="font-size:0.72rem;color:#4b5563;margin-left:4px;">
-      Win% <span class="arr fl">→</span> +0.02
+      Win% <span class="arr fl">→</span> +0.01
       &nbsp; NRtg <span class="arr fl">→</span> -0.10 pts
     </span>
   </div>
@@ -2149,14 +2083,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Los Angeles Lakers</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around superstar Luka Dončić, holding steady this season. Closest historical twin: the <b>Minnesota Timberwolves</b> (2000-01), led by Kevin Garnett — 56/100. That team missed the playoffs the following season (61% win rate).</div>
   </div>
 </div>
 <script>
@@ -2165,7 +2092,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Minnesota Timberwolves (1998-99 to 2000-01)","data":[71.2,59.9,65.5,44.8,85.5,64.0,62.8],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Dallas Mavericks (2019-20 to 2021-22)","data":[55.7,66.8,55.2,79.3,82.6,63.9,65.4],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Los Angeles Lakers","data":[63.8,55.2,69.0,27.6,71.0,61.4,42.7],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Minnesota Timberwolves (1998-99 to 2000-01)","data":[71.2,59.9,65.5,44.8,85.5,64.0,62.8],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Dallas Mavericks (2019-20 to 2021-22)","data":[55.7,66.8,55.2,79.3,82.6,63.9,65.4],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Los Angeles Lakers","data":[62.6,55.2,69.0,27.6,71.0,61.4,42.7],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -2291,14 +2218,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Memphis Grizzlies</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around no established star yet — Cam Spencer leads the way, holding steady this season. Closest historical twin: the <b>Phoenix Suns</b> (2014-15), led by Eric Bledsoe — 51/100. That team missed the playoffs the following season (28% win rate).</div>
   </div>
 </div>
 <script>
@@ -2399,8 +2319,8 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="team-name">Miami Heat</div>
       <div class="team-record">
         <span class="rec-season-lbl">2025-26</span>
-        <span><span class="rec-item">Record</span><span class="rec-val">33-29</span></span>
-        <span><span class="rec-item">Win rate</span><span class="rec-val">53.2%</span></span>
+        <span><span class="rec-item">Record</span><span class="rec-val">34-29</span></span>
+        <span><span class="rec-item">Win rate</span><span class="rec-val">54.0%</span></span>
         <span><span class="rec-item">Net Rtg</span><span class="rec-val">+2.9</span></span>
         <span><span class="rec-item">Off</span><span class="rec-val">#15</span></span><span><span class="rec-item">Def</span><span class="rec-val">#4</span></span>
       </div>
@@ -2418,7 +2338,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
   <div class="arc-row">
     <span class="arc-lbl">3-yr arc</span>
-    <span class="arc-cell">2023-24: 46-36 (56.1%)&nbsp;<span class="card-nrtg card-nrtg-pos">+1.8</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">First Round Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 37-45 (45.1%)&nbsp;<span class="card-nrtg card-nrtg-neu">+0.4</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">First Round Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 33-29 (53.2%)&nbsp;<span class="card-nrtg card-nrtg-pos">+2.9</span></span>
+    <span class="arc-cell">2023-24: 46-36 (56.1%)&nbsp;<span class="card-nrtg card-nrtg-pos">+1.8</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">First Round Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 37-45 (45.1%)&nbsp;<span class="card-nrtg card-nrtg-neu">+0.4</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">First Round Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 34-29 (54.0%)&nbsp;<span class="card-nrtg card-nrtg-pos">+2.9</span></span>
     <span class="arc-sep" style="margin-left:8px;">·</span>
     <span style="font-size:0.72rem;color:#4b5563;margin-left:4px;">
       Win% <span class="arr fl">→</span> -0.01
@@ -2433,14 +2353,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Miami Heat</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around star Bam Adebayo, with no superstar, holding steady this season. Closest historical twin: the <b>Miami Heat</b> (2017-18), led by Hassan Whiteside — 71/100. That team missed the playoffs the following season (48% win rate).</div>
   </div>
 </div>
 <script>
@@ -2449,7 +2362,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Miami Heat (2015-16 to 2017-18)","data":[60.3,55.6,31.0,75.9,48.9,57.3,50.3],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Washington Wizards (2014-15 to 2016-17)","data":[33.5,60.3,75.9,34.5,62.0,57.1,57.7],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Miami Heat","data":[54.3,64.6,51.7,89.7,47.7,50.0,56.0],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Miami Heat (2015-16 to 2017-18)","data":[60.3,55.6,31.0,75.9,48.9,57.3,50.3],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Washington Wizards (2014-15 to 2016-17)","data":[33.5,60.3,75.9,34.5,62.0,57.1,57.7],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Miami Heat","data":[55.3,64.6,51.7,89.7,47.7,50.0,56.0],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -2575,14 +2488,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Milwaukee Bucks</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around superstar Giannis Antetokounmpo, trending downward this season. Closest historical twin: the <b>Minnesota Timberwolves</b> (2005-06), led by Kevin Garnett — 56/100. That team missed the playoffs the following season (39% win rate).</div>
   </div>
 </div>
 <script>
@@ -2683,8 +2589,8 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="team-name">Minnesota Timberwolves</div>
       <div class="team-record">
         <span class="rec-season-lbl">2025-26</span>
-        <span><span class="rec-item">Record</span><span class="rec-val">39-23</span></span>
-        <span><span class="rec-item">Win rate</span><span class="rec-val">62.9%</span></span>
+        <span><span class="rec-item">Record</span><span class="rec-val">40-23</span></span>
+        <span><span class="rec-item">Win rate</span><span class="rec-val">63.5%</span></span>
         <span><span class="rec-item">Net Rtg</span><span class="rec-val">+4.3</span></span>
         <span><span class="rec-item">Off</span><span class="rec-val">#9</span></span><span><span class="rec-item">Def</span><span class="rec-val">#9</span></span>
       </div>
@@ -2702,10 +2608,10 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
   <div class="arc-row">
     <span class="arc-lbl">3-yr arc</span>
-    <span class="arc-cell">2023-24: 56-26 (68.3%)&nbsp;<span class="card-nrtg card-nrtg-pos">+6.3</span>&nbsp;<span class="out-up" style="font-weight:600;font-size:0.65rem;">Conf. Finals Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 49-33 (59.8%)&nbsp;<span class="card-nrtg card-nrtg-pos">+5.0</span>&nbsp;<span class="out-up" style="font-weight:600;font-size:0.65rem;">Conf. Finals Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 39-23 (62.9%)&nbsp;<span class="card-nrtg card-nrtg-pos">+4.3</span></span>
+    <span class="arc-cell">2023-24: 56-26 (68.3%)&nbsp;<span class="card-nrtg card-nrtg-pos">+6.3</span>&nbsp;<span class="out-up" style="font-weight:600;font-size:0.65rem;">Conf. Finals Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 49-33 (59.8%)&nbsp;<span class="card-nrtg card-nrtg-pos">+5.0</span>&nbsp;<span class="out-up" style="font-weight:600;font-size:0.65rem;">Conf. Finals Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 40-23 (63.5%)&nbsp;<span class="card-nrtg card-nrtg-pos">+4.3</span></span>
     <span class="arc-sep" style="margin-left:8px;">·</span>
     <span style="font-size:0.72rem;color:#4b5563;margin-left:4px;">
-      Win% <span class="arr fl">→</span> -0.03
+      Win% <span class="arr fl">→</span> -0.02
       &nbsp; NRtg <span class="arr fl">→</span> -1.00 pts
     </span>
   </div>
@@ -2716,15 +2622,8 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   </div>
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
-    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Minnesota Timberwolves</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Minnesota Timberwolves</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
+    <div class="team-blurb">Built around a 2-star roster led by Anthony Edwards — no true superstar, holding steady this season. Closest historical twin: the <b>Boston Celtics</b> (2020-21), led by Jayson Tatum — 68/100. That team reached the Finals the following season (62% win rate).</div>
   </div>
 </div>
 <script>
@@ -2733,7 +2632,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Boston Celtics (2018-19 to 2020-21)","data":[80.6,58.5,69.0,58.6,56.4,59.3,57.7],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Detroit Pistons (2004-05 to 2006-07)","data":[37.8,71.5,82.8,82.8,55.1,78.8,58.4],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Portland Trail Blazers (2000-01 to 2002-03)","data":[23.8,63.9,79.3,51.7,51.6,69.1,71.7],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Minnesota Timberwolves","data":[66.7,69.7,72.4,72.4,56.2,65.6,51.1],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Boston Celtics (2018-19 to 2020-21)","data":[80.6,58.5,69.0,58.6,56.4,59.3,57.7],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Portland Trail Blazers (2000-01 to 2002-03)","data":[23.8,63.9,79.3,51.7,51.6,69.1,71.7],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Minnesota Timberwolves","data":[67.4,69.7,72.4,72.4,56.2,65.6,51.1],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -2774,7 +2673,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="card-offseason-lbl">Offseason</div><div class="card-event"><span class="card-event-icon">&#8594;</span> Reached Finals; coach Ime Udoka suspended that offseason</div>
       <div class="card-yr-row"><span class="yr-sea-lbl">2021-22</span><span class="yr-wp">62.2%</span><span class="card-nrtg card-nrtg-pos">+7.4</span><span class="yr-sep">&middot;</span><span class="yr-po out-up">Lost in Finals</span></div>
     </div>
-    
+    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -2802,21 +2701,21 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <span class="card-rank r3">#3 Best Match</span>
       <span class="card-sim">Similarity: 65/100</span>
     </div>
-    <div class="card-team">Detroit Pistons</div>
-    <div class="card-era">2006-07</div>
-    <div class="card-players">Chauncey Billups&nbsp;<span class="ptier-star">Star</span> &middot; Richard Hamilton&nbsp;<span class="ptier-star">Star</span> &middot; Rasheed Wallace&nbsp;<span class="ptier-star">Star</span> &middot; Tayshaun Prince &middot; Chris Webber&nbsp;<span class="ptier-star">Star</span></div>
+    <div class="card-team">Utah Jazz</div>
+    <div class="card-era">2019-20</div>
+    <div class="card-players">Rudy Gobert&nbsp;<span class="ptier-star">Star</span> &middot; Donovan Mitchell&nbsp;<span class="ptier-star">Star</span> &middot; Bojan Bogdanovic &middot; Jordan Clarkson &middot; Joe Ingles</div>
     <div class="card-divider"></div>
     <div class="card-out-lbl">3-year arc</div>
     <div class="card-yr-section">
-      <div class="card-yr-row"><span class="yr-sea-lbl">2004-05</span><span class="yr-wp">65.9%</span><span class="card-nrtg card-nrtg-pos">+4.3</span><span class="yr-sep">&middot;</span><span class="yr-po out-up">Lost in Finals</span></div><div class="card-yr-row"><span class="yr-sea-lbl">2005-06</span><span class="yr-wp">78.0%</span><span class="card-nrtg card-nrtg-pos">+7.6</span><span class="yr-sep">&middot;</span><span class="yr-po out-up">Conf. Finals Exit</span></div><div class="card-yr-row yr-anchor"><span class="yr-sea-lbl">2006-07</span><span class="yr-wp">64.6%</span><span class="card-nrtg card-nrtg-pos">+4.8</span><span class="yr-sep">&middot;</span><span class="yr-po out-up">Conf. Finals Exit</span>&nbsp;<span class="yr-rank">Off&nbsp;#6&nbsp;&middot;&nbsp;Def&nbsp;#6</span></div>
+      <div class="card-yr-row"><span class="yr-sea-lbl">2017-18</span><span class="yr-wp">58.5%</span><span class="card-nrtg card-nrtg-pos">+4.4</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">Conf. Semis Exit</span></div><div class="card-yr-row"><span class="yr-sea-lbl">2018-19</span><span class="yr-wp">61.0%</span><span class="card-nrtg card-nrtg-pos">+5.0</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">First Round Exit</span></div><div class="card-yr-row yr-anchor"><span class="yr-sea-lbl">2019-20</span><span class="yr-wp">61.1%</span><span class="card-nrtg card-nrtg-pos">+2.5</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">First Round Exit</span>&nbsp;<span class="yr-rank">Off&nbsp;#9&nbsp;&middot;&nbsp;Def&nbsp;#12</span></div>
       
     </div>
     <div class="card-out-lbl" style="margin-top:8px;">What followed</div>
     <div class="card-yr-section">
       
-      <div class="card-yr-row"><span class="yr-sea-lbl">2007-08</span><span class="yr-wp">72.0%</span><span class="card-nrtg card-nrtg-pos">+8.3</span><span class="yr-sep">&middot;</span><span class="yr-po out-up">Conf. Finals Exit</span></div>
+      <div class="card-yr-row"><span class="yr-sea-lbl">2020-21</span><span class="yr-wp">72.2%</span><span class="card-nrtg card-nrtg-pos">+9.0</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">Conf. Semis Exit</span></div>
     </div>
-    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
+    
   </div></div></div>
 
 <div class="team-card">
@@ -2825,8 +2724,8 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="team-name">New Orleans Pelicans</div>
       <div class="team-record">
         <span class="rec-season-lbl">2025-26</span>
-        <span><span class="rec-item">Record</span><span class="rec-val">19-44</span></span>
-        <span><span class="rec-item">Win rate</span><span class="rec-val">30.2%</span></span>
+        <span><span class="rec-item">Record</span><span class="rec-val">20-44</span></span>
+        <span><span class="rec-item">Win rate</span><span class="rec-val">31.2%</span></span>
         <span><span class="rec-item">Net Rtg</span><span class="rec-val">-5.2</span></span>
         <span><span class="rec-item">Off</span><span class="rec-val">#24</span></span><span><span class="rec-item">Def</span><span class="rec-val">#26</span></span>
       </div>
@@ -2844,10 +2743,10 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
   <div class="arc-row">
     <span class="arc-lbl">3-yr arc</span>
-    <span class="arc-cell">2023-24: 49-33 (59.8%)&nbsp;<span class="card-nrtg card-nrtg-pos">+4.6</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">First Round Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 21-61 (25.6%)&nbsp;<span class="card-nrtg card-nrtg-neg">-9.4</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 19-44 (30.2%)&nbsp;<span class="card-nrtg card-nrtg-neg">-5.2</span></span>
+    <span class="arc-cell">2023-24: 49-33 (59.8%)&nbsp;<span class="card-nrtg card-nrtg-pos">+4.6</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">First Round Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 21-61 (25.6%)&nbsp;<span class="card-nrtg card-nrtg-neg">-9.4</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 20-44 (31.2%)&nbsp;<span class="card-nrtg card-nrtg-neg">-5.2</span></span>
     <span class="arc-sep" style="margin-left:8px;">·</span>
     <span style="font-size:0.72rem;color:#4b5563;margin-left:4px;">
-      Win% <span class="arr dn">▼</span> -0.15
+      Win% <span class="arr dn">▼</span> -0.14
       &nbsp; NRtg <span class="arr dn">▼</span> -4.90 pts
     </span>
   </div>
@@ -2859,14 +2758,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">New Orleans Pelicans</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around no established star yet — Zion Williamson leads the way, trending downward this season. Closest historical twin: the <b>Minnesota Timberwolves</b> (2015-16), led by Karl-Anthony Towns — 56/100. That team missed the playoffs the following season (38% win rate).</div>
   </div>
 </div>
 <script>
@@ -2875,7 +2767,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Minnesota Timberwolves (2013-14 to 2015-16)","data":[51.0,41.5,58.6,6.9,48.8,43.6,62.0],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Portland Trail Blazers (2020-21 to 2022-23)","data":[44.8,39.7,41.4,6.9,37.8,33.6,36.6],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"New Orleans Pelicans","data":[24.9,35.4,20.7,13.8,34.6,31.7,52.2],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Minnesota Timberwolves (2013-14 to 2015-16)","data":[51.0,41.5,58.6,6.9,48.8,43.6,62.0],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Portland Trail Blazers (2020-21 to 2022-23)","data":[44.8,39.7,41.4,6.9,37.8,33.6,36.6],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"New Orleans Pelicans","data":[26.3,35.4,20.7,13.8,34.6,31.7,52.2],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -3001,14 +2893,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">New York Knicks</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around a 2-star roster led by Karl-Anthony Towns — no true superstar, holding steady this season. Closest historical twin: the <b>Toronto Raptors</b> (2017-18), led by DeMar DeRozan — 69/100. That team won the championship the following season (71% win rate).</div>
   </div>
 </div>
 <script>
@@ -3143,14 +3028,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Oklahoma City Thunder</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around superstar Shai Gilgeous-Alexander, holding steady this season. Closest historical twin: the <b>San Antonio Spurs</b> (2004-05), led by Tim Duncan — 47/100. That team reached the Conf Semis the following season (77% win rate).</div>
   </div>
 </div>
 <script>
@@ -3251,8 +3129,8 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="team-name">Orlando Magic</div>
       <div class="team-record">
         <span class="rec-season-lbl">2025-26</span>
-        <span><span class="rec-item">Record</span><span class="rec-val">32-28</span></span>
-        <span><span class="rec-item">Win rate</span><span class="rec-val">53.3%</span></span>
+        <span><span class="rec-item">Record</span><span class="rec-val">33-28</span></span>
+        <span><span class="rec-item">Win rate</span><span class="rec-val">54.1%</span></span>
         <span><span class="rec-item">Net Rtg</span><span class="rec-val">+0.3</span></span>
         <span><span class="rec-item">Off</span><span class="rec-val">#18</span></span><span><span class="rec-item">Def</span><span class="rec-val">#13</span></span>
       </div>
@@ -3270,7 +3148,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
   <div class="arc-row">
     <span class="arc-lbl">3-yr arc</span>
-    <span class="arc-cell">2023-24: 47-35 (57.3%)&nbsp;<span class="card-nrtg card-nrtg-pos">+2.2</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">First Round Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 41-41 (50.0%)&nbsp;<span class="card-nrtg card-nrtg-neu">-0.2</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">First Round Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 32-28 (53.3%)&nbsp;<span class="card-nrtg card-nrtg-neu">+0.3</span></span>
+    <span class="arc-cell">2023-24: 47-35 (57.3%)&nbsp;<span class="card-nrtg card-nrtg-pos">+2.2</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">First Round Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 41-41 (50.0%)&nbsp;<span class="card-nrtg card-nrtg-neu">-0.2</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">First Round Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 33-28 (54.1%)&nbsp;<span class="card-nrtg card-nrtg-neu">+0.3</span></span>
     <span class="arc-sep" style="margin-left:8px;">·</span>
     <span style="font-size:0.72rem;color:#4b5563;margin-left:4px;">
       Win% <span class="arr fl">→</span> -0.02
@@ -3285,14 +3163,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Orlando Magic</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around no established star yet — Paolo Banchero leads the way, holding steady this season. Closest historical twin: the <b>Indiana Pacers</b> (2017-18), led by Victor Oladipo — 65/100. That team lost in Round 1 the following season (58% win rate).</div>
   </div>
 </div>
 <script>
@@ -3301,7 +3172,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Indiana Pacers (2015-16 to 2017-18)","data":[55.9,58.8,65.5,62.1,38.1,49.7,58.7],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Miami Heat (2016-17 to 2018-19)","data":[63.1,52.7,13.8,79.3,45.1,50.2,51.0],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: New York Knicks (1998-99 to 2000-01)","data":[45.6,65.0,41.4,93.1,34.5,57.2,65.3],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Orlando Magic","data":[54.5,55.2,41.4,58.6,37.9,51.9,70.6],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Indiana Pacers (2015-16 to 2017-18)","data":[55.9,58.8,65.5,62.1,38.1,49.7,58.7],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Miami Heat (2016-17 to 2018-19)","data":[63.1,52.7,13.8,79.3,45.1,50.2,51.0],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: New York Knicks (1998-99 to 2000-01)","data":[45.6,65.0,41.4,93.1,34.5,57.2,65.3],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Orlando Magic","data":[55.5,55.2,41.4,58.6,37.9,51.9,70.6],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -3427,14 +3298,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Philadelphia 76ers</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around a 2-star roster led by Joel Embiid — no true superstar, holding steady this season. Closest historical twin: the <b>Houston Rockets</b> (2002-03), led by Steve Francis — 62/100. That team lost in Round 1 the following season (55% win rate).</div>
   </div>
 </div>
 <script>
@@ -3535,8 +3399,8 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="team-name">Phoenix Suns</div>
       <div class="team-record">
         <span class="rec-season-lbl">2025-26</span>
-        <span><span class="rec-item">Record</span><span class="rec-val">35-26</span></span>
-        <span><span class="rec-item">Win rate</span><span class="rec-val">57.4%</span></span>
+        <span><span class="rec-item">Record</span><span class="rec-val">35-27</span></span>
+        <span><span class="rec-item">Win rate</span><span class="rec-val">56.5%</span></span>
         <span><span class="rec-item">Net Rtg</span><span class="rec-val">+0.9</span></span>
         <span><span class="rec-item">Off</span><span class="rec-val">#20</span></span><span><span class="rec-item">Def</span><span class="rec-val">#10</span></span>
       </div>
@@ -3554,10 +3418,10 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
   <div class="arc-row">
     <span class="arc-lbl">3-yr arc</span>
-    <span class="arc-cell">2023-24: 49-33 (59.8%)&nbsp;<span class="card-nrtg card-nrtg-pos">+3.1</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">First Round Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 36-46 (43.9%)&nbsp;<span class="card-nrtg card-nrtg-neg">-3.0</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 35-26 (57.4%)&nbsp;<span class="card-nrtg card-nrtg-pos">+0.9</span></span>
+    <span class="arc-cell">2023-24: 49-33 (59.8%)&nbsp;<span class="card-nrtg card-nrtg-pos">+3.1</span>&nbsp;<span class="out-fl" style="font-weight:600;font-size:0.65rem;">First Round Exit</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 36-46 (43.9%)&nbsp;<span class="card-nrtg card-nrtg-neg">-3.0</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 35-27 (56.5%)&nbsp;<span class="card-nrtg card-nrtg-pos">+0.9</span></span>
     <span class="arc-sep" style="margin-left:8px;">·</span>
     <span style="font-size:0.72rem;color:#4b5563;margin-left:4px;">
-      Win% <span class="arr fl">→</span> -0.01
+      Win% <span class="arr fl">→</span> -0.02
       &nbsp; NRtg <span class="arr dn">▼</span> -1.10 pts
     </span>
   </div>
@@ -3569,14 +3433,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Phoenix Suns</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around star Devin Booker, with no superstar, holding steady this season. Closest historical twin: the <b>San Antonio Spurs</b> (2020-21), led by DeMar DeRozan — 71/100. That team missed the playoffs the following season (42% win rate).</div>
   </div>
 </div>
 <script>
@@ -3585,7 +3442,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: San Antonio Spurs (2018-19 to 2020-21)","data":[20.7,48.7,34.5,44.8,45.7,50.5,54.3],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Chicago Bulls (2014-15 to 2016-17)","data":[25.2,55.2,31.0,86.2,48.5,47.9,48.4],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Phoenix Suns","data":[59.6,57.4,34.5,69.0,44.1,47.6,46.1],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: San Antonio Spurs (2018-19 to 2020-21)","data":[20.7,48.7,34.5,44.8,45.7,50.5,54.3],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Chicago Bulls (2014-15 to 2016-17)","data":[25.2,55.2,31.0,86.2,48.5,47.9,48.4],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Phoenix Suns","data":[58.5,57.4,34.5,69.0,44.1,47.6,46.1],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -3610,7 +3467,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="match-card ">
     <div class="card-top">
       <span class="card-rank r1">#1 Best Match</span>
-      <span class="card-sim">Similarity: 70/100</span>
+      <span class="card-sim">Similarity: 71/100</span>
     </div>
     <div class="card-team">San Antonio Spurs</div>
     <div class="card-era">2020-21</div>
@@ -3631,7 +3488,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="match-card ">
     <div class="card-top">
       <span class="card-rank r2">#2 Best Match</span>
-      <span class="card-sim">Similarity: 67/100</span>
+      <span class="card-sim">Similarity: 68/100</span>
     </div>
     <div class="card-team">Chicago Bulls</div>
     <div class="card-era">2016-17</div>
@@ -3711,14 +3568,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Portland Trail Blazers</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around no established star yet — Deni Avdija leads the way, trending upward this season. Closest historical twin: the <b>Sacramento Kings</b> (2019-20), led by De'Aaron Fox — 69/100. That team missed the playoffs the following season (43% win rate).</div>
   </div>
 </div>
 <script>
@@ -3819,8 +3669,8 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="team-name">Sacramento Kings</div>
       <div class="team-record">
         <span class="rec-season-lbl">2025-26</span>
-        <span><span class="rec-item">Record</span><span class="rec-val">14-49</span></span>
-        <span><span class="rec-item">Win rate</span><span class="rec-val">22.2%</span></span>
+        <span><span class="rec-item">Record</span><span class="rec-val">14-50</span></span>
+        <span><span class="rec-item">Win rate</span><span class="rec-val">21.9%</span></span>
         <span><span class="rec-item">Net Rtg</span><span class="rec-val">-10.6</span></span>
         <span><span class="rec-item">Off</span><span class="rec-val">#28</span></span><span><span class="rec-item">Def</span><span class="rec-val">#28</span></span>
       </div>
@@ -3838,7 +3688,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
   <div class="arc-row">
     <span class="arc-lbl">3-yr arc</span>
-    <span class="arc-cell">2023-24: 46-36 (56.1%)&nbsp;<span class="card-nrtg card-nrtg-pos">+1.8</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 40-42 (48.8%)&nbsp;<span class="card-nrtg card-nrtg-pos">+0.6</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 14-49 (22.2%)&nbsp;<span class="card-nrtg card-nrtg-neg">-10.6</span></span>
+    <span class="arc-cell">2023-24: 46-36 (56.1%)&nbsp;<span class="card-nrtg card-nrtg-pos">+1.8</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 40-42 (48.8%)&nbsp;<span class="card-nrtg card-nrtg-pos">+0.6</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 14-50 (21.9%)&nbsp;<span class="card-nrtg card-nrtg-neg">-10.6</span></span>
     <span class="arc-sep" style="margin-left:8px;">·</span>
     <span style="font-size:0.72rem;color:#4b5563;margin-left:4px;">
       Win% <span class="arr dn">▼</span> -0.17
@@ -3853,14 +3703,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Sacramento Kings</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around no established star yet — DeMar DeRozan leads the way, trending downward this season. Closest historical twin: the <b>Utah Jazz</b> (2013-14), led by Derrick Favors — 58/100. That team missed the playoffs the following season (46% win rate).</div>
   </div>
 </div>
 <script>
@@ -3869,7 +3712,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Utah Jazz (2011-12 to 2013-14)","data":[57.2,26.7,17.2,3.4,24.0,29.2,33.7],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Milwaukee Bucks (2011-12 to 2013-14)","data":[44.8,24.2,10.3,0.0,13.7,26.6,33.5],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Los Angeles Clippers (2005-06 to 2007-08)","data":[33.9,27.1,6.9,37.9,25.4,30.6,32.0],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Sacramento Kings","data":[14.8,15.9,6.9,6.9,14.5,27.6,17.6],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Utah Jazz (2011-12 to 2013-14)","data":[57.2,26.7,17.2,3.4,24.0,29.2,33.7],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Milwaukee Bucks (2011-12 to 2013-14)","data":[44.8,24.2,10.3,0.0,13.7,26.6,33.5],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Los Angeles Clippers (2005-06 to 2007-08)","data":[33.9,27.1,6.9,37.9,25.4,30.6,32.0],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Sacramento Kings","data":[14.4,15.9,6.9,6.9,14.5,27.6,17.6],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -3961,8 +3804,8 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="team-name">San Antonio Spurs</div>
       <div class="team-record">
         <span class="rec-season-lbl">2025-26</span>
-        <span><span class="rec-item">Record</span><span class="rec-val">44-17</span></span>
-        <span><span class="rec-item">Win rate</span><span class="rec-val">72.1%</span></span>
+        <span><span class="rec-item">Record</span><span class="rec-val">45-17</span></span>
+        <span><span class="rec-item">Win rate</span><span class="rec-val">72.6%</span></span>
         <span><span class="rec-item">Net Rtg</span><span class="rec-val">+6.9</span></span>
         <span><span class="rec-item">Off</span><span class="rec-val">#8</span></span><span><span class="rec-item">Def</span><span class="rec-val">#3</span></span>
       </div>
@@ -3980,7 +3823,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
   <div class="arc-row">
     <span class="arc-lbl">3-yr arc</span>
-    <span class="arc-cell">2023-24: 22-60 (26.8%)&nbsp;<span class="card-nrtg card-nrtg-neg">-6.4</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 34-48 (41.5%)&nbsp;<span class="card-nrtg card-nrtg-neg">-2.8</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 44-17 (72.1%)&nbsp;<span class="card-nrtg card-nrtg-pos">+6.9</span></span>
+    <span class="arc-cell">2023-24: 22-60 (26.8%)&nbsp;<span class="card-nrtg card-nrtg-neg">-6.4</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 34-48 (41.5%)&nbsp;<span class="card-nrtg card-nrtg-neg">-2.8</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 45-17 (72.6%)&nbsp;<span class="card-nrtg card-nrtg-pos">+6.9</span></span>
     <span class="arc-sep" style="margin-left:8px;">·</span>
     <span style="font-size:0.72rem;color:#4b5563;margin-left:4px;">
       Win% <span class="arr up">▲</span> +0.23
@@ -3995,14 +3838,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">San Antonio Spurs</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around superstar Victor Wembanyama, trending upward this season. Closest historical twin: the <b>Cleveland Cavaliers</b> (2014-15), led by LeBron James — 46/100. That team won the championship the following season (70% win rate).</div>
   </div>
 </div>
 <script>
@@ -4011,7 +3847,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Cleveland Cavaliers (2012-13 to 2014-15)","data":[65.0,71.5,89.7,41.4,84.0,81.6,78.5],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Cleveland Cavaliers (2002-03 to 2004-05)","data":[60.3,56.3,62.1,58.6,72.7,61.7,58.2],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"San Antonio Spurs","data":[78.5,79.1,75.9,93.1,78.4,73.2,82.8],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Cleveland Cavaliers (2012-13 to 2014-15)","data":[65.0,71.5,89.7,41.4,84.0,81.6,78.5],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Cleveland Cavaliers (2002-03 to 2004-05)","data":[60.3,56.3,62.1,58.6,72.7,61.7,58.2],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"San Antonio Spurs","data":[79.0,79.1,75.9,93.1,78.4,73.2,82.8],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -4103,8 +3939,8 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="team-name">Toronto Raptors</div>
       <div class="team-record">
         <span class="rec-season-lbl">2025-26</span>
-        <span><span class="rec-item">Record</span><span class="rec-val">35-26</span></span>
-        <span><span class="rec-item">Win rate</span><span class="rec-val">57.4%</span></span>
+        <span><span class="rec-item">Record</span><span class="rec-val">35-27</span></span>
+        <span><span class="rec-item">Win rate</span><span class="rec-val">56.5%</span></span>
         <span><span class="rec-item">Net Rtg</span><span class="rec-val">+1.7</span></span>
         <span><span class="rec-item">Off</span><span class="rec-val">#17</span></span><span><span class="rec-item">Def</span><span class="rec-val">#8</span></span>
       </div>
@@ -4122,7 +3958,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
   <div class="arc-row">
     <span class="arc-lbl">3-yr arc</span>
-    <span class="arc-cell">2023-24: 25-57 (30.5%)&nbsp;<span class="card-nrtg card-nrtg-neg">-6.3</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 30-52 (36.6%)&nbsp;<span class="card-nrtg card-nrtg-neg">-4.1</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 35-26 (57.4%)&nbsp;<span class="card-nrtg card-nrtg-pos">+1.7</span></span>
+    <span class="arc-cell">2023-24: 25-57 (30.5%)&nbsp;<span class="card-nrtg card-nrtg-neg">-6.3</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 30-52 (36.6%)&nbsp;<span class="card-nrtg card-nrtg-neg">-4.1</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 35-27 (56.5%)&nbsp;<span class="card-nrtg card-nrtg-pos">+1.7</span></span>
     <span class="arc-sep" style="margin-left:8px;">·</span>
     <span style="font-size:0.72rem;color:#4b5563;margin-left:4px;">
       Win% <span class="arr up">▲</span> +0.13
@@ -4137,14 +3973,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Toronto Raptors</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around no established star yet — Scottie Barnes leads the way, trending upward this season. Closest historical twin: the <b>Chicago Bulls</b> (2004-05), led by Kirk Hinrich — 66/100. That team missed the playoffs the following season (50% win rate).</div>
   </div>
 </div>
 <script>
@@ -4153,7 +3982,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Chicago Bulls (2002-03 to 2004-05)","data":[50.2,59.2,13.8,96.6,31.5,43.9,52.0],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Washington Wizards (2011-12 to 2013-14)","data":[56.5,58.8,34.5,79.3,54.1,56.0,60.8],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Toronto Raptors","data":[59.6,60.3,44.8,75.9,39.5,49.1,65.3],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Chicago Bulls (2002-03 to 2004-05)","data":[50.2,59.2,13.8,96.6,31.5,43.9,52.0],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Washington Wizards (2011-12 to 2013-14)","data":[56.5,58.8,34.5,79.3,54.1,56.0,60.8],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Toronto Raptors","data":[58.5,60.3,44.8,75.9,39.5,49.1,65.3],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -4199,7 +4028,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="match-card ">
     <div class="card-top">
       <span class="card-rank r2">#2 Best Match</span>
-      <span class="card-sim">Similarity: 63/100</span>
+      <span class="card-sim">Similarity: 64/100</span>
     </div>
     <div class="card-team">Orlando Magic</div>
     <div class="card-era">2018-19</div>
@@ -4245,8 +4074,8 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="team-name">Utah Jazz</div>
       <div class="team-record">
         <span class="rec-season-lbl">2025-26</span>
-        <span><span class="rec-item">Record</span><span class="rec-val">18-44</span></span>
-        <span><span class="rec-item">Win rate</span><span class="rec-val">29.0%</span></span>
+        <span><span class="rec-item">Record</span><span class="rec-val">19-44</span></span>
+        <span><span class="rec-item">Win rate</span><span class="rec-val">30.2%</span></span>
         <span><span class="rec-item">Net Rtg</span><span class="rec-val">-7.5</span></span>
         <span><span class="rec-item">Off</span><span class="rec-val">#21</span></span><span><span class="rec-item">Def</span><span class="rec-val">#30</span></span>
       </div>
@@ -4264,7 +4093,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
   <div class="arc-row">
     <span class="arc-lbl">3-yr arc</span>
-    <span class="arc-cell">2023-24: 31-51 (37.8%)&nbsp;<span class="card-nrtg card-nrtg-neg">-5.1</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 17-65 (20.7%)&nbsp;<span class="card-nrtg card-nrtg-neg">-9.2</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 18-44 (29.0%)&nbsp;<span class="card-nrtg card-nrtg-neg">-7.5</span></span>
+    <span class="arc-cell">2023-24: 31-51 (37.8%)&nbsp;<span class="card-nrtg card-nrtg-neg">-5.1</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 17-65 (20.7%)&nbsp;<span class="card-nrtg card-nrtg-neg">-9.2</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 19-44 (30.2%)&nbsp;<span class="card-nrtg card-nrtg-neg">-7.5</span></span>
     <span class="arc-sep" style="margin-left:8px;">·</span>
     <span style="font-size:0.72rem;color:#4b5563;margin-left:4px;">
       Win% <span class="arr dn">▼</span> -0.04
@@ -4279,14 +4108,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Utah Jazz</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around no established star yet — Jaren Jackson Jr. leads the way, holding steady this season. Closest historical twin: the <b>Phoenix Suns</b> (2018-19), led by Devin Booker — 77/100. That team missed the playoffs the following season (47% win rate).</div>
   </div>
 </div>
 <script>
@@ -4295,7 +4117,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Phoenix Suns (2016-17 to 2018-19)","data":[81.4,22.0,6.9,3.4,22.3,28.0,31.6],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Houston Rockets (2020-21 to 2022-23)","data":[67.3,24.9,10.3,3.4,18.8,26.8,25.8],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Detroit Pistons (2020-21 to 2022-23)","data":[68.5,25.6,6.9,10.3,17.5,23.4,22.4],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Utah Jazz","data":[23.5,27.1,31.0,0.0,25.4,31.1,42.4],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Phoenix Suns (2016-17 to 2018-19)","data":[81.4,22.0,6.9,3.4,22.3,28.0,31.6],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Houston Rockets (2020-21 to 2022-23)","data":[66.6,24.9,10.3,3.4,18.8,26.8,25.8],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Detroit Pistons (2020-21 to 2022-23)","data":[67.7,25.6,6.9,10.3,17.5,23.4,22.4],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Utah Jazz","data":[24.9,27.1,31.0,0.0,25.4,31.1,42.4],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -4341,7 +4163,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="match-card ">
     <div class="card-top">
       <span class="card-rank r2">#2 Best Match</span>
-      <span class="card-sim">Similarity: 71/100</span>
+      <span class="card-sim">Similarity: 70/100</span>
     </div>
     <div class="card-team">Detroit Pistons</div>
     <div class="card-era">2022-23</div>
@@ -4362,7 +4184,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="match-card ">
     <div class="card-top">
       <span class="card-rank r3">#3 Best Match</span>
-      <span class="card-sim">Similarity: 64/100</span>
+      <span class="card-sim">Similarity: 65/100</span>
     </div>
     <div class="card-team">Houston Rockets</div>
     <div class="card-era">2022-23</div>
@@ -4387,8 +4209,8 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="team-name">Washington Wizards</div>
       <div class="team-record">
         <span class="rec-season-lbl">2025-26</span>
-        <span><span class="rec-item">Record</span><span class="rec-val">16-45</span></span>
-        <span><span class="rec-item">Win rate</span><span class="rec-val">26.2%</span></span>
+        <span><span class="rec-item">Record</span><span class="rec-val">16-46</span></span>
+        <span><span class="rec-item">Win rate</span><span class="rec-val">25.8%</span></span>
         <span><span class="rec-item">Net Rtg</span><span class="rec-val">-10.8</span></span>
         <span><span class="rec-item">Off</span><span class="rec-val">#29</span></span><span><span class="rec-item">Def</span><span class="rec-val">#29</span></span>
       </div>
@@ -4406,7 +4228,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
   <div class="arc-row">
     <span class="arc-lbl">3-yr arc</span>
-    <span class="arc-cell">2023-24: 15-67 (18.3%)&nbsp;<span class="card-nrtg card-nrtg-neg">-8.7</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 18-64 (22.0%)&nbsp;<span class="card-nrtg card-nrtg-neg">-12.2</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 16-45 (26.2%)&nbsp;<span class="card-nrtg card-nrtg-neg">-10.8</span></span>
+    <span class="arc-cell">2023-24: 15-67 (18.3%)&nbsp;<span class="card-nrtg card-nrtg-neg">-8.7</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell">2024-25: 18-64 (22.0%)&nbsp;<span class="card-nrtg card-nrtg-neg">-12.2</span>&nbsp;<span style="color:#4b5563;font-size:0.65rem;">Missed playoffs</span></span> <span class="arc-sep">→</span> <span class="arc-cell arc-curr">2025-26: 16-46 (25.8%)&nbsp;<span class="card-nrtg card-nrtg-neg">-10.8</span></span>
     <span class="arc-sep" style="margin-left:8px;">·</span>
     <span style="font-size:0.72rem;color:#4b5563;margin-left:4px;">
       Win% <span class="arr up">▲</span> +0.04
@@ -4421,14 +4243,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Washington Wizards</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="chart-axis-key">
-      <span>&ndash; <b>Win %</b> current team: this season &middot; matches: avg of next 1&ndash;2 seasons after window</span>
-      <span>&ndash; <b>Net Rtg</b> point diff per 100 possessions</span>
-      <span>&ndash; <b>Offense</b> &amp; <b>Defense</b> rank among 30 teams (1 = best)</span>
-      <span>&ndash; <b>Top Player</b> best player composite score</span>
-      <span>&ndash; <b>Depth</b> weighted top-8 roster quality</span>
-      <span>&ndash; <b>Potential</b> age &amp; draft-adjusted upside</span>
-    </div>
+    <div class="team-blurb">Built around star Anthony Davis, with no superstar, holding steady this season. Closest historical twin: the <b>Los Angeles Clippers</b> (1999-00), led by Lamar Odom — 52/100. That team missed the playoffs the following season (38% win rate).</div>
   </div>
 </div>
 <script>
@@ -4437,7 +4252,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Los Angeles Clippers (1997-98 to 1999-00)","data":[37.8,11.2,6.9,3.4,22.9,17.3,19.2],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Chicago Bulls (1998-99 to 2000-01)","data":[27.7,18.1,3.4,6.9,38.0,18.8,15.5],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Washington Wizards","data":[19.9,15.2,3.4,3.4,49.2,19.9,36.8],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Los Angeles Clippers (1997-98 to 1999-00)","data":[37.8,11.2,6.9,3.4,22.9,17.3,19.2],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Chicago Bulls (1998-99 to 2000-01)","data":[27.7,18.1,3.4,6.9,38.0,18.8,15.5],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Washington Wizards","data":[19.4,15.2,3.4,3.4,49.2,19.9,36.8],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
