@@ -55,25 +55,32 @@ def compute_composite_for_group(group):
     Compute composite score for a single season's qualified players.
     All normalization is within-season to avoid era bias.
 
-    When PIE is available (rare — a few seasons with full advanced data):
-        composite = 0.50 × PIE_norm + 0.30 × NET_RATING_norm + 0.20 × box_per36_norm
+    PIE is available only in 2015-16 and 2025-26 (the two seasons where the
+    Advanced stats endpoint returned it). For all other seasons the fallback
+    is used unchanged from the original formula.
 
-    Fallback (most seasons — box score + minutes + team net rating):
-        composite = 0.50 × box_per36_norm + 0.30 × minutes_norm + 0.20 × team_nrtg_norm
+    When PIE is available:
+        composite = 0.45×PIE + 0.25×NET_RATING + 0.20×USG_PCT + 0.05×EFF + 0.05×box_per36
 
-    team_nrtg_norm: within-season normalized team net rating (proxy for player impact
-    on winning). Rewards players on high-performing teams; penalizes stat accumulators
-    on mediocre teams whose counting numbers don't translate to wins. Falls back to
-    box+minutes only if team NRtg is unavailable.
+    USG_PCT (usage rate) penalises low-usage rim-protectors whose raw box
+    numbers inflate per-36 stats, rewards high-usage guards/wings who carry
+    offensive load.
 
-    Box score weights dampened to reduce big-man inflation:
-    REB 1.2 (was 1.5), AST/STL/BLK 1.5 (were 2.0).
+    EFF_per36 approximation: NBA-style efficiency using TS% to estimate missed
+    shots (FGA−FGM + FTA−FTM equivalent) without needing raw shot-count data.
+
+    Fallback (no PIE — most seasons):
+        composite = 0.50×box_per36 + 0.30×min_norm + 0.20×team_nrtg
+        (original formula — unchanged to preserve cross-era calibration)
+
+    Box score weights: REB 0.75 (reduced from 1.2 to dampen big-man inflation
+    in the box component, which is only 5–20% of the total composite).
     """
     g = group.copy()
 
     box_norm = normalize_within_season(g['box_per36'].fillna(g['box_per36'].median()))
-    min_norm = normalize_within_season(g['TOTAL_MIN'])   # within-season relative playing time
-    net_norm = normalize_within_season(g['NET_RATING'].fillna(g['NET_RATING'].median()))
+    min_norm  = normalize_within_season(g['TOTAL_MIN'])
+    net_norm  = normalize_within_season(g['NET_RATING'].fillna(g['NET_RATING'].median()))
 
     pie = g['PIE']
     has_pie = pie.notna() & (pie != 0)
@@ -82,11 +89,32 @@ def compute_composite_for_group(group):
 
     if has_pie.sum() > 0:
         pie_norm = normalize_within_season(pie.fillna(pie.median()))
-        composite[has_pie] = (0.5 * pie_norm[has_pie]
-                              + 0.3 * net_norm[has_pie]
-                              + 0.2 * box_norm[has_pie])
 
-    # Fallback: box efficiency + minutes + team net rating (winning context)
+        # USG_PCT: penalises low-usage bigs, rewards high-usage initiators
+        usg_norm = normalize_within_season(
+            g['USG_PCT'].fillna(g['USG_PCT'].median()) if 'USG_PCT' in g.columns
+            else pd.Series(0.5, index=g.index)
+        )
+
+        # EFF_per36 approximation via TS%:
+        #   missed_per36 ≈ PTS × (1/(2×TS%) − 0.5) × (36/MIN)
+        if 'TS_PCT' in g.columns:
+            ts_safe   = g['TS_PCT'].fillna(g['TS_PCT'].median()).clip(lower=0.30)
+            min_safe  = g['MIN'].clip(lower=0.1)
+            raw_eff   = (g['PTS'] + g['REB'] + g['AST'] + g['STL'] + g['BLK'] - g['TOV'])
+            missed36  = g['PTS'] * (1.0 / (2.0 * ts_safe) - 0.5) * (36.0 / min_safe)
+            eff_per36 = raw_eff * (36.0 / min_safe) - missed36
+            eff_norm  = normalize_within_season(eff_per36.fillna(eff_per36.median()))
+        else:
+            eff_norm = box_norm
+
+        composite[has_pie] = (0.45 * pie_norm[has_pie]
+                              + 0.25 * net_norm[has_pie]
+                              + 0.20 * usg_norm[has_pie]
+                              + 0.05 * eff_norm[has_pie]
+                              + 0.05 * box_norm[has_pie])
+
+    # Fallback (no PIE): original formula — preserves historical calibration
     no_pie = ~has_pie
     if 'team_nrtg' in g.columns and g['team_nrtg'].notna().sum() > 0:
         tnrtg_norm = normalize_within_season(
@@ -226,10 +254,10 @@ def main():
     # -----------------------------------------------------------------------
     min_safe = df_q['MIN'].clip(lower=0.1)
     raw_box = (df_q['PTS']
-               + 1.2 * df_q['REB']   # reduced from 1.5 — less big-man bias
-               + 1.5 * df_q['AST']   # reduced from 2.0
-               + 1.5 * df_q['STL']   # reduced from 2.0
-               + 1.5 * df_q['BLK']   # reduced from 2.0 — blocks were inflating backup bigs
+               + 0.75 * df_q['REB']  # reduced from 1.2 — rebounds over-inflate bigs
+               + 1.5  * df_q['AST']
+               + 1.5  * df_q['STL']
+               + 1.5  * df_q['BLK']  # blocks still valued but USG/EFF dampens backup-big inflation
                - df_q['TOV'])
     df_q['box_per36'] = raw_box * (36.0 / min_safe)
 
