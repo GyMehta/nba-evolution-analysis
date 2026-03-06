@@ -261,11 +261,14 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
 /* ── Per-team narrative blurb ── */
 .team-blurb {
-    font-size: 0.75rem; color: #9ca3af; line-height: 1.6;
+    font-size: 0.72rem; color: #9ca3af; line-height: 1.75;
     margin-top: 8px; padding-top: 8px;
     border-top: 1px solid #1e1e1e;
 }
 .team-blurb b { color: #c7d2fe; }
+.blurb-stars { color: #6b7280; }
+.blurb-outcome { color: #d1fae5; }
+.blurb-arrow { color: #e2e8f0; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
@@ -328,7 +331,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Atlanta Hawks</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around star Jalen Johnson, with no superstar, holding steady this season. Closest historical twin: the <b>Orlando Magic</b> (2006-07), led by Dwight Howard — 65/100. That team reached the Conf Semis the following season (63% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 1 stars — Jalen Johnson / Onyeka Okongwu</span><br>Historical twin: <b>Orlando Magic 2006-07</b> — Dwight Howard / Jameer Nelson — 65/100<br><span class="blurb-outcome">What happened next: Reached the Conf Semis (63% win rate)</span><br><span class="blurb-arrow">→ Strong match. That twin reached the Conf Semis (63% win rate).</span></div>
   </div>
 </div>
 <script>
@@ -463,7 +466,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Boston Celtics</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around a 2-star roster led by Jaylen Brown — no true superstar, holding steady this season. Closest historical twin: the <b>San Antonio Spurs</b> (2014-15), led by Tim Duncan — 48/100. That team reached the Conf Semis the following season (82% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 2 stars — Jaylen Brown / Derrick White</span><br>Historical twin: <b>San Antonio Spurs 2014-15</b> — Tim Duncan / Kawhi Leonard — 48/100<br><span class="blurb-outcome">What happened next: Reached the Conf Semis (82% win rate)</span><br><span class="blurb-arrow">→ Closest comp (low similarity — this team may be historically unusual). That twin reached the Conf Semis (82% win rate).</span></div>
   </div>
 </div>
 <script>
@@ -598,7 +601,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Brooklyn Nets</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
-    <div class="team-blurb">Built around no established star yet — Michael Porter Jr. leads the way, trending downward this season. Closest historical twin: the <b>Detroit Pistons</b> (2022-23), led by Bojan Bogdanovic — 69/100. That team missed the playoffs the following season (17% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 0 stars — Michael Porter Jr. / Day'Ron Sharpe</span><br>Historical twin: <b>Detroit Pistons 2022-23</b> — Bojan Bogdanovic / Jaden Ivey — 69/100<br><span class="blurb-outcome">What happened next: Missed the playoffs (17% win rate)</span><br><span class="blurb-arrow">→ Strong match. That twin missed the playoffs the following year. Trending down — worth watching. Something needs to change.</span></div>
   </div>
 </div>
 <script>
@@ -733,7 +736,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Charlotte Hornets</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around no established star yet — LaMelo Ball leads the way, trending upward this season. Closest historical twin: the <b>Phoenix Suns</b> (2019-20), led by Devin Booker — 54/100. That team reached the Finals the following season (71% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 0 stars — LaMelo Ball / Kon Knueppel</span><br>Historical twin: <b>Phoenix Suns 2019-20</b> — Devin Booker / Ricky Rubio — 54/100<br><span class="blurb-outcome">What happened next: Reached the Finals (71% win rate)</span><br><span class="blurb-arrow">→ Solid match. That twin made the Finals — a meaningful signal for deep contention. Trending up this season.</span></div>
   </div>
 </div>
 <script>
@@ -868,7 +871,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Chicago Bulls</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around star Josh Giddey, with no superstar, holding steady this season. Closest historical twin: the <b>New Jersey Nets</b> (2000-01), led by Stephon Marbury — 67/100. That team reached the Finals the following season (63% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 1 stars — Josh Giddey / Jalen Smith</span><br>Historical twin: <b>New Jersey Nets 2000-01</b> — Stephon Marbury / Keith Van Horn — 67/100<br><span class="blurb-outcome">What happened next: Reached the Finals (63% win rate)</span><br><span class="blurb-arrow">→ Strong match. That twin made the Finals — a meaningful signal for deep contention.</span></div>
   </div>
 </div>
 <script>
@@ -1003,7 +1006,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Cleveland Cavaliers</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around a 4-star roster led by Donovan Mitchell — no true superstar, holding steady this season. Closest historical twin: the <b>Detroit Pistons</b> (2006-07), led by Chauncey Billups — 67/100. That team reached the Conf Finals the following season (72% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 4 stars — Donovan Mitchell / James Harden</span><br>Historical twin: <b>Detroit Pistons 2006-07</b> — Chauncey Billups / Richard Hamilton — 67/100<br><span class="blurb-outcome">What happened next: Reached the Conf Finals (72% win rate)</span><br><span class="blurb-arrow">→ Strong match. That twin reached the Conf Finals. Strong precedent for a deep run.</span></div>
   </div>
 </div>
 <script>
@@ -1138,7 +1141,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Dallas Mavericks</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around no established star yet — Cooper Flagg leads the way, trending downward this season. Closest historical twin: the <b>Minnesota Timberwolves</b> (2007-08), led by Al Jefferson — 48/100. That team missed the playoffs the following season (29% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 0 stars — Cooper Flagg / Brandon Williams</span><br>Historical twin: <b>Minnesota Timberwolves 2007-08</b> — Al Jefferson / Ryan Gomes — 48/100<br><span class="blurb-outcome">What happened next: Missed the playoffs (29% win rate)</span><br><span class="blurb-arrow">→ Closest comp (low similarity — this team may be historically unusual). That twin missed the playoffs the following year. Trending down — worth watching. Something needs to change.</span></div>
   </div>
 </div>
 <script>
@@ -1273,7 +1276,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Denver Nuggets</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around superstar Nikola Jokić, holding steady this season. Closest historical twin: the <b>Cleveland Cavaliers</b> (2017-18), led by LeBron James — 59/100. That team missed the playoffs the following season (23% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">1 superstars, 1 stars — Nikola Jokić / Jamal Murray</span><br>Historical twin: <b>Cleveland Cavaliers 2017-18</b> — LeBron James / Kevin Love — 59/100<br><span class="blurb-outcome">What happened next: Missed the playoffs (23% win rate)</span><br><span class="blurb-arrow">→ Solid match. That twin missed the playoffs the following year. Something needs to change.</span></div>
   </div>
 </div>
 <script>
@@ -1408,7 +1411,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Detroit Pistons</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around a 2-star roster led by Cade Cunningham — no true superstar, trending upward this season. Closest historical twin: the <b>Phoenix Suns</b> (2020-21), led by Chris Paul — 67/100. That team reached the Conf Semis the following season (78% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 2 stars — Cade Cunningham / Jalen Duren</span><br>Historical twin: <b>Phoenix Suns 2020-21</b> — Chris Paul / Devin Booker — 67/100<br><span class="blurb-outcome">What happened next: Reached the Conf Semis (78% win rate)</span><br><span class="blurb-arrow">→ Strong match. That twin reached the Conf Semis (78% win rate). Trending up this season.</span></div>
   </div>
 </div>
 <script>
@@ -1543,7 +1546,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Golden State Warriors</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around a 2-star roster led by Stephen Curry — no true superstar, holding steady this season. Closest historical twin: the <b>Washington Wizards</b> (2015-16), led by John Wall — 64/100. That team reached the Conf Semis the following season (60% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 2 stars — Stephen Curry / Jimmy Butler III</span><br>Historical twin: <b>Washington Wizards 2015-16</b> — John Wall / Marcin Gortat — 64/100<br><span class="blurb-outcome">What happened next: Reached the Conf Semis (60% win rate)</span><br><span class="blurb-arrow">→ Solid match. That twin reached the Conf Semis (60% win rate).</span></div>
   </div>
 </div>
 <script>
@@ -1678,7 +1681,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Houston Rockets</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around a 2-star roster led by Alperen Sengun — no true superstar, trending upward this season. Closest historical twin: the <b>Indiana Pacers</b> (2012-13), led by David West — 73/100. That team reached the Conf Finals the following season (68% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 2 stars — Alperen Sengun / Kevin Durant</span><br>Historical twin: <b>Indiana Pacers 2012-13</b> — David West / Roy Hibbert — 73/100<br><span class="blurb-outcome">What happened next: Reached the Conf Finals (68% win rate)</span><br><span class="blurb-arrow">→ Strong match. That twin reached the Conf Finals. Trending up this season. Strong precedent for a deep run.</span></div>
   </div>
 </div>
 <script>
@@ -1813,7 +1816,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Indiana Pacers</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around no established star yet — Ivica Zubac leads the way, trending downward this season. Closest historical twin: the <b>Utah Jazz</b> (2013-14), led by Derrick Favors — 61/100. That team missed the playoffs the following season (46% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 0 stars — Ivica Zubac / Pascal Siakam</span><br>Historical twin: <b>Utah Jazz 2013-14</b> — Derrick Favors / Gordon Hayward — 61/100<br><span class="blurb-outcome">What happened next: Missed the playoffs (46% win rate)</span><br><span class="blurb-arrow">→ Solid match. That twin missed the playoffs the following year. Trending down — worth watching. Something needs to change.</span></div>
   </div>
 </div>
 <script>
@@ -1948,7 +1951,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">LA Clippers</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
-    <div class="team-blurb">Built around star Kawhi Leonard, with no superstar, trending downward this season. Closest historical twin: the <b>Dallas Mavericks</b> (2015-16), led by Dirk Nowitzki — 61/100. That team missed the playoffs the following season (40% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 1 stars — Kawhi Leonard / Darius Garland</span><br>Historical twin: <b>Dallas Mavericks 2015-16</b> — Dirk Nowitzki / David Lee — 61/100<br><span class="blurb-outcome">What happened next: Missed the playoffs (40% win rate)</span><br><span class="blurb-arrow">→ Solid match. That twin missed the playoffs the following year. Trending down — worth watching. Something needs to change.</span></div>
   </div>
 </div>
 <script>
@@ -2083,7 +2086,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Los Angeles Lakers</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
-    <div class="team-blurb">Built around superstar Luka Dončić, holding steady this season. Closest historical twin: the <b>Minnesota Timberwolves</b> (2000-01), led by Kevin Garnett — 56/100. That team missed the playoffs the following season (61% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">1 superstars, 2 stars — Luka Dončić / LeBron James</span><br>Historical twin: <b>Minnesota Timberwolves 2000-01</b> — Kevin Garnett / Terrell Brandon — 56/100<br><span class="blurb-outcome">What happened next: Missed the playoffs (61% win rate)</span><br><span class="blurb-arrow">→ Solid match. That twin missed the playoffs the following year. Something needs to change.</span></div>
   </div>
 </div>
 <script>
@@ -2218,7 +2221,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Memphis Grizzlies</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
-    <div class="team-blurb">Built around no established star yet — Cam Spencer leads the way, holding steady this season. Closest historical twin: the <b>Phoenix Suns</b> (2014-15), led by Eric Bledsoe — 51/100. That team missed the playoffs the following season (28% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 0 stars — Cam Spencer / Cedric Coward</span><br>Historical twin: <b>Phoenix Suns 2014-15</b> — Eric Bledsoe / Markieff Morris — 51/100<br><span class="blurb-outcome">What happened next: Missed the playoffs (28% win rate)</span><br><span class="blurb-arrow">→ Solid match. That twin missed the playoffs the following year. Something needs to change.</span></div>
   </div>
 </div>
 <script>
@@ -2353,7 +2356,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Miami Heat</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
-    <div class="team-blurb">Built around star Bam Adebayo, with no superstar, holding steady this season. Closest historical twin: the <b>Miami Heat</b> (2017-18), led by Hassan Whiteside — 71/100. That team missed the playoffs the following season (48% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 1 stars — Bam Adebayo / Kel'el Ware</span><br>Historical twin: <b>Miami Heat 2017-18</b> — Hassan Whiteside / Goran Dragic — 71/100<br><span class="blurb-outcome">What happened next: Missed the playoffs (48% win rate)</span><br><span class="blurb-arrow">→ Strong match. That twin missed the playoffs the following year. Something needs to change.</span></div>
   </div>
 </div>
 <script>
@@ -2488,7 +2491,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Milwaukee Bucks</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
-    <div class="team-blurb">Built around superstar Giannis Antetokounmpo, trending downward this season. Closest historical twin: the <b>Minnesota Timberwolves</b> (2005-06), led by Kevin Garnett — 56/100. That team missed the playoffs the following season (39% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">1 superstars, 0 stars — Giannis Antetokounmpo / Kevin Porter Jr.</span><br>Historical twin: <b>Minnesota Timberwolves 2005-06</b> — Kevin Garnett / Ricky Davis — 56/100<br><span class="blurb-outcome">What happened next: Missed the playoffs (39% win rate)</span><br><span class="blurb-arrow">→ Solid match. That twin missed the playoffs the following year. Trending down — worth watching. Something needs to change.</span></div>
   </div>
 </div>
 <script>
@@ -2623,7 +2626,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Minnesota Timberwolves</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around a 2-star roster led by Anthony Edwards — no true superstar, holding steady this season. Closest historical twin: the <b>Boston Celtics</b> (2020-21), led by Jayson Tatum — 68/100. That team reached the Finals the following season (62% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 2 stars — Anthony Edwards / Julius Randle</span><br>Historical twin: <b>Boston Celtics 2020-21</b> — Jayson Tatum / Jaylen Brown — 68/100<br><span class="blurb-outcome">What happened next: Reached the Finals (62% win rate)</span><br><span class="blurb-arrow">→ Strong match. That twin made the Finals — a meaningful signal for deep contention.</span></div>
   </div>
 </div>
 <script>
@@ -2758,7 +2761,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">New Orleans Pelicans</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around no established star yet — Zion Williamson leads the way, trending downward this season. Closest historical twin: the <b>Minnesota Timberwolves</b> (2015-16), led by Karl-Anthony Towns — 56/100. That team missed the playoffs the following season (38% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 0 stars — Zion Williamson / Trey Murphy III</span><br>Historical twin: <b>Minnesota Timberwolves 2015-16</b> — Karl-Anthony Towns / Ricky Rubio — 56/100<br><span class="blurb-outcome">What happened next: Missed the playoffs (38% win rate)</span><br><span class="blurb-arrow">→ Solid match. That twin missed the playoffs the following year. Trending down — worth watching. Something needs to change.</span></div>
   </div>
 </div>
 <script>
@@ -2893,7 +2896,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">New York Knicks</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around a 2-star roster led by Karl-Anthony Towns — no true superstar, holding steady this season. Closest historical twin: the <b>Toronto Raptors</b> (2017-18), led by DeMar DeRozan — 69/100. That team won the championship the following season (71% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 2 stars — Karl-Anthony Towns / Jalen Brunson</span><br>Historical twin: <b>Toronto Raptors 2017-18</b> — DeMar DeRozan / Kyle Lowry — 69/100<br><span class="blurb-outcome">What happened next: Won the championship (71% win rate)</span><br><span class="blurb-arrow">→ Strong match. That twin won the championship. History is optimistic.</span></div>
   </div>
 </div>
 <script>
@@ -3028,7 +3031,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Oklahoma City Thunder</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around superstar Shai Gilgeous-Alexander, holding steady this season. Closest historical twin: the <b>San Antonio Spurs</b> (2004-05), led by Tim Duncan — 47/100. That team reached the Conf Semis the following season (77% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">1 superstars, 2 stars — Shai Gilgeous-Alexander / Chet Holmgren</span><br>Historical twin: <b>San Antonio Spurs 2004-05</b> — Tim Duncan / Tony Parker — 47/100<br><span class="blurb-outcome">What happened next: Reached the Conf Semis (77% win rate)</span><br><span class="blurb-arrow">→ Closest comp (low similarity — this team may be historically unusual). That twin reached the Conf Semis (77% win rate).</span></div>
   </div>
 </div>
 <script>
@@ -3163,7 +3166,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Orlando Magic</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around no established star yet — Paolo Banchero leads the way, holding steady this season. Closest historical twin: the <b>Indiana Pacers</b> (2017-18), led by Victor Oladipo — 65/100. That team lost in Round 1 the following season (58% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 0 stars — Paolo Banchero / Franz Wagner</span><br>Historical twin: <b>Indiana Pacers 2017-18</b> — Victor Oladipo / Myles Turner — 65/100<br><span class="blurb-outcome">What happened next: Lost in Round 1 (58% win rate)</span><br><span class="blurb-arrow">→ Solid match. That twin lost in Round 1. Playoff success isn't guaranteed.</span></div>
   </div>
 </div>
 <script>
@@ -3298,7 +3301,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Philadelphia 76ers</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around a 2-star roster led by Joel Embiid — no true superstar, holding steady this season. Closest historical twin: the <b>Houston Rockets</b> (2002-03), led by Steve Francis — 62/100. That team lost in Round 1 the following season (55% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 2 stars — Joel Embiid / Tyrese Maxey</span><br>Historical twin: <b>Houston Rockets 2002-03</b> — Steve Francis / Yao Ming — 62/100<br><span class="blurb-outcome">What happened next: Lost in Round 1 (55% win rate)</span><br><span class="blurb-arrow">→ Solid match. That twin lost in Round 1. Playoff success isn't guaranteed.</span></div>
   </div>
 </div>
 <script>
@@ -3433,7 +3436,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Phoenix Suns</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
-    <div class="team-blurb">Built around star Devin Booker, with no superstar, holding steady this season. Closest historical twin: the <b>San Antonio Spurs</b> (2020-21), led by DeMar DeRozan — 71/100. That team missed the playoffs the following season (42% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 1 stars — Devin Booker / Mark Williams</span><br>Historical twin: <b>San Antonio Spurs 2020-21</b> — DeMar DeRozan / Dejounte Murray — 71/100<br><span class="blurb-outcome">What happened next: Missed the playoffs (42% win rate)</span><br><span class="blurb-arrow">→ Strong match. That twin missed the playoffs the following year. Something needs to change.</span></div>
   </div>
 </div>
 <script>
@@ -3568,7 +3571,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Portland Trail Blazers</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
-    <div class="team-blurb">Built around no established star yet — Deni Avdija leads the way, trending upward this season. Closest historical twin: the <b>Sacramento Kings</b> (2019-20), led by De'Aaron Fox — 69/100. That team missed the playoffs the following season (43% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 0 stars — Deni Avdija / Jrue Holiday</span><br>Historical twin: <b>Sacramento Kings 2019-20</b> — De'Aaron Fox / Buddy Hield — 69/100<br><span class="blurb-outcome">What happened next: Missed the playoffs (43% win rate)</span><br><span class="blurb-arrow">→ Strong match. That twin missed the playoffs the following year. Trending up this season. Something needs to change.</span></div>
   </div>
 </div>
 <script>
@@ -3703,7 +3706,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Sacramento Kings</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around no established star yet — DeMar DeRozan leads the way, trending downward this season. Closest historical twin: the <b>Utah Jazz</b> (2013-14), led by Derrick Favors — 58/100. That team missed the playoffs the following season (46% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 0 stars — DeMar DeRozan / Russell Westbrook</span><br>Historical twin: <b>Utah Jazz 2013-14</b> — Derrick Favors / Gordon Hayward — 58/100<br><span class="blurb-outcome">What happened next: Missed the playoffs (46% win rate)</span><br><span class="blurb-arrow">→ Solid match. That twin missed the playoffs the following year. Trending down — worth watching. Something needs to change.</span></div>
   </div>
 </div>
 <script>
@@ -3838,7 +3841,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">San Antonio Spurs</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around superstar Victor Wembanyama, trending upward this season. Closest historical twin: the <b>Cleveland Cavaliers</b> (2014-15), led by LeBron James — 46/100. That team won the championship the following season (70% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">1 superstars, 0 stars — Victor Wembanyama / De'Aaron Fox</span><br>Historical twin: <b>Cleveland Cavaliers 2014-15</b> — LeBron James / Kevin Love — 46/100<br><span class="blurb-outcome">What happened next: Won the championship (70% win rate)</span><br><span class="blurb-arrow">→ Closest comp (low similarity — this team may be historically unusual). That twin won the championship. Trending up this season. History is optimistic.</span></div>
   </div>
 </div>
 <script>
@@ -3973,7 +3976,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Toronto Raptors</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
-    <div class="team-blurb">Built around no established star yet — Scottie Barnes leads the way, trending upward this season. Closest historical twin: the <b>Chicago Bulls</b> (2004-05), led by Kirk Hinrich — 66/100. That team missed the playoffs the following season (50% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 0 stars — Scottie Barnes / RJ Barrett</span><br>Historical twin: <b>Chicago Bulls 2004-05</b> — Kirk Hinrich / Ben Gordon — 66/100<br><span class="blurb-outcome">What happened next: Missed the playoffs (50% win rate)</span><br><span class="blurb-arrow">→ Strong match. That twin missed the playoffs the following year. Trending up this season. Something needs to change.</span></div>
   </div>
 </div>
 <script>
@@ -4108,7 +4111,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Utah Jazz</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around no established star yet — Jaren Jackson Jr. leads the way, holding steady this season. Closest historical twin: the <b>Phoenix Suns</b> (2018-19), led by Devin Booker — 77/100. That team missed the playoffs the following season (47% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 0 stars — Jaren Jackson Jr. / Lauri Markkanen</span><br>Historical twin: <b>Phoenix Suns 2018-19</b> — Devin Booker / Deandre Ayton — 77/100<br><span class="blurb-outcome">What happened next: Missed the playoffs (47% win rate)</span><br><span class="blurb-arrow">→ Strong match. That twin missed the playoffs the following year. Something needs to change.</span></div>
   </div>
 </div>
 <script>
@@ -4243,7 +4246,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
     <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Washington Wizards</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
-    <div class="team-blurb">Built around star Anthony Davis, with no superstar, holding steady this season. Closest historical twin: the <b>Los Angeles Clippers</b> (1999-00), led by Lamar Odom — 52/100. That team missed the playoffs the following season (38% win rate).</div>
+    <div class="team-blurb"><span class="blurb-stars">0 superstars, 1 stars — Anthony Davis / Alex Sarr</span><br>Historical twin: <b>Los Angeles Clippers 1999-00</b> — Lamar Odom / Derek Anderson — 52/100<br><span class="blurb-outcome">What happened next: Missed the playoffs (38% win rate)</span><br><span class="blurb-arrow">→ Solid match. That twin missed the playoffs the following year. Something needs to change.</span></div>
   </div>
 </div>
 <script>

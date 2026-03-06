@@ -600,11 +600,14 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
 /* ── Per-team narrative blurb ── */
 .team-blurb {
-    font-size: 0.75rem; color: #9ca3af; line-height: 1.6;
+    font-size: 0.72rem; color: #9ca3af; line-height: 1.75;
     margin-top: 8px; padding-top: 8px;
     border-top: 1px solid #1e1e1e;
 }
 .team-blurb b { color: #c7d2fe; }
+.blurb-stars { color: #6b7280; }
+.blurb-outcome { color: #d1fae5; }
+.blurb-arrow { color: #e2e8f0; }
 """
 
 
@@ -613,45 +616,71 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 # ---------------------------------------------------------------------------
 
 def _make_blurb(profile_row, top1_row, win_trend):
-    """Generate a 2-3 sentence narrative for a team's chart legend area."""
-    n_sup = int(_safe_float(profile_row.get('n_superstars', 0)) or 0)
-    n_st  = int(_safe_float(profile_row.get('n_stars', 0)) or 0)
-    top_p = profile_row.get('top_player_name', '') or 'their best player'
+    """Generate a Reddit-style 4-line narrative blurb."""
+    n_sup_raw = _safe_float(profile_row.get('n_superstars', 0)) or 0
+    n_st      = int(_safe_float(profile_row.get('n_stars', 0)) or 0)
+    top_p     = profile_row.get('top_player_name', '') or '—'
+    sec_p     = profile_row.get('second_player_name', '') or '—'
 
-    if n_sup >= 2:
-        roster_desc = f'{n_sup} superstars including {top_p}'
-    elif n_sup == 1:
-        roster_desc = f'superstar {top_p}'
-    elif n_st >= 2:
-        roster_desc = f'a {n_st}-star roster led by {top_p} — no true superstar'
-    elif n_st == 1:
-        roster_desc = f'star {top_p}, with no superstar'
-    else:
-        roster_desc = f'no established star yet — {top_p} leads the way'
+    # Line 1: star tier + players
+    sup_disp = f'{n_sup_raw:.0f}' if n_sup_raw == int(n_sup_raw) else f'{n_sup_raw:.1f}'
+    line1 = (
+        f'<span class="blurb-stars">'
+        f'{sup_disp} superstars, {n_st} stars — {top_p} / {sec_p}'
+        f'</span>'
+    )
 
-    if win_trend > 0.06:   traj = 'trending upward'
-    elif win_trend < -0.06: traj = 'trending downward'
-    else:                   traj = 'holding steady'
+    # Line 2: historical twin
+    mt   = top1_row['match_team']
+    ms   = top1_row['match_anchor_season']
+    mtp  = top1_row.get('match_top_player', '—') or '—'
+    ms2p = top1_row.get('match_2nd_player', '—') or '—'
+    score = top1_row['similarity_score']
+    line2 = f'Historical twin: <b>{mt} {ms}</b> — {mtp} / {ms2p} — {score:.0f}/100'
 
-    mt      = top1_row['match_team']
-    ms      = top1_row['match_anchor_season']
-    mtp     = top1_row['match_top_player']
-    score   = top1_row['similarity_score']
+    # Line 3: outcome
     next_pr = int(top1_row.get('match_next_1yr_playoff_round') or 0)
     next_wp = float(top1_row.get('match_next_1yr_win_pct') or 0)
-
     pr_labels = {
-        0: 'missed the playoffs', 1: 'lost in Round 1',
-        2: 'reached the Conf Semis', 3: 'reached the Conf Finals',
-        4: 'reached the Finals',   5: 'won the championship',
+        0: 'Missed the playoffs', 1: 'Lost in Round 1',
+        2: 'Reached the Conf Semis', 3: 'Reached the Conf Finals',
+        4: 'Reached the Finals',   5: 'Won the championship',
     }
     outcome = pr_labels.get(next_pr, '—')
-
-    return (
-        f'Built around {roster_desc}, {traj} this season. '
-        f'Closest historical twin: the <b>{mt}</b> ({ms}), led by {mtp} — {score:.0f}/100. '
-        f'That team {outcome} the following season ({next_wp:.0%} win rate).'
+    line3 = (
+        f'<span class="blurb-outcome">'
+        f'What happened next: {outcome} ({next_wp:.0%} win rate)'
+        f'</span>'
     )
+
+    # Line 4: narrative arrow
+    if score >= 65:
+        match_q = 'Strong match'
+    elif score >= 50:
+        match_q = 'Solid match'
+    else:
+        match_q = 'Closest comp (low similarity — this team may be historically unusual)'
+
+    if win_trend > 0.06:    traj_note = ' Trending up this season.'
+    elif win_trend < -0.06: traj_note = ' Trending down — worth watching.'
+    else:                   traj_note = ''
+
+    if next_pr == 5:
+        interp = f'{match_q}. That twin won the championship.{traj_note} History is optimistic.'
+    elif next_pr == 4:
+        interp = f'{match_q}. That twin made the Finals — a meaningful signal for deep contention.{traj_note}'
+    elif next_pr == 3:
+        interp = f'{match_q}. That twin reached the Conf Finals.{traj_note} Strong precedent for a deep run.'
+    elif next_pr == 2:
+        interp = f'{match_q}. That twin reached the Conf Semis ({next_wp:.0%} win rate).{traj_note}'
+    elif next_pr == 1:
+        interp = f'{match_q}. That twin lost in Round 1.{traj_note} Playoff success isn\'t guaranteed.'
+    else:
+        interp = f'{match_q}. That twin missed the playoffs the following year.{traj_note} Something needs to change.'
+
+    line4 = f'<span class="blurb-arrow">→ {interp}</span>'
+
+    return f'{line1}<br>{line2}<br>{line3}<br>{line4}'
 
 
 # ---------------------------------------------------------------------------
