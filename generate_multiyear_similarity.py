@@ -63,22 +63,22 @@ else:
 # ---------------------------------------------------------------------------
 FEATURE_WEIGHTS = {
     # 1. Net rating — overall team quality, most predictive single number
-    'net_rating':          3.0,
+    'net_rating':          5.0,   # raised: primary discriminator for elite vs mediocre
     # 2. Roster quality cascade — composite_score of each player tier
     'top_player_score':    2.5,   # best player on the team
     'second_player_score': 2.0,   # second-best player
     'depth_score':         1.5,   # weighted sum of top-8 composite scores
     'n_superstars':        1.2,   # how many elite players (top ~5 in league)
+    'n_elite_stars':       1.0,   # near-superstar aces (top ~10-12 in league, e.g. Edwards-tier)
+    'n_stars':             0.8,   # star depth beyond superstars
     # 3. Roster upside
     'roster_potential':    1.2,
-    # 4. Win percentage — actual results
-    'win_pct':             0.8,
-    # 5. Offensive / defensive efficiency rank (inverted so 1.0 = best in league)
-    'ortg_rank_inv':       0.5,
-    'drtg_rank_inv':       0.5,
-    # Context: roster upheaval
-    'stars_lost':          0.4,   # star/superstar players lost vs prior season
-    'stars_gained':        0.4,   # star/superstar players gained vs prior season
+    # 4. Win percentage — lighter weight (largely captured by net_rating)
+    'win_pct':             0.3,
+    # 5. Offensive / defensive efficiency rank — reduced (captured by net_rating)
+    'ortg_rank_inv':       0.2,
+    'drtg_rank_inv':       0.2,
+    # stars_lost / stars_gained removed — noisy and cross-era unreliable
 }
 FEATURE_COLUMNS = list(FEATURE_WEIGHTS.keys())
 
@@ -87,19 +87,23 @@ FEATURE_COLUMNS = list(FEATURE_WEIGHTS.keys())
 # Kept at ~40% of total signal weight (level total = 14.0, trend total = ~6.5)
 # ---------------------------------------------------------------------------
 TREND_WEIGHTS = {
-    'net_rating':          1.5,   # trajectory of team quality — most important arc
+    'net_rating':          2.5,   # raised: trajectory of net rating is most important trend signal
     'top_player_score':    1.2,   # is the star improving or declining?
     'win_pct':             1.0,   # winning trajectory
     'n_superstars':        0.8,   # gaining / losing a superstar
+    'n_elite_stars':       0.7,   # gaining / losing a near-superstar ace
+    'n_stars':             0.6,   # gaining / losing star-tier depth
     'depth_score':         0.6,   # getting deeper or thinner?
     'second_player_score': 0.5,
-    'ortg_rank_inv':       0.4,   # offensive rank trend
-    'drtg_rank_inv':       0.4,   # defensive rank trend
+    'ortg_rank_inv':       0.2,   # offensive rank trend (reduced — captured by net_rating)
+    'drtg_rank_inv':       0.2,   # defensive rank trend (reduced — captured by net_rating)
     'roster_potential':    0.3,
 }
 
 FEATURE_LABELS = {
     'n_superstars':        'superstar presence',
+    'n_elite_stars':       'elite star presence',
+    'n_stars':             'star depth',
     'top_player_score':    'top player quality',
     'depth_score':         'roster depth',
     'roster_potential':    'roster potential',
@@ -108,12 +112,10 @@ FEATURE_LABELS = {
     'drtg_rank_inv':       'defensive rank',
     'second_player_score': '2nd player quality',
     'win_pct':             'win percentage',
-    'stars_lost':          'star players lost',
-    'stars_gained':        'star players gained',
 }
 TREND_LABELS = {col: f'{lbl} trend' for col, lbl in FEATURE_LABELS.items()}
 
-YEAR_WEIGHTS    = [0.25, 0.35, 0.40]          # recency weights for level average
+YEAR_WEIGHTS    = [0.15, 0.30, 0.55]          # recency weights — heavier on current season for fast-moving teams
 CURRENT_SEASONS = [PREV2_SEASON, PREV_SEASON, ANCHOR_SEASON]
 
 
@@ -164,10 +166,10 @@ def compute_trend(rows_raw, weights_available):
 # ---------------------------------------------------------------------------
 # Tolerance band: features within this Z-score range are treated as identical.
 # Only the excess beyond the band contributes to distance.
-# 0.25 std ≈ ~1.25 NRtg pts — widened from 0.15 to account for the larger
-# distances produced by per-year comparison (vs single averaged-vector).
+# 0.35 std ≈ ~2.5 NRtg pts — wider band reduces false penalties for teams
+# that are genuinely close but not identical on noisy features.
 # ---------------------------------------------------------------------------
-FEATURE_TOLERANCE = 0.25
+FEATURE_TOLERANCE = 0.35
 
 
 def vec_distance(q_dict, c_dict, weights):
@@ -187,10 +189,10 @@ def vec_distance(q_dict, c_dict, weights):
 def dist_to_sim(dist):
     """
     Convert banded distance to 0–100.
-    Uses gentler denominator (÷0.40) calibrated for per-year comparison:
-    dist=0 → 100,  dist=1 → 71,  dist=2 → 56,  dist=3 → 45.
+    Denominator 0.30 (recalibrated from 0.40):
+    dist=0 → 100,  dist=1 → 77,  dist=2 → 63,  dist=3 → 53.
     """
-    return 100.0 / (1.0 + 0.40 * dist)
+    return 100.0 / (1.0 + 0.30 * dist)
 
 
 def get_reason(q_norm, m_norm, weights, labels):
@@ -482,6 +484,7 @@ def main():
             'win_pct_trend':          trend_raw['win_pct'],
             'net_rating_trend':        trend_raw['net_rating'],
             'n_superstars_trend':      trend_raw['n_superstars'],
+            'n_elite_stars_trend':     trend_raw.get('n_elite_stars', 0.0),
         })
 
     print(f'Current team windows built: {len(current_windows)}')
@@ -728,6 +731,7 @@ def main():
                 'current_win_pct':        round(float(cw['weighted_profile'].get('win_pct', 0) or 0), 3),
                 'current_net_rating':     round(float(cw['weighted_profile'].get('net_rating', 0) or 0), 1),
                 'current_n_superstars':   round(float(cw['weighted_profile'].get('n_superstars', 0) or 0), 2),
+                'current_n_elite_stars':  int(float(newest_raw.get('n_elite_stars', 0) or 0)),
                 'current_n_stars':        int(float(newest_raw.get('n_stars', 0) or 0)),
                 'current_top_player':     newest_raw.get('top_player_name', ''),
                 'current_2nd_player':     newest_raw.get('second_player_name', ''),
@@ -737,6 +741,7 @@ def main():
                 'current_win_pct_trend':      round(cw['win_pct_trend'], 3),
                 'current_net_rating_trend':   round(cw['net_rating_trend'], 1),
                 'current_n_superstars_trend': round(cw['n_superstars_trend'], 2),
+                'current_n_elite_stars_trend': round(cw.get('n_elite_stars_trend', 0.0), 2),
                 # --- Match ---
                 'match_rank':             match_rank,
                 'match_type':             match_type,

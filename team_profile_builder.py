@@ -85,7 +85,7 @@ def build_team_name_lookup(ratings_df, raw_team_file='nba_team_stats_1980_2025.c
         if 'TEAM_ID' in raw.columns and 'Team' in raw.columns and 'SEASON' in raw.columns:
             for _, row in raw[['TEAM_ID', 'SEASON', 'Team']].iterrows():
                 lookup[(int(row['TEAM_ID']), row['SEASON'])] = row['Team']
-            print(f"  ✓ Team name lookup built from {raw_team_file} ({len(lookup)} entries)")
+            print(f"  OK: Team name lookup built from {raw_team_file} ({len(lookup)} entries)")
             return lookup
     except Exception:
         pass
@@ -121,6 +121,7 @@ def build_team_profile(group):
     # --- Tier counts (from top 10 by minutes) ---
     tier_counts = group['tier'].value_counts()
     n_superstars = tier_counts.get('Superstar', 0)
+    n_elite_stars = tier_counts.get('Elite Star', 0)
     n_stars = tier_counts.get('Star', 0)
     n_starters = tier_counts.get('Starter', 0)
     n_role_players = tier_counts.get('Role Player', 0)
@@ -160,6 +161,7 @@ def build_team_profile(group):
 
     return {
         'n_superstars': n_superstars,
+        'n_elite_stars': n_elite_stars,
         'n_stars': n_stars,
         'n_starters': n_starters,
         'n_role_players': n_role_players,
@@ -189,7 +191,7 @@ def main():
         print("✗ player_ratings.csv not found — run player_rating_engine.py first")
         return
 
-    print(f"✓ Loaded player_ratings.csv: {len(ratings)} rows")
+    print(f"OK: Loaded player_ratings.csv: {len(ratings)} rows")
 
     # -----------------------------------------------------------------------
     # 2. Build team name lookup
@@ -213,7 +215,7 @@ def main():
         print("✗ nba_team_stats_clean.csv not found")
         return
 
-    print(f"✓ Loaded nba_team_stats_clean.csv: {len(team_stats)} rows")
+    print(f"OK: Loaded nba_team_stats_clean.csv: {len(team_stats)} rows")
 
     # -----------------------------------------------------------------------
     # 4. Build profile for each team-season
@@ -235,7 +237,7 @@ def main():
         profiles.append(profile)
 
     profiles_df = pd.DataFrame(profiles)
-    print(f"✓ Built {len(profiles_df)} team-season profiles")
+    print(f"OK: Built {len(profiles_df)} team-season profiles")
 
     # -----------------------------------------------------------------------
     # 5. Join with team performance stats
@@ -274,7 +276,7 @@ def main():
             if col not in pre_1995.columns:
                 pre_1995[col] = np.nan
         merged = pd.concat([merged, pre_1995], ignore_index=True)
-        print(f"✓ Appended {len(pre_1995)} pre-1995 rows (team stats only, no player data)")
+        print(f"OK: Appended {len(pre_1995)} pre-1995 rows (team stats only, no player data)")
 
     # -----------------------------------------------------------------------
     # 7. Save
@@ -282,7 +284,7 @@ def main():
     output_file = 'team_profiles.csv'
     merged = merged.sort_values(['SEASON', 'Team']).reset_index(drop=True)
     merged.to_csv(output_file, index=False)
-    print(f"✓ Saved {output_file} ({len(merged)} rows, {len(merged.columns)} columns)")
+    print(f"OK: Saved {output_file} ({len(merged)} rows, {len(merged.columns)} columns)")
 
     # -----------------------------------------------------------------------
     # 8. Validation
@@ -299,7 +301,7 @@ def main():
     print("\nTop 10 teams by depth_score (best balanced rosters):")
     top_depth = (player_data_rows
                  .nlargest(10, 'depth_score')
-                 [['Team', 'SEASON', 'depth_score', 'n_superstars', 'n_stars',
+                 [['Team', 'SEASON', 'depth_score', 'n_superstars', 'n_elite_stars', 'n_stars',
                    'top_player_name', 'W', 'net_rating']])
     print(top_depth.to_string(index=False))
 
@@ -310,7 +312,7 @@ def main():
                  'n_young_stars', 'top_player_name', 'W']])
     print(top_pot.to_string(index=False))
 
-    print("\n✓ Next step: run franchise_similarity_engine.py")
+    print("\nOK: Next step: run franchise_similarity_engine.py")
 
 
 if __name__ == "__main__":

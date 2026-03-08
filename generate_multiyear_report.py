@@ -145,9 +145,9 @@ MAJOR_EVENTS = {
     # ── 2025-26 current season ──────────────────────────────────────────────
     # Departures / injuries (detected from player data)
     ('Indiana Pacers', '2025-26'):     'Tyrese Haliburton missed extended time — season derailed by injury',
-    ('Milwaukee Bucks', '2025-26'):    'Damian Lillard out for season (Achilles/extended absence)',
+    ('Milwaukee Bucks', '2025-26'):    'Damian Lillard traded back to Portland; Giannis carrying a depleted roster',
     ('Atlanta Hawks', '2025-26'):      'Trae Young departed; Jalen Johnson emerged as new franchise cornerstone',
-    ('Boston Celtics', '2025-26'):     'Jayson Tatum missed extended time with injury',
+    ('Boston Celtics', '2025-26'):     'Jayson Tatum returning from injury this week',
     ('Dallas Mavericks', '2025-26'):   'Anthony Davis departed to Washington; roster in transition after Luka trade',
     ('Sacramento Kings', '2025-26'):   "De'Aaron Fox + Sabonis both declined sharply; franchise reset",
     ('Memphis Grizzlies', '2025-26'):  'Ja Morant continued to miss significant time',
@@ -159,7 +159,7 @@ MAJOR_EVENTS = {
     ('Detroit Pistons', '2025-26'):    'Jalen Duren + Cade Cunningham breakout — surprise contender',
     ('San Antonio Spurs', '2025-26'):  "Victor Wembanyama Year 2 leap — franchise ascent accelerating",
     ('Golden State Warriors', '2025-26'): 'Jimmy Butler arrived; new identity around Curry + Butler core',
-    ('Oklahoma City Thunder', '2025-26'): 'Chet Holmgren + Isaiah Hartenstein both reached Star tier — deepest OKC core yet',
+    ('Oklahoma City Thunder', '2025-26'): 'Defending champions; Chet Holmgren + Isaiah Hartenstein both reached Star tier — deepest OKC core yet',
     ('Philadelphia 76ers', '2025-26'): 'Joel Embiid healthy; Tyrese Maxey reached Star tier — both stars contributing',
     ('Los Angeles Clippers', '2025-26'): 'Kawhi Leonard returned healthy; Darius Garland acquired',
 }
@@ -279,11 +279,13 @@ def annotate_player_names(names, seasons, player_tier_lkp):
         tier = None
         for s in seasons:
             t = player_tier_lkp.get((name, s))
-            if t in ('Superstar', 'Star'):
+            if t in ('Superstar', 'Elite Star', 'Star'):
                 tier = t
                 break
         if tier == 'Superstar':
             result.append(f'{name}&nbsp;<span class="ptier-sup">Superstar</span>')
+        elif tier == 'Elite Star':
+            result.append(f'{name}&nbsp;<span class="ptier-elite">Elite Star</span>')
         elif tier == 'Star':
             result.append(f'{name}&nbsp;<span class="ptier-star">Star</span>')
         else:
@@ -526,6 +528,12 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     padding:1px 5px; border-radius:4px;
     vertical-align:middle; margin-left:3px;
 }
+.ptier-elite {
+    color:#1e3a5f; background:#7dd3fc;
+    font-size:0.58em; font-weight:700; letter-spacing:.3px;
+    padding:1px 5px; border-radius:4px;
+    vertical-align:middle; margin-left:3px;
+}
 .ptier-star {
     color:#0f172a; background:#94a3b8;
     font-size:0.58em; font-weight:700; letter-spacing:.3px;
@@ -600,87 +608,374 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
 
 /* ── Per-team narrative blurb ── */
 .team-blurb {
-    font-size: 0.72rem; color: #9ca3af; line-height: 1.75;
-    margin-top: 8px; padding-top: 8px;
+    font-size: 0.73rem; color: #9ca3af; line-height: 1.8;
+    margin-top: 10px; padding-top: 10px;
     border-top: 1px solid #1e1e1e;
 }
 .team-blurb b { color: #c7d2fe; }
-.blurb-stars { color: #6b7280; }
-.blurb-outcome { color: #d1fae5; }
-.blurb-arrow { color: #e2e8f0; }
 """
+
+
+# ---------------------------------------------------------------------------
+# Historical team identity notes for the narrative blurbs
+# Keyed by (match_team, anchor_season) — describes what made that team notable.
+# ---------------------------------------------------------------------------
+
+MATCH_TEAM_NOTES = {
+    ('Orlando Magic', '2006-07'):
+        "That Magic team was the beginning of the Dwight Howard era — still raw but already the most physically dominant center in the league, building the defensive identity that would carry them to the 2009 Finals.",
+    ('Toronto Raptors', '2019-20'):
+        "That Raptors team was a fascinating post-championship outfit — Kawhi was gone, Pascal Siakam stepped up as the new face, and Toronto was quietly one of the best teams in the East before the pandemic and Bubble upended everything.",
+    ('Denver Nuggets', '2015-16'):
+        "That Nuggets team was the very first chapter of the Nikola Jokic story — a raw, creative passer showing flashes of what he'd become, surrounded by a young roster that was still years away from being a real title threat.",
+    ('Detroit Pistons', '2006-07'):
+        "That Pistons team was the last great iteration of the Chauncey Billups–Rasheed Wallace–Ben Wallace era — five interchangeable contributors, no real superstar, built entirely on cohesion and one of the best defenses in the league.",
+    ('Cleveland Cavaliers', '2016-17'):
+        "That Cavaliers team was LeBron James at his absolute apex as a team-carrying force — the reigning champions with a rotating supporting cast, dragged to a third straight Finals on the strength of one transcendent individual performance.",
+    ('Phoenix Suns', '2020-21'):
+        "That Suns team was Chris Paul's final signature moment — a 78% win rate on a team nobody saw coming, a Devin Booker breakout, and a Finals run that shocked the league before Giannis dismantled them in six games.",
+    ('Chicago Bulls', '2015-16'):
+        "That Bulls team was the Thibs-era last stand — Jimmy Butler was emerging as a legitimate All-Star, Pau Gasol was a steady veteran anchor, and they squeezed everything out of a roster that lacked the star power to make a real run.",
+    ('Atlanta Hawks', '1997-98'):
+        "That Atlanta Hawks team had the best record in the Eastern Conference — Dikembe Mutombo anchoring a suffocating defense alongside Steve Smith, a squad that genuinely looked like a Finals contender before running into Michael Jordan's last Bulls team.",
+    ('Atlanta Hawks', '1999-00'):
+        "That late-90s Atlanta squad was a transitional team caught between eras — still built around Mutombo before his final trade deadline move, with scoring pieces that never quite added up to a playoff identity.",
+    ('Dallas Mavericks', '2015-16'):
+        "That Mavericks team was Dirk Nowitzki still carrying a franchise on his back in his mid-30s — a team with solid role players but nothing resembling a second star, competitive but no longer a real threat in the West.",
+    ('Denver Nuggets', '2019-20'):
+        "That Nuggets team was Jokic and Jamal Murray before anyone truly respected them — they came alive in the Bubble, erased two 3-1 deficits, and announced themselves as genuine contenders before Murray's ACL ended their window.",
+    ('Indiana Pacers', '2017-18'):
+        "That Pacers team was Victor Oladipo's coming-out party — a mid-market team with no business winning 48 games, yet they pushed LeBron's Cavaliers to seven games in the first round and looked like a budding contender before Oladipo's knee injury ended it all.",
+    ('Cleveland Cavaliers', '2007-08'):
+        "That Cavaliers team was a one-man show — LeBron James carrying a collection of role players to the Conference Finals through sheer individual brilliance, a model of star-driven teams that lack the second piece to truly compete.",
+    ('Portland Trail Blazers', '2002-03'):
+        "That Portland team was the final chapter of the 'Jail Blazers' era — Rasheed Wallace's last season, 50 wins on paper, but a combustible roster that was dismantled in the offseason and missed the playoffs entirely the following year.",
+    ('Toronto Raptors', '2016-17'):
+        "That Raptors team was DeMar DeRozan and Kyle Lowry's best collective season — the franchise's most consistent stretch before Kawhi Leonard arrived and changed everything, a second-round team that kept improving until the 2019 title.",
+    ('San Antonio Spurs', '2004-05'):
+        "That Spurs team was Tim Duncan's dynasty at its most complete — Duncan, Tony Parker, and Manu Ginobili already operating as one of the most efficient machines in NBA history, winning 59 games and on their way to a third championship.",
+    ('Houston Rockets', '2010-11'):
+        "That Houston team was the franchise in full identity crisis after the Yao Ming and Tracy McGrady era collapsed — Kevin Martin and Luis Scola as stopgap pieces, a franchise searching for its next superstar before James Harden arrived.",
+    ('Houston Rockets', '2002-03'):
+        "That Houston team was Yao Ming's rookie season paired with Steve Francis — two stars who never quite fit together, a franchise with obvious star power that struggled to turn individual talent into team success.",
+    ('San Antonio Spurs', '2020-21'):
+        "That Spurs team was the end of the Gregg Popovich dynasty with veterans — DeMar DeRozan leading an aging, undermanned roster that competed hard but missed the playoffs, closing the door on one era and opening the one that produced Wembanyama.",
+    ('Sacramento Kings', '2019-20'):
+        "That Sacramento team was De'Aaron Fox's early ascent — a promising young guard still searching for the right supporting cast, part of a franchise stuck in a 16-year playoff drought that wouldn't end until 2023.",
+    ('Miami Heat', '2009-10'):
+        "That Miami team was the calm before the storm — Dwyane Wade carrying a young roster through one last ordinary season before LeBron James and Chris Bosh both signed that summer, launching the Heat to four straight Finals appearances.",
+    ('Chicago Bulls', '2004-05'):
+        "That Bulls team was the first competent season of the post-dynasty rebuild — Kirk Hinrich, Ben Gordon, and Luol Deng as lottery-pick building blocks starting to show fight, but still years away from relevance.",
+    ('Atlanta Hawks', '2005-06'):
+        "That Atlanta team was near rock bottom — Joe Johnson and Josh Smith as the future building blocks on a roster that won 26 games, the kind of young-but-struggling profile that precedes either a rebuild breakthrough or a long slide.",
+    ('Los Angeles Lakers', '2015-16'):
+        "That Lakers team was Kobe Bryant's 60-point farewell tour — 17 wins, a franchise in free-fall that would need years to rebuild from scratch before LeBron James arrived and rewired everything.",
+    ('New York Knicks', '2020-21'):
+        "That Knicks team was the first genuine sign of life in a decade — Julius Randle's All-Star breakout under Tom Thibodeau, a #4 seed that shocked everyone before losing in the first round, planting the seed for the current contender window.",
+    ('Minnesota Timberwolves', '2015-16'):
+        "That Timberwolves team was Karl-Anthony Towns and Andrew Wiggins in their very first season — massive potential on paper, 29 wins in practice, a franchise that would take years to figure out how to turn talent into results.",
+    ('Los Angeles Clippers', '2007-08'):
+        "That Clippers team was a franchise in free-fall after the Elton Brand knee injury derailed their brief contention window — a cautionary tale about how quickly a team can collapse when the one player everything runs through goes down.",
+    ('New Orleans Pelicans', '2019-20'):
+        "That Pelicans team was Brandon Ingram stepping into a leading role alongside Jrue Holiday — a promising young core that was broken up when Holiday was dealt for the Milwaukee draft picks, accelerating a rebuild toward Zion Williamson's era.",
+    ('Minnesota Timberwolves', '2013-14'):
+        "That Minnesota team was Kevin Love's last full season before his trade demand — a franchise with a clear superstar but no real path to relevance, a preview of what happens when one great player can't drag a thin roster to contention.",
+    ('Los Angeles Clippers', '2005-06'):
+        "That Clippers team was the peak of the Brand/Maggette/Livingston core — the most competitive Clippers team in a generation, reaching the Conference Semis before injuries and roster turnover ended the window.",
+}
+
+# Anchor-season playoff round for historical match teams.
+# Used so the "ceiling" in S5 reflects the match team's peak, not just the
+# post-window year result (e.g. Suns made the Finals in their anchor season
+# but only the second round the following year).
+MATCH_ANCHOR_PLAYOFF = {
+    ('Phoenix Suns',           '2020-21'): 4,   # Finals (lost to Bucks)
+    ('Cleveland Cavaliers',    '2016-17'): 4,   # Finals (lost to Warriors)
+    ('Cleveland Cavaliers',    '2014-15'): 4,   # Finals (lost to Warriors)
+    ('Cleveland Cavaliers',    '2007-08'): 3,   # Conf Finals
+    ('Detroit Pistons',        '2006-07'): 3,   # Conf Finals
+    ('San Antonio Spurs',      '2004-05'): 5,   # Won championship
+    ('San Antonio Spurs',      '2020-21'): 0,   # Missed playoffs
+    ('Miami Heat',             '2009-10'): 1,   # First round
+    ('Chicago Bulls',          '2015-16'): 1,   # First round
+    ('Indiana Pacers',         '2017-18'): 1,   # First round (pushed Cavs to 7)
+    ('Toronto Raptors',        '2016-17'): 2,   # Second round
+    ('Toronto Raptors',        '2019-20'): 2,   # Second round (Bubble)
+    ('Atlanta Hawks',          '1997-98'): 2,   # Second round
+    ('Atlanta Hawks',          '1999-00'): 1,   # First round
+    ('Denver Nuggets',         '2015-16'): 0,   # Missed playoffs
+    ('Denver Nuggets',         '2019-20'): 3,   # Conf Finals (Bubble)
+    ('Portland Trail Blazers', '2002-03'): 0,   # Missed playoffs
+    ('Dallas Mavericks',       '2015-16'): 0,   # Missed playoffs
+    ('Houston Rockets',        '2010-11'): 0,   # Missed playoffs
+    ('Houston Rockets',        '2002-03'): 1,   # First round
+    ('Orlando Magic',          '2006-07'): 2,   # Second round
+    ('New York Knicks',        '2020-21'): 1,   # First round
+}
 
 
 # ---------------------------------------------------------------------------
 # Blurb generator
 # ---------------------------------------------------------------------------
 
-def _make_blurb(profile_row, top1_row, win_trend):
-    """Generate a Reddit-style 4-line narrative blurb."""
-    n_sup_raw = _safe_float(profile_row.get('n_superstars', 0)) or 0
-    n_st      = int(_safe_float(profile_row.get('n_stars', 0)) or 0)
-    top_p     = profile_row.get('top_player_name', '') or '—'
-    sec_p     = profile_row.get('second_player_name', '') or '—'
+def _make_blurb(profile_row, top1_row, win_trend, curr_event=None, match_prof=None):
+    """Generate a flowing narrative blurb in Reddit-post style.
 
-    # Line 1: star tier + players
-    sup_disp = f'{n_sup_raw:.0f}' if n_sup_raw == int(n_sup_raw) else f'{n_sup_raw:.1f}'
-    line1 = (
-        f'<span class="blurb-stars">'
-        f'{sup_disp} superstars, {n_st} stars — {top_p} / {sec_p}'
-        f'</span>'
-    )
+    Structure:
+      S1 — current team's situation (identity + what's happening this season)
+      S2 — comp identification: model's closest match + structural reason (brief)
+      S3 — historical team identity (from MATCH_TEAM_NOTES or data-derived)
+      S4 — what happened to the historical team after their window (outcome + driver)
+      S5 — what this signals for the current team going forward (opinionated)
+    """
+    # ── Current team fields ──
+    n_sup = int(_safe_float(profile_row.get('n_superstars', 0)) or 0)
+    n_st  = int(_safe_float(profile_row.get('n_stars', 0)) or 0)
+    top_p = str(profile_row.get('top_player_name', '') or '—')
+    sec_p = str(profile_row.get('second_player_name', '') or '—')
+    W     = int(_safe_float(profile_row.get('W', 0)) or 0)
+    L     = int(_safe_float(profile_row.get('L', 0)) or 0)
 
-    # Line 2: historical twin
-    mt   = top1_row['match_team']
-    ms   = top1_row['match_anchor_season']
-    mtp  = top1_row.get('match_top_player', '—') or '—'
-    ms2p = top1_row.get('match_2nd_player', '—') or '—'
-    score = top1_row['similarity_score']
-    line2 = f'Historical twin: <b>{mt} {ms}</b> — {mtp} / {ms2p} — {score:.0f}/100'
+    # ── Match fields ──
+    mt         = str(top1_row['match_team'])
+    ms         = str(top1_row['match_anchor_season'])
+    mtp        = (str(top1_row.get('match_top_player', '') or '')).strip()
+    ms2p       = (str(top1_row.get('match_2nd_player', '') or '')).strip()
+    score      = _safe_float(top1_row.get('similarity_score', 0))
+    pr         = int(top1_row.get('match_next_1yr_playoff_round') or 0)
+    wp         = _safe_float(top1_row.get('match_next_1yr_win_pct') or 0)
+    m_avg_wp   = _safe_float(top1_row.get('match_avg_win_pct', 0)) or 0
+    m_sup_trend= _safe_float(top1_row.get('match_n_superstars_trend', 0)) or 0
+    m_win_trend= _safe_float(top1_row.get('match_win_pct_trend', 0)) or 0
+    level_rsn  = str(top1_row.get('level_reason', '') or '')
 
-    # Line 3: outcome
-    next_pr = int(top1_row.get('match_next_1yr_playoff_round') or 0)
-    next_wp = float(top1_row.get('match_next_1yr_win_pct') or 0)
-    pr_labels = {
-        0: 'Missed the playoffs', 1: 'Lost in Round 1',
-        2: 'Reached the Conf Semis', 3: 'Reached the Conf Finals',
-        4: 'Reached the Finals',   5: 'Won the championship',
+    # Match team's anchor-season profile for accurate W/L and superstar count
+    if match_prof is not None:
+        m_sup = int(_safe_float(match_prof.get('n_superstars', 0)) or 0)
+        m_W   = int(_safe_float(match_prof.get('W', 0)) or 0)
+        m_L   = int(_safe_float(match_prof.get('L', 0)) or 0)
+    else:
+        m_sup = 0
+        raw_3yr_W = _safe_float(top1_row.get('match_3yr_W', 0)) or 0
+        raw_3yr_L = _safe_float(top1_row.get('match_3yr_L', 0)) or 0
+        m_W = round(raw_3yr_W / 3)
+        m_L = round(raw_3yr_L / 3)
+
+    nick      = mt.split()[-1]
+    hist_core = (f'{mtp} and {ms2p}' if mtp and ms2p not in ('', '—')
+                 else (mtp or 'their core'))
+    up   = win_trend > 0.03   # any meaningful positive trend
+    down = win_trend < -0.03  # any meaningful negative trend
+    delta_wp = wp - m_avg_wp   # how much the match team changed from window avg to next year
+    current_wp = W / (W + L) if (W + L) > 0 else 0.5  # current record reality check
+
+    # Best playoff round the match team achieved — their window peak matters more than
+    # just the post-window year (e.g. Suns made the Finals in anchor year, 2nd round year after)
+    anchor_pr = MATCH_ANCHOR_PLAYOFF.get((mt, ms), pr)
+    best_pr = max(pr, anchor_pr)
+
+    # ── S1: current team's situation ──
+    if curr_event:
+        sent1 = f'{curr_event} — currently {W}-{L}.'
+    else:
+        if n_sup >= 2:
+            if up:
+                sent1 = f'{top_p} and {sec_p} have this team rolling at {W}-{L} — one of the more loaded rosters in the league right now, and the trajectory keeps improving.'
+            else:
+                sent1 = f'{top_p} and {sec_p} give this team two legitimate superstars at {W}-{L}, though the trend has leveled off.'
+        elif n_sup == 1:
+            if up:
+                sent1 = f'{top_p} is in the middle of a superstar season, carrying this team to {W}-{L} with an upward arc that\'s hard to ignore.'
+            elif down:
+                sent1 = f'{top_p} is doing everything he can, but this team has slid to {W}-{L} and the trend is moving in the wrong direction.'
+            else:
+                sent1 = f'{top_p} is the clear franchise anchor, holding this team steady at {W}-{L} through a season that could go either way.'
+        elif n_st >= 2:
+            if W > L:
+                sent1 = f'{top_p} and {sec_p} are leading a {W}-{L} team that has no true superstar but keeps finding ways to win — a genuinely well-built roster.'
+            else:
+                sent1 = f'{top_p} and {sec_p} are giving everything they have, but {W}-{L} tells the story of a team that needs more star power to take the next step.'
+        elif n_st == 1:
+            if W > L:
+                sent1 = f'{top_p} has stepped up as the primary option, pushing this team to {W}-{L} — a promising sign for a franchise still in the building phase.'
+            else:
+                sent1 = f'{top_p} is the one real piece on a {W}-{L} team that\'s still a ways from being competitive most nights.'
+        else:
+            if W > L:
+                sent1 = f'No established star yet, but this team is finding wins at {W}-{L} — a genuinely interesting roster-constructed squad to keep an eye on.'
+            else:
+                sent1 = f'At {W}-{L} and still searching for the player to build around — this is what an early-stage rebuild looks like on the floor.'
+
+    # ── S2: comp identification (brief — what we matched and why) ──
+    _REASON_MAP = {
+        'superstar presence':  'star power at the top of the roster',
+        'star players lost':   'both shedding star-caliber talent in their window',
+        'star players gained': 'both adding significant star talent in their window',
+        'roster depth':        'overall depth and roster construction',
+        'top player quality':  'quality of their best player',
+        '2nd player quality':  'contribution of their second-best player',
+        'net rating':          'team efficiency',
+        'win percentage':      'overall winning rate',
+        'roster potential':    'long-term roster upside',
+        'offensive rank':      'offensive efficiency',
+        'defensive rank':      'defensive efficiency',
+        'star depth':          'star-tier depth below the top player',
     }
-    outcome = pr_labels.get(next_pr, '—')
-    line3 = (
-        f'<span class="blurb-outcome">'
-        f'What happened next: {outcome} ({next_wp:.0%} win rate)'
-        f'</span>'
-    )
+    rsn_parts = [p.strip() for p in level_rsn.replace('Similar ', '').split('+')]
+    rsn_plain = ' and '.join(_REASON_MAP.get(p, p) for p in rsn_parts[:2] if p)
+    reason_clause = f' — similar {rsn_plain}' if rsn_plain else ''
 
-    # Line 4: narrative arrow
-    if score >= 65:
-        match_q = 'Strong match'
-    elif score >= 50:
-        match_q = 'Solid match'
+    if score >= 75:
+        qual = 'The model\'s strongest match is'
+    elif score >= 60:
+        qual = 'The closest historical comp is'
+    elif score >= 48:
+        qual = 'The best available comp is'
     else:
-        match_q = 'Closest comp (low similarity — this team may be historically unusual)'
+        qual = 'The model struggled to find a clean match — closest available is'
 
-    if win_trend > 0.06:    traj_note = ' Trending up this season.'
-    elif win_trend < -0.06: traj_note = ' Trending down — worth watching.'
-    else:                   traj_note = ''
+    sent2 = f'{qual} the <b>{ms} {mt}</b> ({score:.0f}/100{reason_clause}).'
 
-    if next_pr == 5:
-        interp = f'{match_q}. That twin won the championship.{traj_note} History is optimistic.'
-    elif next_pr == 4:
-        interp = f'{match_q}. That twin made the Finals — a meaningful signal for deep contention.{traj_note}'
-    elif next_pr == 3:
-        interp = f'{match_q}. That twin reached the Conf Finals.{traj_note} Strong precedent for a deep run.'
-    elif next_pr == 2:
-        interp = f'{match_q}. That twin reached the Conf Semis ({next_wp:.0%} win rate).{traj_note}'
-    elif next_pr == 1:
-        interp = f'{match_q}. That twin lost in Round 1.{traj_note} Playoff success isn\'t guaranteed.'
+    # ── S3: who that historical team was ──
+    hist_note = MATCH_TEAM_NOTES.get((mt, ms))
+    if hist_note:
+        sent3 = hist_note
     else:
-        interp = f'{match_q}. That twin missed the playoffs the following year.{traj_note} Something needs to change.'
+        # Data-driven fallback
+        if m_sup >= 2:
+            sent3 = f'That {nick} team was a two-superstar outfit built around {hist_core}, playing at a {m_avg_wp:.0%} clip and considered genuine contenders in their era.'
+        elif m_sup == 1:
+            sent3 = f'That {nick} team was a superstar-led squad anchored by {hist_core}, posting a {m_avg_wp:.0%} win rate across their window.'
+        else:
+            sent3 = f'That {nick} team was built around {hist_core} without a true superstar, sustaining a {m_avg_wp:.0%} win rate across their window.'
 
-    line4 = f'<span class="blurb-arrow">→ {interp}</span>'
+    # ── S4: what happened to them after their window ──
+    if delta_wp > 0.10:
+        traj = f'surged from a {m_avg_wp:.0%} window average to {wp:.0%} the following year'
+    elif delta_wp > 0.04:
+        traj = f'improved from a {m_avg_wp:.0%} window average to {wp:.0%} the following year'
+    elif delta_wp > -0.04:
+        traj = f'held roughly steady at {wp:.0%} the following year'
+    elif delta_wp > -0.10:
+        traj = f'slipped from a {m_avg_wp:.0%} window average to {wp:.0%} the following year'
+    else:
+        traj = f'fell from a {m_avg_wp:.0%} window average to {wp:.0%} the following year'
 
-    return f'{line1}<br>{line2}<br>{line3}<br>{line4}'
+    improved = delta_wp > 0.03
+    if m_sup_trend > 0.3:
+        driver = (', powered by rising star-level production through their window' if improved
+                  else ', despite a rising star-quality trend during their window')
+    elif m_sup_trend < -0.3:
+        driver = (', with declining star quality as the key drag' if not improved
+                  else ', somehow despite a declining star situation during their window')
+    elif m_win_trend > 0.06:
+        driver = (', with an already-ascending window trend carrying into the next year' if improved
+                  else ', despite a window that had been trending firmly upward')
+    elif m_win_trend < -0.06:
+        driver = (', with a downward window trend already in motion before the year ended' if not improved
+                  else ', overcoming a window that had been trending downward')
+    else:
+        # No dominant star or win trend — vary the phrasing by how much they actually moved
+        if delta_wp > 0.10:
+            driver = ', as the roster\'s latent potential finally translated into results'
+        elif delta_wp > 0.04:
+            driver = ', with no single move driving the improvement — just steady execution from a team that had found its identity'
+        elif delta_wp > -0.04:
+            driver = ', as the team settled at the level their roster was always likely to reach'
+        elif delta_wp > -0.10:
+            driver = ', as the window ran its course without a meaningful upgrade to push them higher'
+        else:
+            driver = ', as the core broke down faster than expected once the window began to close'
+
+    outcome_str = {
+        5: 'and won the championship',
+        4: 'and reached the NBA Finals',
+        3: 'and made the Conference Finals',
+        2: 'and made the second round',
+        1: 'before going out in the first round',
+        0: 'before missing the playoffs entirely',
+    }.get(pr, 'in the following season')
+
+    # When the anchor season peaked higher than the following year, note the context
+    if anchor_pr > pr:
+        anchor_lbl = {5:'won the championship', 4:'made the Finals', 3:'made the Conference Finals',
+                      2:'made the second round', 1:'made the playoffs'}.get(anchor_pr, '')
+        if anchor_lbl:
+            outcome_str += f' (having {anchor_lbl} in their anchor year)'
+
+    sent4 = f'They {traj} {outcome_str}{driver}.'
+
+    # ── S5: what this signals for the current team ──
+
+    # Guard 1: Low similarity — the comp is not meaningful enough for strong predictions
+    if score < 55:
+        if current_wp > 0.60:
+            sent5 = (f'A match score of {score:.0f}/100 signals just how rare this profile is historically — '
+                     f'teams the model can\'t easily categorize are often operating at an unprecedented level, '
+                     f'and at {W}-{L} there\'s real reason to believe this group is in that territory.')
+        elif current_wp > 0.45:
+            sent5 = (f'The {score:.0f}/100 match score reflects genuine historical scarcity — '
+                     f'this profile doesn\'t fit neatly into any clear precedent, '
+                     f'which makes any strong prediction here genuinely uncertain.')
+        else:
+            sent5 = (f'The {score:.0f}/100 match score reflects how difficult it is to find precedents for '
+                     f'this type of team — the model acknowledges significant uncertainty in any outcome projection.')
+        return f'{sent1}<br>{sent2} {sent3} {sent4} {sent5}'
+
+    # Guard 2: Comp missed playoffs but current team has winning record — reframe
+    if pr == 0 and current_wp > 0.50:
+        if down:
+            sent5 = (f'The historical comp missed the playoffs the following year — but at {W}-{L} this team '
+                     f'has already outperformed that bar. The real question is whether the downward trend '
+                     f'eventually catches up, or whether the current record is the truer signal.')
+        else:
+            sent5 = (f'The historical comp missed the playoffs, though at {W}-{L} this team is clearly '
+                     f'operating at a higher level. The profile belongs in the playoff conversation; '
+                     f'the ceiling depends on whether a meaningful upgrade arrives.')
+        return f'{sent1}<br>{sent2} {sent3} {sent4} {sent5}'
+
+    if best_pr == 5:
+        if up:
+            sent5 = f'Championship-caliber historical precedent with a current team trending in the right direction — the window is open, and this profile has a title in its range.'
+        else:
+            sent5 = f'The historical profile belongs to a championship-caliber team — whether this group executes at that level depends on the next few months.'
+    elif best_pr == 4:
+        if up:
+            sent5 = f'The model is genuinely bullish here — Finals-caliber precedent, an upward trend, and a profile that belongs in the conversation for a deep run.'
+        elif down:
+            sent5 = f'The historical comp showed Finals-level ceiling, but the current downward trend is the one thing that could prevent this group from reaching that range.'
+        else:
+            sent5 = f'Strong signal for deep contention — the comparable showed Finals range, and the current team is sitting right in that tier.'
+    elif best_pr == 3:
+        if up:
+            sent5 = f'Conference Finals comp with an upward trajectory — there\'s a real case that this team outperforms the historical baseline and pushes even deeper.'
+        elif down:
+            sent5 = f'The comp showed Conference Finals ceiling, but the current downward trend is the one variable that could cap this team well short of that.'
+        else:
+            sent5 = f'Solid precedent for a legitimate deep run — teams at this level have historically been genuine contenders, and this group fits that mold.'
+    elif best_pr == 2:
+        if up:
+            sent5 = f'Second-round comp with a team trending up — there\'s a real argument for outperforming that if the trajectory holds.'
+        elif down:
+            sent5 = f'Second-round potential is what the data points to, and the current downward trend makes even that uncertain without a correction.'
+        else:
+            sent5 = f'The historical comp stalled in the second round — without adding a top-tier piece, that\'s probably the realistic ceiling here as well.'
+    elif best_pr == 1:
+        if up:
+            sent5 = f'The comparable got bounced in the first round, but the upward trend gives this team a real argument for going further if the pieces come together.'
+        elif down:
+            sent5 = f'A first-round exit is the historical signal, and the current slide doesn\'t make a strong case for outperforming that outcome.'
+        else:
+            sent5 = f'The comparable made the playoffs and went out in the first round — something structurally meaningful needs to change for this team to go deeper.'
+    else:
+        if up:
+            sent5 = f'The comp missed the playoffs, but this team is trending up — the trajectory is the key differentiator, and there\'s genuine reason to believe they can outperform the baseline.'
+        elif down:
+            sent5 = f'Missing the playoffs is the historical signal, and the current decline makes it genuinely difficult to argue for a different outcome without a significant change.'
+        else:
+            sent5 = f'The comparable missed the playoffs the following year — the profile as constructed isn\'t quite a playoff team, and an upgrade at a key position is probably necessary.'
+
+    return f'{sent1}<br>{sent2} {sent3} {sent4} {sent5}'
 
 
 # ---------------------------------------------------------------------------
@@ -1269,8 +1564,13 @@ def main():
         if _cpr is None:
             _cpr = profile_by_key.get((team, PREV_SEASON))
         curr_profile_row = _cpr if _cpr is not None else {}
-        blurb_html = _make_blurb(curr_profile_row, top1_blurb_row.iloc[0], win_trend) \
-                     if not top1_blurb_row.empty else ''
+        if not top1_blurb_row.empty:
+            _t1 = top1_blurb_row.iloc[0]
+            match_prof = profile_by_key.get((_t1['match_team'], _t1['match_anchor_season']))
+            blurb_html = _make_blurb(curr_profile_row, _t1, win_trend,
+                                     curr_event=curr_event, match_prof=match_prof)
+        else:
+            blurb_html = ''
 
         # Build match datasets: top1 (gray), optimistic (green), pessimistic (red)
         radar_datasets = []
