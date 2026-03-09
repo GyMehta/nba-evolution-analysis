@@ -578,17 +578,17 @@ def main():
             next_2yr_pr = _next_pr(2)
 
             # Success score for optimistic/pessimistic selection.
-            # Priority: next-yr playoffs (4×) > 2nd-yr playoffs (3×) > next-yr win% (1×).
-            # "Optimistic" = best FUTURE outcome; yr3 is already baked into similarity.
-            # Making the playoffs always outranks missing it, regardless of win%.
-            next_1yr_pr_val  = float(next_1yr_pr)  if next_1yr_pr  is not None else 0.0
-            next_2yr_pr_val  = float(next_2yr_pr)  if next_2yr_pr  is not None else 0.0
-            if not np.isnan(next_1yr_wp):
-                next_avg_success = next_1yr_pr_val * 4.0 + next_2yr_pr_val * 3.0 + float(next_1yr_wp)
-            elif next_1yr_pr is not None or next_2yr_pr is not None:
-                next_avg_success = next_1yr_pr_val * 4.0 + next_2yr_pr_val * 3.0
+            # Uses Year 3 (anchor year) playoff round + Year 4 (next season) outcome.
+            # Year 3 playoff depth already tells us if this was a peaking team;
+            # Year 4 tells us if they sustained or declined immediately after.
+            yr3_pr = playoff_lookup.get((team, s2), 0)
+            if not np.isnan(next_1yr_wp) and next_1yr_pr is not None:
+                next_avg_success = float(yr3_pr) * 0.5 + float(next_1yr_pr) * 0.5 + float(next_1yr_wp)
+            elif not np.isnan(next_1yr_wp):
+                next_avg_success = float(yr3_pr) * 0.5 + float(next_1yr_wp)
             else:
-                next_avg_success = float('nan')
+                # No Year 4 data — fall back to Year 3 playoff round only
+                next_avg_success = float(yr3_pr) * 0.5 if yr3_pr else float('nan')
 
             hist_windows.append({
                 'team':            team,
@@ -689,9 +689,9 @@ def main():
         # Top 3 by similarity
         top3_idx = top10_idx[:3]
 
-        # Optimistic / pessimistic: ranked by future playoff-weighted success score
-        # (next_1yr_pr*4 + next_2yr_pr*3 + next_1yr_win_pct).
-        # Making the playoffs always outranks missing it regardless of win%.
+        # Optimistic / pessimistic: ranked by playoff-weighted success score
+        # (next_avg_success = playoff_round*0.5 + win_pct for 1-2 seasons after window).
+        # This ensures championship > deep playoff run > good regular season > decline.
         # Falls back to win% if future data is unavailable.
         # Limit optimistic/pessimistic to the 3 most-similar matches so the
         # "optimistic" comp is always at least as similar as the third-best match.
