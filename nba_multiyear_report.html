@@ -333,7 +333,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   </div>
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
-    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Atlanta Hawks</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
+    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Atlanta Hawks</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
     <div class="team-blurb">Trae Young departed; Jalen Johnson emerged as new franchise cornerstone — currently 33-31.<br>The closest historical comp is the <b>2006-07 Orlando Magic</b> (68/100 — similar star power at the top of the roster and team efficiency). That Magic team was the beginning of the Dwight Howard era — still raw but already the most physically dominant center in the league, building the defensive identity that would carry them to the 2009 Finals. They surged from a 47% window average to 63% the following year and made the second round, as the roster's latent potential finally translated into results. Second-round comp with a team trending up — there's a real argument for outperforming that if the trajectory holds.</div>
   </div>
 </div>
@@ -343,7 +343,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Orlando Magic (2004-05 to 2006-07)","data":[78.2,57.0,37.9,79.3,46.8,48.1,47.1],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Indiana Pacers (2008-09 to 2010-11)","data":[68.6,50.9,24.1,62.1,47.1,50.3,44.5],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Philadelphia 76ers (2008-09 to 2010-11)","data":[27.7,59.6,37.9,79.3,44.8,63.0,55.9],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Atlanta Hawks","data":[52.2,55.6,79.3,31.0,43.6,48.6,61.5],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Orlando Magic (2004-05 to 2006-07)","data":[78.2,57.0,37.9,79.3,46.8,48.1,47.1],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Philadelphia 76ers (2008-09 to 2010-11)","data":[27.7,59.6,37.9,79.3,44.8,63.0,55.9],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Atlanta Hawks","data":[52.2,55.6,79.3,31.0,43.6,48.6,61.5],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -384,7 +384,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2007-08</span><span class="yr-wp">63.4%</span><span class="card-nrtg card-nrtg-pos">+5.6</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">Conf. Semis Exit</span></div>
     </div>
-    
+    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -405,7 +405,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2011-12</span><span class="yr-wp">63.6%</span><span class="card-nrtg card-nrtg-pos">+3.3</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">Conf. Semis Exit</span></div>
     </div>
-    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
+    
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -468,7 +468,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   </div>
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
-    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Boston Celtics</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
+    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Boston Celtics</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
     <div class="team-blurb">Jayson Tatum back from injury — defending champions now at full strength — currently 43-21.<br>The model struggled to find a clean match — closest available is the <b>2007-08 Detroit Pistons</b> (43/100 — similar elite star presence and overall winning rate). That Pistons team was built around Chauncey Billups and Richard Hamilton without a true superstar, sustaining a 71% win rate across their window. They fell from a 71% window average to 48% the following year before missing the playoffs entirely, as the core broke down faster than expected once the window began to close. A match score of 43/100 signals just how rare this profile is historically — teams the model can't easily categorize are often operating at an unprecedented level, and at 43-21 there's real reason to believe this group is in that territory.</div>
   </div>
 </div>
@@ -478,7 +478,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Detroit Pistons (2005-06 to 2007-08)","data":[30.8,84.1,79.3,89.7,63.0,79.3,69.4],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Houston Rockets (2006-07 to 2008-09)","data":[52.7,69.3,48.3,89.7,57.6,69.7,58.3],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Boston Celtics","data":[72.2,81.6,31.0,100.0,48.6,54.9,40.4],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Detroit Pistons (2005-06 to 2007-08)","data":[30.8,84.1,79.3,89.7,63.0,79.3,69.4],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Portland Trail Blazers (1998-99 to 2000-01)","data":[57.2,69.3,79.3,72.4,54.0,75.5,71.0],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Boston Celtics","data":[72.2,81.6,31.0,100.0,48.6,54.9,40.4],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -519,7 +519,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2008-09</span><span class="yr-wp">47.6%</span><span class="card-nrtg card-nrtg-neg">-0.6</span><span class="yr-sep">&middot;</span><span class="yr-po out-dn">Missed playoffs</span></div>
     </div>
-    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
+    <div class="scenario-tags"><span class="tag-pes">Pessimistic Path</span></div>
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -540,7 +540,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2001-02</span><span class="yr-wp">59.8%</span><span class="card-nrtg card-nrtg-pos">+3.3</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">First Round Exit</span></div>
     </div>
-    
+    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -561,7 +561,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2009-10</span><span class="yr-wp">51.2%</span><span class="card-nrtg card-nrtg-neu">+0.0</span><span class="yr-sep">&middot;</span><span class="yr-po out-dn">Missed playoffs</span></div>
     </div>
-    <div class="scenario-tags"><span class="tag-pes">Pessimistic Path</span></div>
+    
   </div></div></div>
 
 <div class="team-card">
@@ -603,7 +603,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   </div>
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
-    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Brooklyn Nets</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
+    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Brooklyn Nets</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
     <div class="team-blurb">Michael Porter Jr. and Day'Ron Sharpe leading an early-stage rebuild — currently 16-47.<br>The closest historical comp is the <b>2018-19 Phoenix Suns</b> (70/100 — similar star power at the top of the roster and elite star presence). That Suns team was built around Devin Booker and Deandre Ayton without a true superstar, sustaining a 25% win rate across their window. They surged from a 25% window average to 47% the following year before missing the playoffs entirely, as the roster's latent potential finally translated into results. Missing the playoffs is the historical signal, and the current decline makes it genuinely difficult to argue for a different outcome without a significant change.</div>
   </div>
 </div>
@@ -613,7 +613,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Phoenix Suns (2016-17 to 2018-19)","data":[81.4,22.0,6.9,3.4,28.5,28.7,26.0],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: New York Knicks (2017-18 to 2019-20)","data":[51.8,30.7,6.9,24.1,33.6,26.4,21.3],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Los Angeles Lakers (2013-14 to 2015-16)","data":[42.5,19.1,3.4,0.0,21.0,43.2,43.8],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Brooklyn Nets","data":[18.9,22.7,0.0,48.3,39.9,37.6,50.0],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Phoenix Suns (2016-17 to 2018-19)","data":[81.4,22.0,6.9,3.4,28.5,28.7,26.0],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Los Angeles Lakers (2013-14 to 2015-16)","data":[42.5,19.1,3.4,0.0,21.0,43.2,43.8],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Brooklyn Nets","data":[18.9,22.7,0.0,48.3,39.9,37.6,50.0],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -654,7 +654,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2019-20</span><span class="yr-wp">46.6%</span><span class="card-nrtg card-nrtg-neu">+0.5</span><span class="yr-sep">&middot;</span><span class="yr-po out-dn">Missed playoffs</span></div>
     </div>
-    
+    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -675,7 +675,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2020-21</span><span class="yr-wp">56.9%</span><span class="card-nrtg card-nrtg-pos">+2.4</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">First Round Exit</span></div>
     </div>
-    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
+    
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -873,7 +873,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   </div>
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
-    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Chicago Bulls</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
+    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Chicago Bulls</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
     <div class="team-blurb">Nikola Vučević departed — Josh Giddey now leading the way — currently 26-37.<br>The model's strongest match is the <b>2015-16 Denver Nuggets</b> (87/100 — similar star power at the top of the roster and elite star presence). That Nuggets team was the very first chapter of the Nikola Jokic story — a raw, creative passer showing flashes of what he'd become, surrounded by a young roster that was still years away from being a real title threat. They improved from a 40% window average to 49% the following year before missing the playoffs entirely, with no single move driving the improvement — just steady execution from a team that had found its identity. Missing the playoffs is the historical signal, and the current decline makes it genuinely difficult to argue for a different outcome without a significant change.</div>
   </div>
 </div>
@@ -883,7 +883,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Denver Nuggets (2013-14 to 2015-16)","data":[64.2,42.2,44.8,17.2,45.3,53.2,65.4],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Philadelphia 76ers (2007-08 to 2009-10)","data":[46.7,39.4,34.5,31.0,50.9,52.2,47.5],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Sacramento Kings (2018-19 to 2020-21)","data":[59.6,40.4,62.1,0.0,45.0,50.7,55.6],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Chicago Bulls","data":[39.1,39.0,51.7,17.2,44.4,54.3,68.7],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Denver Nuggets (2013-14 to 2015-16)","data":[64.2,42.2,44.8,17.2,45.3,53.2,65.4],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Philadelphia 76ers (2007-08 to 2009-10)","data":[46.7,39.4,34.5,31.0,50.9,52.2,47.5],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Chicago Bulls","data":[39.1,39.0,51.7,17.2,44.4,54.3,68.7],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -924,7 +924,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2016-17</span><span class="yr-wp">48.8%</span><span class="card-nrtg card-nrtg-neu">+0.4</span><span class="yr-sep">&middot;</span><span class="yr-po out-dn">Missed playoffs</span></div>
     </div>
-    
+    <div class="scenario-tags"><span class="tag-pes">Pessimistic Path</span></div>
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -945,7 +945,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2021-22</span><span class="yr-wp">36.6%</span><span class="card-nrtg card-nrtg-neg">-5.2</span><span class="yr-sep">&middot;</span><span class="yr-po out-dn">Missed playoffs</span></div>
     </div>
-    <div class="scenario-tags"><span class="tag-pes">Pessimistic Path</span></div>
+    
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -1278,7 +1278,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   </div>
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
-    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Denver Nuggets</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
+    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Denver Nuggets</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
     <div class="team-blurb">Nikola Jokić in a Superstar season carrying this roster — currently 39-25.<br>The closest historical comp is the <b>2022-23 Milwaukee Bucks</b> (61/100 — similar star power at the top of the roster and team efficiency). That Bucks team was a superstar-led squad anchored by Giannis Antetokounmpo and Jrue Holiday, posting a 67% win rate across their window. They slipped from a 67% window average to 60% the following year before going out in the first round, as the window ran its course without a meaningful upgrade to push them higher. A first-round exit is the historical signal, and the current slide doesn't make a strong case for outperforming that outcome.</div>
   </div>
 </div>
@@ -1288,7 +1288,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Milwaukee Bucks (2020-21 to 2022-23)","data":[51.1,66.4,51.7,89.7,78.4,75.6,61.6],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Cleveland Cavaliers (2015-16 to 2017-18)","data":[24.6,57.8,86.2,3.4,85.4,63.4,51.5],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Denver Nuggets","data":[64.2,67.9,100.0,37.9,81.3,62.7,25.4],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Milwaukee Bucks (2020-21 to 2022-23)","data":[51.1,66.4,51.7,89.7,78.4,75.6,61.6],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Denver Nuggets (2018-19 to 2020-21)","data":[72.0,71.5,82.8,62.1,86.2,72.6,63.0],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Cleveland Cavaliers (2015-16 to 2017-18)","data":[24.6,57.8,86.2,3.4,85.4,63.4,51.5],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Denver Nuggets","data":[64.2,67.9,100.0,37.9,81.3,62.7,25.4],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -1329,7 +1329,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2023-24</span><span class="yr-wp">59.8%</span><span class="card-nrtg card-nrtg-pos">+2.6</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">First Round Exit</span></div>
     </div>
-    <div class="scenario-tags"><span class="tag-pes">Pessimistic Path</span></div>
+    
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -1350,7 +1350,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2018-19</span><span class="yr-wp">23.2%</span><span class="card-nrtg card-nrtg-neg">-10.0</span><span class="yr-sep">&middot;</span><span class="yr-po out-dn">Missed playoffs</span></div>
     </div>
-    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
+    <div class="scenario-tags"><span class="tag-pes">Pessimistic Path</span></div>
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -1371,7 +1371,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="card-offseason-lbl">Offseason</div><div class="card-event"><span class="card-event-icon">&#8594;</span> Murray + Porter returned from injury; Jokic back-to-back MVP</div>
       <div class="card-yr-row"><span class="yr-sea-lbl">2021-22</span><span class="yr-wp">58.5%</span><span class="card-nrtg card-nrtg-pos">+2.3</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">First Round Exit</span></div>
     </div>
-    
+    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
   </div></div></div>
 
 <div class="team-card">
@@ -1413,7 +1413,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   </div>
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
-    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Detroit Pistons</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
+    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Detroit Pistons</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
     <div class="team-blurb">Jalen Duren + Cade Cunningham breakout — surprise contender — currently 45-18.<br>The closest historical comp is the <b>2022-23 Cleveland Cavaliers</b> (62/100 — similar star power at the top of the roster and offensive efficiency). That Cavaliers team was built around Donovan Mitchell and Darius Garland without a true superstar, sustaining a 55% win rate across their window. They held roughly steady at 58% the following year and made the second round, with an already-ascending window trend carrying into the next year. Second-round comp with a team trending up — there's a real argument for outperforming that if the trajectory holds.</div>
   </div>
 </div>
@@ -1423,7 +1423,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Cleveland Cavaliers (2020-21 to 2022-23)","data":[75.1,74.4,79.3,100.0,68.2,78.2,69.7],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Golden State Warriors (2019-20 to 2021-22)","data":[59.6,74.0,51.7,96.6,70.3,67.0,55.4],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Detroit Pistons","data":[77.6,79.1,69.0,93.1,59.3,55.4,71.0],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Cleveland Cavaliers (2020-21 to 2022-23)","data":[75.1,74.4,79.3,100.0,68.2,78.2,69.7],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Phoenix Suns (2018-19 to 2020-21)","data":[59.6,75.5,79.3,82.8,60.6,71.1,62.1],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Golden State Warriors (2019-20 to 2021-22)","data":[59.6,74.0,51.7,96.6,70.3,67.0,55.4],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Detroit Pistons","data":[77.6,79.1,69.0,93.1,59.3,55.4,71.0],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -1464,7 +1464,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2023-24</span><span class="yr-wp">58.5%</span><span class="card-nrtg card-nrtg-pos">+2.5</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">Conf. Semis Exit</span></div>
     </div>
-    <div class="scenario-tags"><span class="tag-pes">Pessimistic Path</span></div>
+    
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -1485,7 +1485,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2021-22</span><span class="yr-wp">78.0%</span><span class="card-nrtg card-nrtg-pos">+7.5</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">Conf. Semis Exit</span></div>
     </div>
-    
+    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -1506,7 +1506,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2022-23</span><span class="yr-wp">53.7%</span><span class="card-nrtg card-nrtg-pos">+1.7</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">Conf. Semis Exit</span></div>
     </div>
-    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
+    <div class="scenario-tags"><span class="tag-pes">Pessimistic Path</span></div>
   </div></div></div>
 
 <div class="team-card">
@@ -1963,7 +1963,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: New York Knicks (2011-12 to 2013-14)","data":[35.5,50.2,65.5,20.7,67.9,50.1,41.3],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Indiana Pacers (2002-03 to 2004-05)","data":[41.7,57.8,34.5,65.5,55.8,54.8,41.4],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"LA Clippers","data":[49.2,55.6,20.7,72.4,54.3,50.6,24.1],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: New York Knicks (2011-12 to 2013-14)","data":[35.5,50.2,65.5,20.7,67.9,50.1,41.3],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Chicago Bulls (2013-14 to 2015-16)","data":[24.6,49.1,24.1,51.7,56.3,58.2,38.8],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"LA Clippers","data":[49.2,55.6,20.7,72.4,54.3,50.6,24.1],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -2025,7 +2025,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2016-17</span><span class="yr-wp">50.0%</span><span class="card-nrtg card-nrtg-neu">+0.3</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">First Round Exit</span></div>
     </div>
-    
+    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -2046,7 +2046,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2005-06</span><span class="yr-wp">50.0%</span><span class="card-nrtg card-nrtg-pos">+2.0</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">First Round Exit</span></div>
     </div>
-    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
+    
   </div></div></div>
 
 <div class="team-card">
@@ -2088,7 +2088,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   </div>
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
-    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Los Angeles Lakers</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
+    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Los Angeles Lakers</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
     <div class="team-blurb">Austin Reaves breakout season as legitimate Star alongside LeBron — currently 39-25.<br>The best available comp is the <b>2019-20 Denver Nuggets</b> (56/100 — similar star power at the top of the roster and defensive efficiency). That Nuggets team was Jokic and Jamal Murray before anyone truly respected them — they came alive in the Bubble, erased two 3-1 deficits, and announced themselves as genuine contenders before Murray's ACL ended their window. They held roughly steady at 65% the following year and made the second round (having made the Conference Finals in their anchor year), despite a rising star-quality trend during their window. Solid precedent for a legitimate deep run — teams at this level have historically been genuine contenders, and this group fits that mold.</div>
   </div>
 </div>
@@ -2098,7 +2098,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Denver Nuggets (2017-18 to 2019-20)","data":[65.0,62.1,86.2,48.3,74.0,69.1,55.9],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Minnesota Timberwolves (1999-00 to 2001-02)","data":[65.8,66.4,89.7,48.3,83.5,77.1,66.3],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Los Angeles Lakers","data":[64.2,57.4,62.1,51.7,70.8,63.5,38.7],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Denver Nuggets (2017-18 to 2019-20)","data":[65.0,62.1,86.2,48.3,74.0,69.1,55.9],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Minnesota Timberwolves (1999-00 to 2001-02)","data":[65.8,66.4,89.7,48.3,83.5,77.1,66.3],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Houston Rockets (2012-13 to 2014-15)","data":[79.8,66.4,62.1,79.3,86.2,76.1,56.5],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Los Angeles Lakers","data":[64.2,57.4,62.1,51.7,70.8,63.5,38.7],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -2139,7 +2139,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2020-21</span><span class="yr-wp">65.3%</span><span class="card-nrtg card-nrtg-pos">+4.8</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">Conf. Semis Exit</span></div>
     </div>
-    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
+    
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -2160,7 +2160,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2015-16</span><span class="yr-wp">50.0%</span><span class="card-nrtg card-nrtg-neu">+0.0</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">First Round Exit</span></div>
     </div>
-    
+    <div class="scenario-tags"><span class="tag-pes">Pessimistic Path</span></div>
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -2181,7 +2181,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2002-03</span><span class="yr-wp">62.2%</span><span class="card-nrtg card-nrtg-pos">+2.2</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">First Round Exit</span></div>
     </div>
-    <div class="scenario-tags"><span class="tag-pes">Pessimistic Path</span></div>
+    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
   </div></div></div>
 
 <div class="team-card">
@@ -2763,7 +2763,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   </div>
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
-    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">New Orleans Pelicans</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
+    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">New Orleans Pelicans</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
     <div class="team-blurb">Zion Williamson as the primary Star with the team still searching for a second piece — currently 21-45.<br>The closest historical comp is the <b>2015-16 Minnesota Timberwolves</b> (69/100 — similar star power at the top of the roster and overall depth and roster construction). That Timberwolves team was Karl-Anthony Towns and Andrew Wiggins in their very first season — massive potential on paper, 29 wins in practice, a franchise that would take years to figure out how to turn talent into results. They improved from a 33% window average to 38% the following year before missing the playoffs entirely, overcoming a window that had been trending downward. Missing the playoffs is the historical signal, and the current decline makes it genuinely difficult to argue for a different outcome without a significant change.</div>
   </div>
 </div>
@@ -2773,7 +2773,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Minnesota Timberwolves (2013-14 to 2015-16)","data":[51.0,41.5,58.6,6.9,50.0,52.2,61.8],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Portland Trail Blazers (2020-21 to 2022-23)","data":[44.4,39.7,41.4,6.9,44.8,37.4,36.4],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"New Orleans Pelicans","data":[27.1,37.2,48.3,10.3,42.3,49.8,66.9],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Minnesota Timberwolves (2013-14 to 2015-16)","data":[51.0,41.5,58.6,6.9,50.0,52.2,61.8],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Atlanta Hawks (2016-17 to 2018-19)","data":[56.2,34.3,24.1,6.9,41.1,35.4,32.8],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Portland Trail Blazers (2020-21 to 2022-23)","data":[44.4,39.7,41.4,6.9,44.8,37.4,36.4],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"New Orleans Pelicans","data":[27.1,37.2,48.3,10.3,42.3,49.8,66.9],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -2814,7 +2814,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2016-17</span><span class="yr-wp">37.8%</span><span class="card-nrtg card-nrtg-neg">-0.9</span><span class="yr-sep">&middot;</span><span class="yr-po out-dn">Missed playoffs</span></div>
     </div>
-    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
+    
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -2856,7 +2856,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2019-20</span><span class="yr-wp">29.9%</span><span class="card-nrtg card-nrtg-neg">-7.4</span><span class="yr-sep">&middot;</span><span class="yr-po out-dn">Missed playoffs</span></div>
     </div>
-    
+    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
   </div></div></div>
 
 <div class="team-card">
@@ -3033,7 +3033,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   </div>
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
-    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Oklahoma City Thunder</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
+    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Oklahoma City Thunder</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
     <div class="team-blurb">Defending champions; Chet Holmgren + Isaiah Hartenstein both reached Star tier — deepest OKC core yet — currently 50-15.<br>The best available comp is the <b>2004-05 San Antonio Spurs</b> (55/100 — similar star power at the top of the roster and defensive efficiency). That Spurs team was Tim Duncan's dynasty at its most complete — Duncan, Tony Parker, and Manu Ginobili already operating as one of the most efficient machines in NBA history, winning 59 games and on their way to a third championship. They improved from a 71% window average to 77% the following year and made the second round (having won the championship in their anchor year), with no single move driving the improvement — just steady execution from a team that had found its identity. Championship-caliber historical precedent with a current team trending in the right direction — the window is open, and this profile has a title in its range.</div>
   </div>
 </div>
@@ -3043,7 +3043,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: San Antonio Spurs (2002-03 to 2004-05)","data":[75.1,84.1,75.9,100.0,84.9,84.4,72.9],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Golden State Warriors (2013-14 to 2015-16)","data":[75.9,92.4,100.0,82.8,88.7,80.2,52.2],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: San Antonio Spurs (1999-00 to 2001-02)","data":[76.7,79.1,75.9,96.6,94.5,81.2,66.8],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Oklahoma City Thunder","data":[84.6,93.9,86.2,96.6,83.4,70.8,80.4],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: San Antonio Spurs (2002-03 to 2004-05)","data":[75.1,84.1,75.9,100.0,84.9,84.4,72.9],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Golden State Warriors (2013-14 to 2015-16)","data":[75.9,92.4,100.0,82.8,88.7,80.2,52.2],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Oklahoma City Thunder","data":[84.6,93.9,86.2,96.6,83.4,70.8,80.4],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -3084,7 +3084,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2005-06</span><span class="yr-wp">76.8%</span><span class="card-nrtg card-nrtg-pos">+7.5</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">Conf. Semis Exit</span></div>
     </div>
-    
+    <div class="scenario-tags"><span class="tag-pes">Pessimistic Path</span></div>
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -3126,7 +3126,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       <div class="card-offseason-lbl">Offseason</div><div class="card-event"><span class="card-event-icon">&#8594;</span> Tim Duncan dynasty: 4 titles in 6 years (1999–2005)</div>
       <div class="card-yr-row"><span class="yr-sea-lbl">2002-03</span><span class="yr-wp">73.2%</span><span class="card-nrtg card-nrtg-pos">+5.8</span><span class="yr-sep">&middot;</span><span class="yr-po out-champ">Champion</span></div>
     </div>
-    <div class="scenario-tags"><span class="tag-pes">Pessimistic Path</span></div>
+    
   </div></div></div>
 
 <div class="team-card">
@@ -3303,7 +3303,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   </div>
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
-    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Philadelphia 76ers</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
+    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Philadelphia 76ers</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
     <div class="team-blurb">Joel Embiid healthy; Tyrese Maxey reached Star tier — both stars contributing — currently 34-29.<br>The best available comp is the <b>2002-03 Houston Rockets</b> (56/100 — similar star power at the top of the roster and overall winning rate). That Houston team was Yao Ming's rookie season paired with Steve Francis — two stars who never quite fit together, a franchise with obvious star power that struggled to turn individual talent into team success. They improved from a 47% window average to 55% the following year before going out in the first round, with no single move driving the improvement — just steady execution from a team that had found its identity. The comparable made the playoffs and went out in the first round — something structurally meaningful needs to change for this team to go deeper.</div>
   </div>
 </div>
@@ -3313,7 +3313,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Houston Rockets (2000-01 to 2002-03)","data":[52.6,59.6,41.4,69.0,55.1,57.4,47.1],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Philadelphia 76ers (2002-03 to 2004-05)","data":[44.8,51.6,17.2,75.9,70.4,58.6,47.6],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Philadelphia 76ers","data":[55.3,53.1,58.6,41.4,52.9,58.8,56.8],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Houston Rockets (2000-01 to 2002-03)","data":[52.6,59.6,41.4,69.0,55.1,57.4,47.1],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: New Jersey Nets (1997-98 to 1999-00)","data":[65.0,50.2,55.2,37.9,60.2,53.4,43.1],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Philadelphia 76ers (2002-03 to 2004-05)","data":[44.8,51.6,17.2,75.9,70.4,58.6,47.6],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Philadelphia 76ers","data":[55.3,53.1,58.6,41.4,52.9,58.8,56.8],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -3354,7 +3354,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2003-04</span><span class="yr-wp">54.9%</span><span class="card-nrtg card-nrtg-pos">+1.9</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">First Round Exit</span></div>
     </div>
-    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
+    
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -3396,7 +3396,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2000-01</span><span class="yr-wp">31.7%</span><span class="card-nrtg card-nrtg-neg">-5.4</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">First Round Exit</span></div>
     </div>
-    
+    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
   </div></div></div>
 
 <div class="team-card">
@@ -3978,7 +3978,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   </div>
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
-    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Toronto Raptors</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div>
+    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Toronto Raptors</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
     <div class="team-blurb">Scottie Barnes breakout — emerged as true franchise Star — currently 36-27.<br>The closest historical comp is the <b>2004-05 Chicago Bulls</b> (72/100 — similar star power at the top of the roster and elite star presence). That Bulls team was the first competent season of the post-dynasty rebuild — Kirk Hinrich, Ben Gordon, and Luol Deng as lottery-pick building blocks starting to show fight, but still years away from relevance. They improved from a 45% window average to 50% the following year before missing the playoffs entirely, with an already-ascending window trend carrying into the next year. The historical comp missed the playoffs, though at 36-27 this team is clearly operating at a higher level. The profile belongs in the playoff conversation; the ceiling depends on whether a meaningful upgrade arrives.</div>
   </div>
 </div>
@@ -3988,7 +3988,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Chicago Bulls (2002-03 to 2004-05)","data":[50.2,59.2,13.8,96.6,37.7,46.7,43.9],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Memphis Grizzlies (2001-02 to 2003-04)","data":[41.7,63.5,79.3,62.1,51.9,66.1,60.1],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Toronto Raptors","data":[59.3,61.4,27.6,75.9,40.1,50.8,65.0],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Chicago Bulls (2002-03 to 2004-05)","data":[50.2,59.2,13.8,96.6,37.7,46.7,43.9],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Memphis Grizzlies (2001-02 to 2003-04)","data":[41.7,63.5,79.3,62.1,51.9,66.1,60.1],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Orlando Magic (2016-17 to 2018-19)","data":[22.2,56.3,27.6,75.9,52.7,45.8,35.6],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Toronto Raptors","data":[59.3,61.4,27.6,75.9,40.1,50.8,65.0],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -4029,7 +4029,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2005-06</span><span class="yr-wp">50.0%</span><span class="card-nrtg card-nrtg-pos">+0.7</span><span class="yr-sep">&middot;</span><span class="yr-po out-dn">Missed playoffs</span></div>
     </div>
-    <div class="scenario-tags"><span class="tag-pes">Pessimistic Path</span></div>
+    
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -4071,7 +4071,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2019-20</span><span class="yr-wp">45.2%</span><span class="card-nrtg card-nrtg-neg">-1.3</span><span class="yr-sep">&middot;</span><span class="yr-po out-fl">First Round Exit</span></div>
     </div>
-    
+    <div class="scenario-tags"><span class="tag-pes">Pessimistic Path</span></div>
   </div></div></div>
 
 <div class="team-card">
@@ -4248,7 +4248,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
   </div>
   <div class="chart-legend-area">
     <div class="chart-lbl">Team profile — all dimensions normalized 0&ndash;100</div>
-    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Washington Wizards</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path <span style="color:#9ca3af;font-size:0.8em;">(same as Best match)</span></span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
+    <div class="chart-legend-row"><div class="chart-legend-dot" style="background:#ffffff;"></div><span style="color:#e2e2e2;font-weight:600;">Washington Wizards</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#facc15;"></div><span>Best match</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#fb923c;border:1px dashed #fb923c;"></div><span>Optimistic path</span></div><div class="chart-legend-row"><div class="chart-legend-dot" style="background:#f87171;border:1px dashed #f87171;"></div><span>Pessimistic path</span></div>
     <div class="team-blurb">Anthony Davis elevated to Elite Star tier — franchise trajectory rising — currently 16-47.<br>The best available comp is the <b>1998-99 Denver Nuggets</b> (49/100 — similar star power at the top of the roster and overall winning rate). That Nuggets team was built around Antonio McDyess and Nick Van Exel without a true superstar, sustaining a 23% win rate across their window. They surged from a 23% window average to 43% the following year before missing the playoffs entirely, as the roster's latent potential finally translated into results. The 49/100 match score reflects how difficult it is to find precedents for this type of team — the model acknowledges significant uncertainty in any outcome projection.</div>
   </div>
 </div>
@@ -4258,7 +4258,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
     type:'radar',
     data:{
       labels:['Win %','Net Rtg','Offense','Defense','Top Player','Depth','Potential'],
-      datasets:[{"label":"Best match: Denver Nuggets (1996-97 to 1998-99)","data":[38.6,27.8,62.1,3.4,53.0,41.2,30.3],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Vancouver Grizzlies (1996-97 to 1998-99)","data":[22.2,20.6,13.8,10.3,45.5,29.9,23.1],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Washington Wizards","data":[18.9,14.4,17.2,3.4,59.2,46.3,78.2],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
+      datasets:[{"label":"Best match: Denver Nuggets (1996-97 to 1998-99)","data":[38.6,27.8,62.1,3.4,53.0,41.2,30.3],"borderColor":"#facc15","backgroundColor":"rgba(250,204,21,0.07)","borderDash":[],"borderWidth":1.8,"pointRadius":2},{"label":"Optimistic path: Philadelphia 76ers (2013-14 to 2015-16)","data":[66.6,17.3,0.0,10.3,24.3,41.4,43.5],"borderColor":"#fb923c","backgroundColor":"rgba(251,146,60,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Pessimistic path: Vancouver Grizzlies (1996-97 to 1998-99)","data":[22.2,20.6,13.8,10.3,45.5,29.9,23.1],"borderColor":"#f87171","backgroundColor":"rgba(248,113,113,0.07)","borderDash":[5,3],"borderWidth":1.8,"pointRadius":2},{"label":"Washington Wizards","data":[18.9,14.4,17.2,3.4,59.2,46.3,78.2],"borderColor":"#ffffff","backgroundColor":"rgba(255,255,255,0.09)","borderWidth":2.5,"pointRadius":3}]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -4299,7 +4299,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">1999-00</span><span class="yr-wp">42.7%</span><span class="card-nrtg card-nrtg-neg">-2.3</span><span class="yr-sep">&middot;</span><span class="yr-po out-dn">Missed playoffs</span></div>
     </div>
-    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
+    
   </div>
   <div class="match-card ">
     <div class="card-top">
@@ -4320,7 +4320,7 @@ h1 { text-align:center; font-size:1.65rem; color:#c084fc; margin-bottom:4px; let
       
       <div class="card-yr-row"><span class="yr-sea-lbl">2016-17</span><span class="yr-wp">34.1%</span><span class="card-nrtg card-nrtg-neg">-5.5</span><span class="yr-sep">&middot;</span><span class="yr-po out-dn">Missed playoffs</span></div>
     </div>
-    
+    <div class="scenario-tags"><span class="tag-opt">Optimistic Path</span></div>
   </div>
   <div class="match-card ">
     <div class="card-top">
