@@ -328,6 +328,12 @@ def update_player_stats_csv(new_df):
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
+    import argparse as _ap
+    _parser = _ap.ArgumentParser()
+    _parser.add_argument('--player-only', action='store_true',
+                         help='Skip team stats (use when team stats are fetched via ESPN)')
+    _args, _ = _parser.parse_known_args()
+
     print('=' * 65)
     print('NBA 2025-26 SEASON DATA REFRESH')
     print('=' * 65)
@@ -339,12 +345,16 @@ def main():
     from nba_api.stats.library.http import NBAStatsHTTP
     NBAStatsHTTP.set_session(_requests.Session())
 
-    # ── Team stats ──
-    print('── TEAM STATS ──')
-    team_df = fetch_team_stats()
-    if team_df is not None:
-        update_team_clean_csv(team_df)
-    print()
+    # ── Team stats (skipped when --player-only) ──
+    if not _args.player_only:
+        print('── TEAM STATS ──')
+        team_df = fetch_team_stats()
+        if team_df is not None:
+            update_team_clean_csv(team_df)
+        print()
+    else:
+        print('── TEAM STATS skipped (--player-only mode) ──')
+        print()
 
     # ── Player stats ──
     print('── PLAYER STATS ──')

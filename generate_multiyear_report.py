@@ -715,6 +715,65 @@ MATCH_ANCHOR_PLAYOFF = {
 
 
 # ---------------------------------------------------------------------------
+# Auto-event generator (current season only)
+# ---------------------------------------------------------------------------
+
+def _auto_event(team, working, roster_changes_lookup):
+    """
+    Generate a factual one-sentence event string for the current season
+    using data already available: roster changes + current tier profile.
+    Returns None if nothing noteworthy can be inferred.
+    """
+    rc       = roster_changes_lookup.get(team, {})
+    departed = rc.get('departed', [])
+    arrived  = rc.get('arrived', [])
+
+    curr_row = working[(working['Team'] == team) & (working['SEASON'] == ANCHOR_SEASON)]
+    if curr_row.empty:
+        return None
+    curr_row = curr_row.iloc[0]
+
+    top_p = str(curr_row.get('top_player_name', '') or '').strip()
+    sec_p = str(curr_row.get('second_player_name', '') or '').strip()
+    n_ss  = int(_safe_float(curr_row.get('n_superstars',   0)) or 0)
+    n_es  = int(_safe_float(curr_row.get('n_elite_stars',  0)) or 0)
+    n_st  = int(_safe_float(curr_row.get('n_stars',        0)) or 0)
+
+    parts = []
+
+    # Priority 1: roster changes (most informative — something actually happened)
+    if arrived and departed:
+        # Both sides: summarise concisely
+        arr_str = ' and '.join(arrived[:2]) if len(arrived) >= 2 else arrived[0]
+        dep_str = departed[0]
+        parts.append(f'{dep_str} departed; {arr_str} arrived')
+    elif arrived:
+        arr_str = ' and '.join(arrived[:2]) if len(arrived) >= 2 else arrived[0]
+        parts.append(f'{arr_str} arrived this season')
+    elif departed:
+        dep_str = ' and '.join(departed[:2]) if len(departed) >= 2 else departed[0]
+        parts.append(f'{dep_str} departed — {top_p or "the young core"} now leading the way')
+
+    # Priority 2: describe current star tier constellation (no roster change news)
+    if not parts:
+        if n_ss >= 2 and top_p and sec_p:
+            parts.append(f'{top_p} and {sec_p} both in Superstar-caliber form this season')
+        elif n_ss == 1 and top_p:
+            parts.append(f'{top_p} in a Superstar season carrying this roster')
+        elif n_es >= 1 and n_ss == 0 and top_p:
+            parts.append(f'{top_p} elevated to Elite Star tier — franchise trajectory rising')
+        elif n_st >= 2 and top_p and sec_p:
+            parts.append(f'{top_p} and {sec_p} as the Star-level core holding this team together')
+        elif n_st == 1 and top_p:
+            parts.append(f'{top_p} as the primary Star with the team still searching for a second piece')
+        elif top_p:
+            sec_str = f' and {sec_p}' if sec_p else ''
+            parts.append(f'{top_p}{sec_str} leading an early-stage rebuild')
+
+    return '; '.join(parts) if parts else None
+
+
+# ---------------------------------------------------------------------------
 # Blurb generator
 # ---------------------------------------------------------------------------
 
@@ -1262,7 +1321,7 @@ def main():
     # "Arrived"  = is a Star/Superstar this season AND was not on the team at all last season.
     roster_changes_lookup = {}   # team_name → {'departed': [names], 'arrived': [names]}
     if not ratings.empty and 'tier' in ratings.columns:
-        _star_tiers = {'Superstar', 'Star'}
+        _star_tiers = {'Superstar', 'Elite Star', 'Star'}
         _star_name_lkp = {}   # (abbr, season) → {player_name: tier}  — Stars/Superstars only
         _all_player_lkp = {}  # (abbr, season) → set of all player names on that team
         # Minimum minutes for a player to count as a meaningful star arrival/departure.
@@ -1306,6 +1365,15 @@ def main():
                     'departed': departed,
                     'arrived':  arrived,
                 }
+
+    # Auto-generated events for teams without a manual MAJOR_EVENTS entry.
+    # Fills in factual blurbs based on roster changes + current tier profile.
+    auto_events = {}
+    for _team in working[working['SEASON'] == ANCHOR_SEASON]['Team'].unique():
+        if ((_team, ANCHOR_SEASON) not in MAJOR_EVENTS):
+            _evt = _auto_event(_team, working, roster_changes_lookup)
+            if _evt:
+                auto_events[(_team, ANCHOR_SEASON)] = _evt
 
     # Win% by (team, season) — kept for potential future use
     win_pct_by_season = {}
@@ -1411,8 +1479,8 @@ def main():
             f'{"&nbsp;&nbsp;·&nbsp;&nbsp;".join(rc_parts)}</div>'
         ) if rc_parts else ''
 
-        # Current-season event note (from MAJOR_EVENTS)
-        curr_event = MAJOR_EVENTS.get((team, ANCHOR_SEASON))
+        # Current-season event note (manual MAJOR_EVENTS takes priority; auto-generated as fallback)
+        curr_event = MAJOR_EVENTS.get((team, ANCHOR_SEASON)) or auto_events.get((team, ANCHOR_SEASON))
         curr_event_html = (
             f'<div class="card-event" style="margin-top:4px;">'
             f'<span class="card-event-icon">&#9889;</span> {curr_event}</div>'
