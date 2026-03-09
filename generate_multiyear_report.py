@@ -147,7 +147,7 @@ MAJOR_EVENTS = {
     ('Indiana Pacers', '2025-26'):     'Tyrese Haliburton missed extended time — season derailed by injury',
     ('Milwaukee Bucks', '2025-26'):    'Damian Lillard traded back to Portland; Giannis carrying a depleted roster',
     ('Atlanta Hawks', '2025-26'):      'Trae Young departed; Jalen Johnson emerged as new franchise cornerstone',
-    ('Boston Celtics', '2025-26'):     'Jayson Tatum returning from injury this week',
+    ('Boston Celtics', '2025-26'):     'Jayson Tatum back from injury — defending champions now at full strength',
     ('Dallas Mavericks', '2025-26'):   'Anthony Davis departed to Washington; roster in transition after Luka trade',
     ('Sacramento Kings', '2025-26'):   "De'Aaron Fox + Sabonis both declined sharply; franchise reset",
     ('Memphis Grizzlies', '2025-26'):  'Ja Morant continued to miss significant time',
