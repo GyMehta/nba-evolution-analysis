@@ -1,0 +1,44 @@
+name: Refresh NBA Report
+
+on:
+  schedule:
+    - cron: '0 6 * * *'    # 1 AM Eastern — after overnight games finish
+    - cron: '0 18 * * *'   # 1 PM Eastern — midday refresh
+  workflow_dispatch:        # manual trigger from GitHub Actions tab
+
+permissions:
+  contents: write           # needed to push the updated files back
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: requirements-ci.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements-ci.txt
+
+      - name: Run refresh pipeline
+        run: python -X utf8 auto_refresh.py --skip-players
+
+      - name: Commit and push if anything changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add nba_team_stats_clean.csv \
+                  player_ratings.csv \
+                  team_profiles.csv \
+                  nba_multiyear_similarity.csv \
+                  nba_multiyear_report.html
+          git diff --staged --quiet \
+            && echo "No changes — skipping commit" \
+            || (git commit -m "Auto-refresh: $(date -u '+%Y-%m-%d %H:%M UTC')" && git push)
